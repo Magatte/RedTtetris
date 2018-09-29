@@ -5,25 +5,25 @@ class Board extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            squares: Array(9).fill(null),
+            squares: Array(3).fill(null).map(()=>Array(3).fill(null)),
             xIsNext: true
         };
     };
 
-    handleClick(i) {
+    handleClick(x, y) {
         const squares = this.state.squares.slice(); // Make copy of squares
-        squares[i] = this.state.xIsNext ? 'X' : 'O'; 
+        squares[x, y] = this.state.xIsNext ? 'X' : 'O'; 
         this.setState({
             squares: squares, // Set the new square
             xIsNext: !this.state.xIsNext // Set the next player
         });
     }
 
-    renderSquare(i) {
+    renderSquare(x, y) {
         return (
             <Square 
-                value={this.state.squares[i]}
-                onClick={() => this.handleClick(i)}    
+                value={this.state.squares[x][y]}
+                onClick={() => this.handleClick(x, y)}    
             />
         );
     }
@@ -36,19 +36,19 @@ class Board extends React.Component {
                 <div className='status'>{status}</div>
                 <div>
                     <div className='board-row'>
-                        {this.renderSquare(0)}
-                        {this.renderSquare(1)}
-                        {this.renderSquare(2)}
+                        {this.renderSquare(0, 0)}
+                        {this.renderSquare(0, 1)}
+                        {this.renderSquare(0, 2)}
                     </div>
                     <div className='board-row'>
-                        {this.renderSquare(3)}
-                        {this.renderSquare(4)}
-                        {this.renderSquare(5)}
+                        {this.renderSquare(1, 0)}
+                        {this.renderSquare(1, 1)}
+                        {this.renderSquare(1, 2)}
                     </div>
                     <div className='board-row'>
-                        {this.renderSquare(6)}
-                        {this.renderSquare(7)}
-                        {this.renderSquare(8)}
+                        {this.renderSquare(2, 0)}
+                        {this.renderSquare(2, 1)}
+                        {this.renderSquare(2, 2)}
                     </div>
                 </div>
             </div>
