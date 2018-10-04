@@ -2,16 +2,17 @@ import React from 'react';
 
 function Square(props) {
     return (
-        <button 
+        <div 
             className='square'
-            onClick={() => props.onClick()}
+            onChange={() => props.onClick()}
             style={{backgroundColor: props.color}}
         >
-            {props.value}
-        </button>
+            {/* {props.value} */}
+        </div>
     );
 }
 const style = {
     background: '#51B2E8'
 };
+
 export default Square;
