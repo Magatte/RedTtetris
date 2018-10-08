@@ -1,15 +1,30 @@
-const initialState = {
-    article: []
-};
+import { combineReducers } from 'react-redux';
+import gameConstants from '../gameConstants.js';
+import * as actions from '../actions/index.js';
 
-// const rootReducer = (state = initialState, action) => state;
-function exampleReducer(state = initialState, action) {
-    switch (action.type) {
-        case ADD_ARTICLE:
-            return { ...state, articles: [ ...state.articles, action.payload ] };
-        default:
-            return state;
-    }
+const { initialGrid, tetriminos } = gameConstants;
+
+function gameStatus(state = 'IDLE', action) {
+
 }
 
-export default rootReducer;
+function activeTetriminos(state = initialGrid, action) {
+
+}
+
+function nextTetriminos(state = {}, action) {
+
+}
+
+function handleTetriminos(state = {}, action) {
+
+}
+
+const gameReducers = {
+    gameStatus,
+    activeTetriminos,
+    nextTetriminos,
+    handleTetriminos
+}
+
+export default gameReducers;
