@@ -20,11 +20,11 @@ function handleTetriminos(state = {}, action) {
 
 }
 
-const gameReducers = {
+const gameReducers = combineReducers({
     gameStatus,
     activeTetriminos,
     nextTetriminos,
     handleTetriminos
-}
+}); // CombineReducers put all these reducers into a single namespace
 
 export default gameReducers;
