@@ -10,10 +10,21 @@ export const FREEZE_LINE = 'FREEZE_LINE';
 export const MOVE_DOWN = 'MOVE_DOWN';
 export const MOVE_RIGHT = 'MOVE_RIGHT';
 export const MOVE_LEFT = 'MOVE_LEFT';
+export const ROTATE_TETRIMINOS = 'ROTATE_TETRIMINOS';
 export const NEW_TETRIMINOS = 'NEW_TETRIMINOS';
 
-export const newTetriminos = () => {
+export const newTetriminos = (currentTetriminos, newTetriminos) => {
+    const { shapeTypes } = gameConstants;
+    const newRandNb = Math.floor(Math.random() * (7 - 0)) + 0; // Math.Random return a number between 0 (included) and 1 (excluded)
+    const newShape = shapeTypes[newRandNb];
 
+    return {
+        type: NEW_TETRIMINOS,
+        currentTetriminos,
+        color: currentTetriminos.color,
+        newTetriminos,
+        newShape
+    };
 };
 
 export const startGame = () => {
