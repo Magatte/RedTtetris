@@ -3,7 +3,6 @@ import Square from './square.js';
 
 function Board(props) {
 
-    alert(props.pos.x);
     function renderSquare(x, y, key) {
         return (
             <Square

@@ -15,7 +15,7 @@ function gameStatus(state = 'IDLE', action) {
             return 'GAME_OVER';
         default:
             return state;
-    };
+    }
 };
 
 function activeTetriminos(state = initialGrid, action) {
@@ -26,7 +26,7 @@ function activeTetriminos(state = initialGrid, action) {
             return initialGrid;
         default:
             return state;
-    };
+    }
 };
 
 function nextTetriminos(state = {}, action) {
@@ -40,7 +40,7 @@ function nextTetriminos(state = {}, action) {
             };
         default:
             return state;
-    };
+    }
 };
 
 function handleTetriminos(state = {}, action) {
@@ -63,7 +63,7 @@ function handleTetriminos(state = {}, action) {
             return Object.assign({}, state, {shape: action.rotatedTetriminos});
         default:
             return state;
-    };
+    }
 };
 
 const gameReducers = combineReducers({

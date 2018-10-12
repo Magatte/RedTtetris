@@ -1,13 +1,13 @@
 import React from 'react';
-import Board from './board.js';
 import { connect } from 'react-redux';
+import Board from './board.js';
+import { startGame } from '../redux/actions';
+import { newTetriminos } from '../redux/actions';
 
-const mapStateToProps = state => {
-    return { squares: state.squares };
-}
-
-function ConnectedGame(props) {
+function Game(props) {
     
+    console.log(props);
+
     const squares = Array(20).fill(null).map(()=>Array(10).fill(null));
     var pos = {x: 1, y: 4};
 
@@ -36,6 +36,13 @@ function ConnectedGame(props) {
     );
 };
 
-const Game = connect(mapStateToProps)(ConnectedGame);
+const mapStateToProps = state => {
+    return state;
+};
 
-export default Game;
+const mapActionsToProps = {
+    startGame: startGame,
+    newTetriminos: newTetriminos
+};
+
+export default connect(mapStateToProps, mapActionsToProps)(Game);
