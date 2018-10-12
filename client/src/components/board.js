@@ -15,8 +15,9 @@ function Board(props) {
     };
 
     function createBoard() {
-        const b = new Array(20).fill(null).map(() => Array(10).fill(null));
+        const b = props.squares;
 
+        console.log(b);
         const board = b.map((row, j) => {
             let rowKey = j;
             return (
@@ -31,11 +32,9 @@ function Board(props) {
         return board;
     };
 
-    const status = 'Player 1';
-    
     return (
         <div>
-            <div className='status'>{status}</div>
+            <div className='status'>{props.status}</div>
             <div>
                 {createBoard()}
             </div>

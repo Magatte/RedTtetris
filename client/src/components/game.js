@@ -8,24 +8,19 @@ function Game(props) {
     
     console.log(props);
 
-    const squares = Array(20).fill(null).map(()=>Array(10).fill(null));
+    const squares = props.startGame();
+    const myBoard = newTetriminos(squares.currentShape, squares.nextShape);
     var pos = {x: 1, y: 4};
-
-    function showTetriminos() {
-        pos.x = pos.x % 20 + 1;
-        return pos;
-    }
-
-    setInterval(showTetriminos, 1000);
+    console.log(squares);
 
     return (
         <div className='game'>
             <div className='game-board'>
                 <Board 
-                    squares={squares}
-                    tetriminos={Array(4).fill(null)}
+                    squares={myBoard}
                     start={{x: 0, y: 4}}
                     pos={pos}
+                    status={props.gameStatus}
                 />
             </div>
             <div className='game-info'>

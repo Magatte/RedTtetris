@@ -47,7 +47,7 @@ function handleTetriminos(state = {}, action) {
     switch(action.type) {
         case actions.START_GAME:
             return {
-                shape: tetriminos[action.curRandNb].shape,
+                shape: tetriminos[action.curRandNb],
                 name: action.currentShape,
                 color: tetriminos[action.currentShape].color,
             };

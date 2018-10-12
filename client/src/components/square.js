@@ -11,8 +11,5 @@ function Square(props) {
         </div>
     );
 }
-const style = {
-    background: '#51B2E8'
-};
 
 export default Square;
