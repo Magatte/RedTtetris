@@ -8,19 +8,20 @@ function Game(props) {
     
     console.log(props);
 
-    const squares = props.startGame();
-    const myBoard = newTetriminos(squares.currentShape, squares.nextShape);
+    props.startGame();
+    const squares = props.activeTetriminos;
     var pos = {x: 1, y: 4};
-    console.log(squares);
+    console.log(props);
 
     return (
         <div className='game'>
             <div className='game-board'>
                 <Board 
-                    squares={myBoard}
+                    squares={squares}
                     start={{x: 0, y: 4}}
                     pos={pos}
                     status={props.gameStatus}
+                    /* TODO : add tetriminos to get the shape */
                 />
             </div>
             <div className='game-info'>
@@ -35,9 +36,9 @@ const mapStateToProps = state => {
     return state;
 };
 
-const mapActionsToProps = {
+const mapActionsToProps = () => ({
     startGame: startGame,
     newTetriminos: newTetriminos
-};
+});
 
 export default connect(mapStateToProps, mapActionsToProps)(Game);

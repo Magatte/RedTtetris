@@ -34,6 +34,7 @@ export const startGame = () => {
     const currentShape = shapeTypes[curRandNb];
     const nextShape = shapeTypes[nextRandNb];
 
+    console.log(currentShape);
     return {
         type: 'START_GAME',
         currentShape,

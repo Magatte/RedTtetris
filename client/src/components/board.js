@@ -17,7 +17,7 @@ function Board(props) {
     function createBoard() {
         const b = props.squares;
 
-        console.log(b);
+        console.log(typeof b);
         const board = b.map((row, j) => {
             let rowKey = j;
             return (

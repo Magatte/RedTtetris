@@ -21,7 +21,7 @@ function gameStatus(state = 'IDLE', action) {
 function activeTetriminos(state = initialGrid, action) {
     switch(action.type) {
         case actions.START_GAME:
-            return state; // TODO a new cleared grid
+            return initialGrid; // TODO a new cleared grid
         case actions.NEW_TETRIMINOS:
             return initialGrid;
         default:
