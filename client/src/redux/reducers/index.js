@@ -32,6 +32,7 @@ function activeTetriminos(state = initialGrid, action) {
 function nextTetriminos(state = {}, action) {
     switch(action.type) {
         case actions.START_GAME:
+            return state;
         case actions.NEW_TETRIMINOS:
             return {
                 shape: tetriminos[action.nextShape],
@@ -45,12 +46,13 @@ function nextTetriminos(state = {}, action) {
 
 function handleTetriminos(state = {}, action) {
     switch(action.type) {
-        case actions.START_GAME:
+        case actions.START_GAME: {
             return {
-                shape: tetriminos[action.curRandNb],
+                shape: tetriminos[action.currentShape].shape,
                 name: action.currentShape,
                 color: tetriminos[action.currentShape].color,
             };
+        }
         case actions.NEW_TETRIMINOS:
             return Object.assign({}, action.nextTetriminos);
         case actions.MOVE_DOWN:
