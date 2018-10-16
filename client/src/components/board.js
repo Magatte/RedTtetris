@@ -7,8 +7,7 @@ function Board(props) {
         return (
             <Square
                 key={key}
-                value={props.pos.x - 1}
-                color= {x === props.pos.x - 1 && y === props.pos.y ? '#51B2E8' : '#fff'}
+                color= { props.squares[x][y] === 1 ? props.color : '#fff'}
                 onChange={() => this.showTetriminos(x, y)}
             />
         );

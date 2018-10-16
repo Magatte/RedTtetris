@@ -6,21 +6,18 @@ import { newTetriminos } from '../redux/actions';
 
 function Game(props) {
     
-    console.log(props);
-
     props.startGame();
-    const squares = props.activeTetriminos;
-    var pos = {x: 1, y: 4};
-    console.log(props);
+    console.log(props.current);
+    const squares = props.grid;
+    const color = props.currentColor;
 
     return (
         <div className='game'>
             <div className='game-board'>
                 <Board 
                     squares={squares}
-                    start={{x: 0, y: 4}}
-                    pos={pos}
                     status={props.gameStatus}
+                    color={color}
                     /* TODO : add tetriminos to get the shape */
                 />
             </div>
@@ -33,12 +30,15 @@ function Game(props) {
 };
 
 const mapStateToProps = state => {
-    return state;
+    return {
+        grid: state.activeTetriminos,
+        current: state.currentTetriminos
+    }
 };
 
-const mapActionsToProps = () => ({
+const mapActionsToProps = {
     startGame: startGame,
     newTetriminos: newTetriminos
-});
+};
 
 export default connect(mapStateToProps, mapActionsToProps)(Game);
