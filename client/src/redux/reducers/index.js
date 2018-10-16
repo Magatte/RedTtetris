@@ -18,10 +18,10 @@ function gameStatus(state = 'IDLE', action) {
     }
 };
 
-function activeTetriminos(state = {}, action) {
+function activeTetriminos(state = initialGrid, action) {
     switch(action.type) {
         case actions.START_GAME:
-            return initialGrid; // TODO a new cleared grid
+            return state; // TODO a new cleared grid
         case actions.NEW_TETRIMINOS:
             return initialGrid;
         default:
@@ -32,7 +32,6 @@ function activeTetriminos(state = {}, action) {
 function nextTetriminos(state = {}, action) {
     switch(action.type) {
         case actions.START_GAME:
-            return state;
         case actions.NEW_TETRIMINOS:
             return {
                 shape: tetriminos[action.nextShape],
@@ -50,7 +49,7 @@ function currentTetriminos(state = {}, action) {
             return {
                 shape: tetriminos[action.currentShape].shape,
                 name: action.currentShape,
-                color: tetriminos[action.currentShape].color,
+                color: tetriminos[action.currentShape].color
             };
         case actions.NEW_TETRIMINOS:
             return Object.assign({}, action.nextTetriminos);

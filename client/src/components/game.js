@@ -3,12 +3,13 @@ import { connect } from 'react-redux';
 import Board from './board.js';
 import { startGame } from '../redux/actions';
 import { newTetriminos } from '../redux/actions';
+import store from '../redux/store/index.js';
 
 function Game(props) {
     
     props.startGame();
-    console.log(props.current);
-    const squares = props.grid;
+    console.log(typeof props.currentTetriminos.shape);
+    const squares = props.currentTetriminos.shape;
     const color = props.currentColor;
 
     return (
@@ -32,7 +33,7 @@ function Game(props) {
 const mapStateToProps = state => {
     return {
         grid: state.activeTetriminos,
-        current: state.currentTetriminos
+        currentTetriminos: state.currentTetriminos
     }
 };
 
