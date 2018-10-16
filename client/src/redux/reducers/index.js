@@ -18,11 +18,10 @@ function gameStatus(state = 'IDLE', action) {
     }
 };
 
-function activeTetriminos(state = {}, action) {
-    console.log(action.type);
+function activeTetriminos(state = initialGrid, action) {
     switch(action.type) {
         case actions.START_GAME:
-            return initialGrid; // TODO a new cleared grid
+            return state; // TODO a new cleared grid
         case actions.NEW_TETRIMINOS:
             return initialGrid;
         default:
@@ -33,7 +32,6 @@ function activeTetriminos(state = {}, action) {
 function nextTetriminos(state = {}, action) {
     switch(action.type) {
         case actions.START_GAME:
-            return state;
         case actions.NEW_TETRIMINOS:
             return {
                 shape: tetriminos[action.nextShape],
@@ -45,15 +43,14 @@ function nextTetriminos(state = {}, action) {
     }
 };
 
-function handleTetriminos(state = {}, action) {
+function currentTetriminos(state = {}, action) {
     switch(action.type) {
-        case actions.START_GAME: {
+        case actions.START_GAME:
             return {
                 shape: tetriminos[action.currentShape].shape,
                 name: action.currentShape,
-                color: tetriminos[action.currentShape].color,
+                color: tetriminos[action.currentShape].color
             };
-        }
         case actions.NEW_TETRIMINOS:
             return Object.assign({}, action.nextTetriminos);
         case actions.MOVE_DOWN:
@@ -73,7 +70,7 @@ const gameReducers = combineReducers({
     gameStatus,
     activeTetriminos,
     nextTetriminos,
-    handleTetriminos
+    currentTetriminos
 }); // CombineReducers put all these reducers into a single namespace
 
 export default gameReducers;

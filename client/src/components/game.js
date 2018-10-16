@@ -3,16 +3,14 @@ import { connect } from 'react-redux';
 import Board from './board.js';
 import { startGame } from '../redux/actions';
 import { newTetriminos } from '../redux/actions';
+import store from '../redux/store/index.js';
 
 function Game(props) {
-    
-    console.log(props);
-
     props.startGame();
-    const squares = props.activeTetriminos;
+    console.log(props.current);
+    const squares = props.grid;
+    // console.log(state.activeTetriminos);
     var pos = {x: 1, y: 4};
-    console.log(props);
-
     return (
         <div className='game'>
             <div className='game-board'>
@@ -33,12 +31,15 @@ function Game(props) {
 };
 
 const mapStateToProps = state => {
-    return state;
+    return {
+        grid: state.activeTetriminos,
+        current: state.currentTetriminos.shape
+    }
 };
 
-const mapActionsToProps = () => ({
+const mapActionsToProps = {
     startGame: startGame,
     newTetriminos: newTetriminos
-});
+};
 
 export default connect(mapStateToProps, mapActionsToProps)(Game);
