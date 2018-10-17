@@ -7,8 +7,7 @@ function Board(props) {
         return (
             <Square
                 key={key}
-                color= { props.squares[x][y] === 1 ? props.color : '#fff'}
-                onChange={() => this.showTetriminos(x, y)}
+                color= { props.squares[x][y] === 1 ? props.color : '#fff' }
             />
         );
     };
@@ -16,7 +15,6 @@ function Board(props) {
     function createBoard() {
         const b = props.squares;
 
-        console.log(typeof b);
         const board = b.map((row, j) => {
             let rowKey = j;
             return (
@@ -31,11 +29,15 @@ function Board(props) {
         return board;
     };
 
+
     return (
         <div>
             <div className='status'>{props.status}</div>
             <div>
                 {createBoard()}
+            </div>
+            <div className='startGame'>
+                <button onClick={() => props.onClick()}>START</button>
             </div>
         </div>
     );

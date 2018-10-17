@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Board from './board.js';
 import { startGame } from '../redux/actions';
@@ -7,9 +7,13 @@ import store from '../redux/store/index.js';
 
 function Game(props) {
     
-    props.startGame();
-    console.log(typeof props.currentTetriminos.shape);
-    const squares = props.currentTetriminos.shape;
+    // console.log('SALUT');
+    function start() {
+        props.startGame();
+    }
+
+    console.log(props.currentTetriminos);
+    const squares = props.currentTetriminos !== undefined ? props.currentTetriminos : props.grid;
     const color = props.currentColor;
 
     return (
@@ -19,6 +23,7 @@ function Game(props) {
                     squares={squares}
                     status={props.gameStatus}
                     color={color}
+                    onClick={start}
                     /* TODO : add tetriminos to get the shape */
                 />
             </div>
@@ -33,7 +38,8 @@ function Game(props) {
 const mapStateToProps = state => {
     return {
         grid: state.activeTetriminos,
-        currentTetriminos: state.currentTetriminos
+        currentTetriminos: state.currentTetriminos.shape,
+        currentColor: state.currentTetriminos.color
     }
 };
 

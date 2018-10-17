@@ -4,7 +4,7 @@ function Square(props) {
     return (
         <div 
             className='square'
-            onChange={() => props.onClick()}
+            // onChange={() => props.onChange()}
             style={{backgroundColor: props.color}}
         >
             {/* {props.value} */}
