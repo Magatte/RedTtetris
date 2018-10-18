@@ -1,21 +1,15 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import Board from './board.js';
 import { startGame } from '../redux/actions';
 import { newTetriminos } from '../redux/actions';
-import store from '../redux/store/index.js';
+import Menu from './menu.js';
 
 function Game(props) {
     
-    // console.log('SALUT');
-    function start() {
-        props.startGame();
-    }
-
-    console.log(props.currentTetriminos);
-    const squares = props.currentTetriminos !== undefined ? props.currentTetriminos : props.grid;
+    const squares = props.gameStatus == 'IDLE' || props.gameStatus == undefined ? props.emptyGrid : props.currentTetriminos.shape;
     const color = props.currentColor;
-
+   
     return (
         <div className='game'>
             <div className='game-board'>
@@ -23,12 +17,15 @@ function Game(props) {
                     squares={squares}
                     status={props.gameStatus}
                     color={color}
-                    onClick={start}
                     /* TODO : add tetriminos to get the shape */
-                />
+                    />
             </div>
             <div className='game-info'>
-                <div>{/* TODO */}</div>
+                <div className='startGame'>
+                    <Menu 
+                        onClick={props.startGame}
+                        />
+                </div>
                 <ol> {/* TODO */} </ol>
             </div>
         </div>
@@ -37,15 +34,16 @@ function Game(props) {
 
 const mapStateToProps = state => {
     return {
-        grid: state.activeTetriminos,
-        currentTetriminos: state.currentTetriminos.shape,
+        gameStatus: state.gameStatus,
+        emptyGrid: state.activeTetriminos,
+        currentTetriminos: state.currentTetriminos,
         currentColor: state.currentTetriminos.color
     }
 };
 
 const mapActionsToProps = {
-    startGame: startGame,
-    newTetriminos: newTetriminos
+    startGame,
+    newTetriminos,
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(Game);

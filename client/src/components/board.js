@@ -29,15 +29,11 @@ function Board(props) {
         return board;
     };
 
-
     return (
         <div>
             <div className='status'>{props.status}</div>
             <div>
                 {createBoard()}
-            </div>
-            <div className='startGame'>
-                <button onClick={() => props.onClick()}>START</button>
             </div>
         </div>
     );
