@@ -46,5 +46,13 @@ ol, ul {
 }
 
 .game-info {
-    margin-left: 20px;
+    /* margin-left: 20px; */
+    margin-top: 30px;
+    margin-left: 30px;
+    border: 5px solid #999;
+    padding: 10px;
+}
+
+.menu {
+    margin-top: 15px;
 }

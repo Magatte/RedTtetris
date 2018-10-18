@@ -4,8 +4,9 @@ import AwesomeButtonStyles from 'react-awesome-button/src/styles/styles.scss'
 
 export default function Button(props) {
     return (
-        <AwesomeButton cssModule={AwesomeButtonStyles} type='primary' action={(element, next) => props.onClick(next)}>
-            {props.title}
-        </AwesomeButton>
+        // <AwesomeButton cssModule={AwesomeButtonStyles} type='primary' action={(element, next) => props.onClick(next)}>
+        //     {props.title}
+        // </AwesomeButton>
+        <button onClick={() => props.onClick()}>{props.title}</button>
     );
 };
