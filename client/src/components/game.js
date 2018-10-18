@@ -7,7 +7,7 @@ import Menu from './menu.js';
 
 function Game(props) {
     
-    const squares = props.gameStatus == 'IDLE' || props.gameStatus == undefined ? props.emptyGrid : props.currentTetriminos.shape;
+    const squares = props.gameStatus === 'IDLE' || props.gameStatus === undefined ? props.emptyGrid : props.currentTetriminos.shape;
     const color = props.currentColor;
    
     return (

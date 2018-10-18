@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from './utils.js';
+import Button from './utils.js';
 
 function Menu(props) {
     return (
