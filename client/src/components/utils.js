@@ -7,6 +7,6 @@ export default function Button(props) {
         // <AwesomeButton cssModule={AwesomeButtonStyles} type='primary' action={(element, next) => props.onClick(next)}>
         //     {props.title}
         // </AwesomeButton>
-        <button onClick={() => props.onClick()}>{props.title}</button>
+        <button onClick={() => props.onClick(props.currentTetriminos, props.nextTetriminos)}>{props.title}</button>
     );
 };

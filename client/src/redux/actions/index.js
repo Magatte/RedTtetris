@@ -20,8 +20,8 @@ export const newTetriminos = (currentTetriminos, nextTetriminos) => {
     
     return {
         type: NEW_TETRIMINOS,
-        currentTetriminos,
-        color: currentTetriminos.color,
+        // currentTetriminos,
+        // color: currentTetriminos.color,
         nextTetriminos,
         nextShape
     };
@@ -35,7 +35,7 @@ export const startGame = () => {
     const nextShape = shapeTypes[nextRandNb];
 
     return {
-        type: 'START_GAME',
+        type: START_GAME,
         currentShape,
         nextShape
     }
@@ -94,3 +94,18 @@ export const moveLeft = () => {
         type: 'MOVE_LEFT'
     }
 };
+
+export const moveTetriminos = (direction) => (
+    function (dispatch, getState) {
+        switch(direction) {
+            case 'down':
+                dispatch(moveDown());
+            case 'right':
+                dispatch(moveRight());
+            case 'left':
+                dispatch(moveLeft());
+            default:
+                return ; 
+        }
+    }
+);

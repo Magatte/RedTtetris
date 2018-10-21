@@ -34,8 +34,8 @@ function nextTetriminos(state = {}, action) {
         case actions.START_GAME:
         case actions.NEW_TETRIMINOS:
             return {
-                shape: tetriminos[action.nextShape],
-                name: tetriminos.nextShape,
+                shape: tetriminos[action.nextShape].shape,
+                name: action.nextShape,
                 color: tetriminos[action.nextShape].color,
             };
         default:
@@ -54,11 +54,11 @@ function currentTetriminos(state = {}, action) {
         case actions.NEW_TETRIMINOS:
             return Object.assign({}, action.nextTetriminos);
         case actions.MOVE_DOWN:
-            return Object.assign({}, state);
+            return Object.assign({}, state, { posX: state.posX + 1 });
         case actions.MOVE_LEFT:
-            return Object.assign({}, state);
+            return Object.assign({}, state, { posY: state.posY - 1 });
         case actions.MOVE_RIGHT:
-            return Object.assign({}, state);
+            return Object.assign({}, state, { posY: state.posY + 1 });
         case actions.ROTATE_TETRIMINOS:
             return Object.assign({}, state, {shape: action.rotatedTetriminos});
         default:

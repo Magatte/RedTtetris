@@ -1,23 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import lifecycle from 'react-pure-lifecycle';
 import Board from './board.js';
 import { startGame } from '../redux/actions';
 import { newTetriminos } from '../redux/actions';
 import Menu from './menu.js';
 
-function Game(props) {
+const methods = {
+    componentDidUpdate(props) {
+        if (props.gameStatus === 'PLAYING') {
+            setInterval(() => {
+                props.newTetriminos(props.currentTetriminos, props.nextTetriminos)
+            }, 2000);
+        }
+    } 
+ }
 
-    // const start = new Promise((resolve, reject) => {
-    //     props.startGame()
-    // });
-    
-    // const automaticChange = (current, next) => {
-    //     start()
-    //         .then(() => {
-    //             setInterval(props.newTetriminos(current, next), 1000);
-    //         })
-    //         .catch(() => console.log('Error'))
-    // }
+function Game(props) {
 
     const squares = props.gameStatus === 'IDLE' || props.gameStatus === undefined ? props.emptyGrid : props.currentTetriminos.shape;
     const color = props.currentColor;
@@ -36,9 +35,9 @@ function Game(props) {
                 <div className='menu'>
                     <Menu 
                         onClick={props.startGame}
-                        changeTetriminos={props.newTetriminos}
-                        currentTetriminos={props.currentTetriminos.shape}
-                        nextTetriminos={props.nextTetriminos.shape}
+                        newTetriminos={props.newTetriminos}
+                        currentTetriminos={props.currentTetriminos}
+                        nextTetriminos={props.nextTetriminos}
                     />
                 </div>
                 <ol> {/* TODO */} </ol>
@@ -48,6 +47,7 @@ function Game(props) {
 };
 
 const mapStateToProps = state => {
+    console.log(state);
     return {
         gameStatus: state.gameStatus,
         emptyGrid: state.activeTetriminos,
@@ -62,4 +62,5 @@ const mapActionsToProps = {
     newTetriminos,
 };
 
+Game =  lifecycle(methods)(Game);
 export default connect(mapStateToProps, mapActionsToProps)(Game);
