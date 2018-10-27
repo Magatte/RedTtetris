@@ -97,15 +97,67 @@ export const moveLeft = () => {
 
 export const moveTetriminos = (direction) => (
     function (dispatch, getState) {
+        const { activeTetriminos, currentTetriminos, nextTetriminos, gameStatus } = getState();
+
+        if (gameStatus === 'PAUSED' || gameStatus === 'GAME_OVER')
+            return ;
         switch(direction) {
             case 'down':
                 dispatch(moveDown());
+                break ;
             case 'right':
                 dispatch(moveRight());
+                break ;
             case 'left':
                 dispatch(moveLeft());
+                break ;
             default:
                 return ; 
         }
     }
 );
+
+export const loadGame = () => (
+    function (dispatch, getState) {
+        dispatch(startGame());
+        function handleMove(e) {
+            e.preventDefault();
+            switch(e.keyCode) {
+                case 37:
+                    dispatch(moveTetriminos('left'));
+                    break ;
+                case 39:
+                    dispatch(moveTetriminos('right'));
+                    break ;
+                case 40:
+                    dispatch(moveTetriminos('down'));
+                    break ;
+                default:
+                    break ;
+            }
+        }
+        // function handleRotation(e) {
+        //     e.preventDefault();
+        //     switch(e.keyCode) {
+        //         case 38:
+        //             dispatch(rotateTetriminos());
+        //             break ;
+        //         default:
+        //             break ;
+        //     }
+        // }
+        dropTetriminos(dispatch, Date.now(), getState);
+        window.addEventListener('keydown', handleMove);
+        // window.addEventListener('keydown', handleRotation);
+    }
+);
+
+function dropTetriminos(dispatch, startTime, getState) {
+    const currentTime = Date.now();
+    const { gameStatus } = getState();
+
+    if (currentTime - startTime >= 500 && gameStatus != 'PAUSED' && gameStatus != 'GAME_OVER') {
+        startTime = currentTime;
+        dispatch(moveTetriminos('down'));
+    }
+}

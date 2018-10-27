@@ -7,20 +7,24 @@ import { newTetriminos } from '../redux/actions';
 import Menu from './menu.js';
 
 const methods = {
-    componentDidUpdate(props) {
-        if (props.gameStatus === 'PLAYING') {
-            setInterval(() => {
-                props.newTetriminos(props.currentTetriminos, props.nextTetriminos)
-            }, 2000);
-        }
+    componentDidMount(props) {
     } 
- }
+};
+
 
 function Game(props) {
-
     const squares = props.gameStatus === 'IDLE' || props.gameStatus === undefined ? props.emptyGrid : props.currentTetriminos.shape;
     const color = props.currentColor;
-   
+    console.log(squares);
+    
+    function Start() {
+        props.startGame();
+        setInterval(() => {
+            props.newTetriminos(props.currentTetriminos, props.nextTetriminos)
+        }, 2000);
+    }
+    
+    
     return (
         <div className='game'>
             <div className='game-board'>
@@ -29,12 +33,12 @@ function Game(props) {
                     status={props.gameStatus}
                     color={color}
                     /* TODO : add tetriminos to get the shape */
-                    />
+                />
             </div>
             <div className='game-info'>
-                <div className='menu'>
+                <div className='menu'>console.log(squares);
                     <Menu 
-                        onClick={props.startGame}
+                        onClick={Start}
                         newTetriminos={props.newTetriminos}
                         currentTetriminos={props.currentTetriminos}
                         nextTetriminos={props.nextTetriminos}
@@ -44,10 +48,9 @@ function Game(props) {
             </div>
         </div>
     );
-};
+}
 
 const mapStateToProps = state => {
-    console.log(state);
     return {
         gameStatus: state.gameStatus,
         emptyGrid: state.activeTetriminos,
@@ -62,5 +65,5 @@ const mapActionsToProps = {
     newTetriminos,
 };
 
-Game =  lifecycle(methods)(Game);
-export default connect(mapStateToProps, mapActionsToProps)(Game);
+// Game =  lifecycle(methods)(Game);
+export default connect(mapStateToProps, mapActionsToProps)(lifecycle(methods)(Game));
