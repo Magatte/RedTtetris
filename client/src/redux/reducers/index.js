@@ -47,6 +47,8 @@ function nextTetriminos(state = {}, action) {
 };
 
 function currentTetriminos(state = {}, action) {
+    state.posX = state.posX && state.posX < 19 ? state.posX : 0;
+    state.posY = state.posY && state.posY < 9 && state.posY >= 0 ? state.posY : (state.posY >= 9 ? 8 : 0);
     switch(action.type) {
         case actions.START_GAME:
             return {
