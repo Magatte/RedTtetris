@@ -1,9 +1,12 @@
-import { createStore } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import gameReducers from '../reducers/index';
+import thunkMiddleware from 'redux-thunk';
+
+const middlewares = applyMiddleware(thunkMiddleware);
 
 const store = createStore(
     gameReducers,
-    window.devToolsExtension && window.devToolsExtension()
+    compose(middlewares, window.devToolsExtension && window.devToolsExtension())
 );
 
 export default store;

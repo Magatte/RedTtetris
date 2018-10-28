@@ -5,14 +5,14 @@ function Menu(props) {
     return (
         <div className='start'>
             <button
-                onClick={() => props.onClick()}
+                onClick={() => props.loadGame()}
             >
                 START
             </button>
             <button 
-                onClick={() => props.newTetriminos(props.currentTetriminos, props.nextTetriminos)}
+                onClick={() => props.pauseGame()}
             >
-                CHANGE
+                {props.pauseTitle}
             </button>
         </div>
     );

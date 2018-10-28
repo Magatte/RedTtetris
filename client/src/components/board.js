@@ -3,6 +3,16 @@ import Square from './square.js';
 
 function Board(props) {
 
+    function setPosition(arr, x, y, val) {
+        if (val === 1) {
+            if (props.currentTetriminos.posX !== undefined && props.currentTetriminos.posX !== null)
+                x = x + props.currentTetriminos.posX;
+            if (props.currentTetriminos.posY !== undefined && props.currentTetriminos.posY !== null)
+                y = y + props.currentTetriminos.posY;
+        }
+        return {x: x, y: y};
+    }
+
     function renderSquare(x, y, key) {
         return (
             <Square

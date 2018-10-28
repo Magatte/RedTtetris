@@ -43,61 +43,61 @@ export const startGame = () => {
 
 export const stopGame = () => {
     return {
-        type: 'STOP_GAME'
+        type: STOP_GAME
     }
 };
 
 export const pauseGame = () => {
     return {
-        type: 'PAUSE_GAME'
+        type: PAUSE_GAME
     }
 };
 
 export const unpauseGame = () => {
     return {
-        type: 'UNPAUSE_GAME'
+        type: UNPAUSE_GAME
     }
 };
 
 export const gameOver = () => {
     return {
-        type: 'GAME_OVER'
+        type: GAME_OVER
     }
 };
 
 export const clearLine = () => {
     return {
-        type: 'CLEAR_LINE'
+        type: CLEAR_LINE
     }
 };
 
 export const freezeLine = () => {
     return {
-        type: 'FREEZE_LINE'
+        type: FREEZE_LINE
     }
 };
 
 export const moveDown = () => {
     return {
-        type: 'MOVE_DOWN'
+        type: MOVE_DOWN
     }
 };
 
 export const moveRight = () => {
     return {
-        type: 'MOVE_RIGHT'
+        type: MOVE_RIGHT
     }
 };
 
 export const moveLeft = () => {
     return {
-        type: 'MOVE_LEFT'
+        type: MOVE_LEFT
     }
 };
 
 export const moveTetriminos = (direction) => (
     function (dispatch, getState) {
-        const { activeTetriminos, currentTetriminos, nextTetriminos, gameStatus } = getState();
+        const { gameStatus } = getState();
 
         if (gameStatus === 'PAUSED' || gameStatus === 'GAME_OVER')
             return ;
@@ -117,8 +117,9 @@ export const moveTetriminos = (direction) => (
     }
 );
 
-export const loadGame = () => (
-    function (dispatch, getState) {
+export const loadGame = () => {
+    console.log('About to start the game...');
+    return (dispatch, getState) => {
         dispatch(startGame());
         function handleMove(e) {
             e.preventDefault();
@@ -146,18 +147,20 @@ export const loadGame = () => (
         //             break ;
         //     }
         // }
-        dropTetriminos(dispatch, Date.now(), getState);
+        setInterval(() => {
+            dropTetriminos(dispatch, Date.now(), getState);
+        }, 1000);
         window.addEventListener('keydown', handleMove);
         // window.addEventListener('keydown', handleRotation);
     }
-);
+};
 
 function dropTetriminos(dispatch, startTime, getState) {
     const currentTime = Date.now();
     const { gameStatus } = getState();
 
-    if (currentTime - startTime >= 500 && gameStatus != 'PAUSED' && gameStatus != 'GAME_OVER') {
-        startTime = currentTime;
+    if (gameStatus !== 'PAUSED' && gameStatus !== 'GAME_OVER') {
+    //     startTime = currentTime;
         dispatch(moveTetriminos('down'));
     }
 }

@@ -7,6 +7,9 @@ const { initialGrid, tetriminos } = gameConstants;
 function gameStatus(state = 'IDLE', action) {
     switch(action.type) {
         case actions.START_GAME:
+            return 'PLAYING';
+        case actions.PAUSE_GAME:
+            return 'PAUSED';
         case actions.UNPAUSE_GAME:
             return 'PLAYING';
         case actions.STOP_GAME:
@@ -54,13 +57,13 @@ function currentTetriminos(state = {}, action) {
         case actions.NEW_TETRIMINOS:
             return Object.assign({}, action.nextTetriminos);
         case actions.MOVE_DOWN:
-            return Object.assign({}, state, { posX: state.posX + 1 });
+            return { ...state, posX: state.posX + 1 };
         case actions.MOVE_LEFT:
-            return Object.assign({}, state, { posY: state.posY - 1 });
+            return { ...state, posY: state.posY - 1 };
         case actions.MOVE_RIGHT:
-            return Object.assign({}, state, { posY: state.posY + 1 });
+            return { ...state, posY: state.posY + 1 };
         case actions.ROTATE_TETRIMINOS:
-            return Object.assign({}, state, {shape: action.rotatedTetriminos});
+            return { ...state, shape: action.rotatedTetriminos };
         default:
             return state;
     }
