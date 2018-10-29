@@ -3,9 +3,18 @@ import Square from './square.js';
 
 function Board(props) {
 
-    // function setNewPosition(arr) {
-        
-    // }
+    function setNewPosition(arr) {
+        arr = arr.map((row, i) => {
+            row.map((sq, j) => {
+                if (sq === 1)
+                    arr[i][j] = 0;
+                    arr[i + props.posX][j + props.posY] = 2
+                return sq;
+            });
+            return row;
+        })
+        console.log(arr);
+    }
 
     function renderSquare(x, y, key) {
         return (
@@ -19,7 +28,7 @@ function Board(props) {
     function createBoard() {
         const b = props.squares;
 
-        // b = setNewPosition(b);
+        // setNewPosition(b);
         const board = b.map((row, j) => {
             let rowKey = j;
             return (

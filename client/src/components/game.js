@@ -30,6 +30,8 @@ function Game(props) {
             <div className='game-board'>
                 <Board 
                     squares={squares}
+                    posX={props.currentTetriminos.posX}
+                    posY={props.currentTetriminos.posY}
                     status={props.gameStatus}
                     color={color}
                     /* TODO : add tetriminos to get the shape */

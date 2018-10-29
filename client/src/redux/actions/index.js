@@ -148,19 +148,17 @@ export const loadGame = () => {
         //     }
         // }
         setInterval(() => {
-            dropTetriminos(dispatch, Date.now(), getState);
+            dropTetriminos(dispatch, getState);
         }, 1000);
         window.addEventListener('keydown', handleMove);
         // window.addEventListener('keydown', handleRotation);
     }
 };
 
-function dropTetriminos(dispatch, startTime, getState) {
-    const currentTime = Date.now();
+function dropTetriminos(dispatch, getState) {
     const { gameStatus } = getState();
 
     if (gameStatus !== 'PAUSED' && gameStatus !== 'GAME_OVER') {
-    //     startTime = currentTime;
         dispatch(moveTetriminos('down'));
     }
 }
