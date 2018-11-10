@@ -30,8 +30,7 @@ function Game(props) {
                 <Board 
                     squares={squares}
                     pos={props.currentTetriminos.pos}
-                    offsetX={props.currentTetriminos.offsetX}
-                    offsetY={props.currentTetriminos.offsetY}
+                    oldPos={props.currentTetriminos.oldPos}
                     status={props.gameStatus}
                     color={props.currentColor}
                     /* TODO : add tetriminos to get the shape */

@@ -67,12 +67,13 @@ function currentTetriminos(state = {}, action) {
         case actions.NEW_TETRIMINOS:
             return Object.assign({}, action.nextTetriminos);
         case actions.MOVE_DOWN:
+            let shape = currentTetriminos.shape;
+            state.oldPos = state.pos;
             state.offsetX++;
             for (let i = 0; i < 4; i++) {
-                state.pos[i].x += state.offsetX;
-                state.pos[i].y += state.offsetY;
+                state.pos[i].x = state.offsetX;
             }
-            return { ...state, offsetX: state.offsetX, pos: state.pos };
+            return { ...state, oldPos: state.oldPos, pos: state.pos };
         case actions.MOVE_LEFT:
             return { ...state, offsetY: state.offsetY - 1 };
         case actions.MOVE_RIGHT:

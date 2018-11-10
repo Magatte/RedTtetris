@@ -5,13 +5,14 @@ function Board(props) {
     
     function setNewPosition(arr) {
         let pos = props.pos;
-        let offsetX = props.offsetX;
-        let offsetY = props.offsetY;
+        let oldPos = props.oldPos;
+        // let offsetX = props.offsetX;
+        // let offsetY = props.offsetY;
 
-        if (!pos)
+        if (!pos || !oldPos)
             return ;
         for (let i = 0; i < 4; i++) {
-            arr[pos[i].x][pos[i].y] = 0;
+            arr[oldPos[i].x][oldPos[i].y] = 0;
         }
         for (let i = 0; i < 4; i++) {
             arr[pos[i].x][pos[i].y] = 1
