@@ -40,6 +40,7 @@ function nextTetriminos(state = {}, action) {
                 shape: tetriminos[action.nextShape].shape,
                 name: action.nextShape,
                 color: tetriminos[action.nextShape].color,
+                pos: tetriminos[action.nextShape].pos
             };
         default:
             return state;
@@ -47,23 +48,35 @@ function nextTetriminos(state = {}, action) {
 };
 
 function currentTetriminos(state = {}, action) {
-    state.posX = state.posX && state.posX < 19 ? state.posX : 0;
-    state.posY = state.posY && state.posY < 9 && state.posY >= 0 ? state.posY : (state.posY >= 9 ? 8 : 0);
+    state.offsetX = state.offsetX && state.offsetX < 19 ? state.offsetX : 0;
+    state.offsetY = state.offsetY && state.offsetY < 9 && state.offsetY >= 0 ? state.offsetY : (state.offsetY >= 9 ? 8 : 0);
+    // if (state.pos) {
+    //     for (let i = 0; i < 4; i++) {
+    //         state.pos[i].x += state.offsetX;
+    //         state.pos[i].y += state.offsetY;
+    //     }
+    // }
     switch(action.type) {
         case actions.START_GAME:
             return {
                 shape: tetriminos[action.currentShape].shape,
                 name: action.currentShape,
-                color: tetriminos[action.currentShape].color
+                color: tetriminos[action.currentShape].color,
+                pos: tetriminos[action.currentShape].pos
             };
         case actions.NEW_TETRIMINOS:
             return Object.assign({}, action.nextTetriminos);
         case actions.MOVE_DOWN:
-            return { ...state, posX: state.posX + 1 };
+            state.offsetX++;
+            for (let i = 0; i < 4; i++) {
+                state.pos[i].x += state.offsetX;
+                state.pos[i].y += state.offsetY;
+            }
+            return { ...state, offsetX: state.offsetX, pos: state.pos };
         case actions.MOVE_LEFT:
-            return { ...state, posY: state.posY - 1 };
+            return { ...state, offsetY: state.offsetY - 1 };
         case actions.MOVE_RIGHT:
-            return { ...state, posY: state.posY + 1 };
+            return { ...state, offsetY: state.offsetY + 1 };
         case actions.ROTATE_TETRIMINOS:
             return { ...state, shape: action.rotatedTetriminos };
         default:

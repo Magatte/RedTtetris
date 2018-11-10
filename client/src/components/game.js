@@ -14,7 +14,6 @@ const methods = {
 
 function Game(props) {
     const squares = props.gameStatus === 'IDLE' || props.gameStatus === undefined ? props.emptyGrid : props.currentTetriminos.shape;
-    const color = props.currentColor;
     
     function switchAction() {
         console.log('Switch');
@@ -30,10 +29,11 @@ function Game(props) {
             <div className='game-board'>
                 <Board 
                     squares={squares}
-                    posX={props.currentTetriminos.posX}
-                    posY={props.currentTetriminos.posY}
+                    pos={props.currentTetriminos.pos}
+                    offsetX={props.currentTetriminos.offsetX}
+                    offsetY={props.currentTetriminos.offsetY}
                     status={props.gameStatus}
-                    color={color}
+                    color={props.currentColor}
                     /* TODO : add tetriminos to get the shape */
                 />
             </div>

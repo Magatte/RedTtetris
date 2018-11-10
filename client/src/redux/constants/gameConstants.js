@@ -28,7 +28,8 @@ export default {
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             ],
-            color: 'red'
+            color: 'red',
+            pos: [{x:0, y:3}, {x:0, y:4}, {x:0, y:5}, {x:0, y:6}]
         },
         square: {
             shape: [
@@ -53,7 +54,8 @@ export default {
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             ],
-            color: '#00BCD4'
+            color: '#00BCD4',
+            pos: [{x:0, y:4}, {x:0, y:5}, {x:1, y:4}, {x:1, y:5}]
         },
         tee: {
             shape: [
@@ -78,7 +80,8 @@ export default {
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             ],
-            color: 'green'
+            color: 'green',
+            pos: [{x:0, y:5}, {x:1, y:4}, {x:1, y:5}, {x:1, y:6}]
         },
         leftGun: {
             shape: [
@@ -103,7 +106,8 @@ export default {
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             ],
-            color: 'orange'
+            color: 'orange',
+            pos: [{x:0, y:5}, {x:1, y:3}, {x:1, y:4}, {x:1, y:5}]
         },
         rightGun: {
             shape: [
@@ -128,7 +132,8 @@ export default {
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             ],
-            color: 'yellow'
+            color: 'yellow',
+            pos: [{x:0, y:3}, {x:1, y:3}, {x:1, y:4}, {x:1, y:5}]
         },
         leftSnake: {
             shape: [
@@ -153,7 +158,8 @@ export default {
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             ],
-            color: 'purple'
+            color: 'purple',
+            pos: [{x:0, y:3}, {x:0, y:4}, {x:1, y:4}, {x:1, y:5}]
         },
         rightSnake: {
             shape: [
@@ -178,7 +184,8 @@ export default {
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             ],
-            color: 'brown'
+            color: 'brown',
+            pos: [{x:0, y:4}, {x:0, y:5}, {x:1, y:3}, {x:1, y:4}]
         }
     },
     initialGrid
