@@ -67,16 +67,19 @@ function currentTetriminos(state = {}, action) {
         case actions.NEW_TETRIMINOS:
             return Object.assign({}, action.nextTetriminos);
         case actions.MOVE_DOWN:
-            let shape = currentTetriminos.shape;
-            state.oldPos = state.pos;
+            // if (checkCollision(state.currentTetriminos.shape, state.pos))
+            //     return { ...state };
+            state.oldPos = [{x:state.pos[0].x, y:state.pos[0].y}, {x:state.pos[1].x, y:state.pos[1].y}, {x:state.pos[2].x, y:state.pos[2].y}, {x:state.pos[3].x, y:state.pos[3].y}]
             state.offsetX++;
             for (let i = 0; i < 4; i++) {
-                state.pos[i].x = state.offsetX;
+                state.pos[i].x++;
             }
             return { ...state, oldPos: state.oldPos, pos: state.pos };
         case actions.MOVE_LEFT:
+            state.oldPos = [{x:state.pos[0].x, y:state.pos[0].y}, {x:state.pos[1].x, y:state.pos[1].y}, {x:state.pos[2].x, y:state.pos[2].y}, {x:state.pos[3].x, y:state.pos[3].y}]
             return { ...state, offsetY: state.offsetY - 1 };
         case actions.MOVE_RIGHT:
+            state.oldPos = [{x:state.pos[0].x, y:state.pos[0].y}, {x:state.pos[1].x, y:state.pos[1].y}, {x:state.pos[2].x, y:state.pos[2].y}, {x:state.pos[3].x, y:state.pos[3].y}]
             return { ...state, offsetY: state.offsetY + 1 };
         case actions.ROTATE_TETRIMINOS:
             return { ...state, shape: action.rotatedTetriminos };
@@ -84,6 +87,16 @@ function currentTetriminos(state = {}, action) {
             return state;
     }
 };
+
+function checkCollision(arr, pos) {
+    for (let i = 0; i < 4; i++) {
+        if (arr[pos[i].x][pos[i].y] !== 0)
+            return false;
+        if (pos[i].x < 0 || pos[i].x > 19 || pos[i].y < 0 || pos[i].y > 9)
+            return false;
+        return true;
+    }
+}
 
 const gameReducers = combineReducers({
     gameStatus,
