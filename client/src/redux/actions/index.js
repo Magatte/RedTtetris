@@ -121,7 +121,7 @@ export const loadGame = () => {
     console.log('About to start the game...');
     return (dispatch, getState) => {
         dispatch(startGame());
-        function handleMove(e) {
+        const handleMove = (e) => {
             e.preventDefault();
             switch(e.keyCode) {
                 case 37:
@@ -155,7 +155,7 @@ export const loadGame = () => {
     }
 };
 
-function checkCollision(arr, pos) {
+const checkCollision = (arr, pos) => {
     for (let i = 0; i < 4; i++) {
         // if (arr[pos[i].x][pos[i].y] !== 0)
         //     return false;
@@ -165,7 +165,7 @@ function checkCollision(arr, pos) {
     return true;
 }
 
-function dropTetriminos(dispatch, getState) {
+const dropTetriminos = (dispatch, getState) => {
     const { gameStatus, currentTetriminos, nextTetriminos } = getState();
     const shape = currentTetriminos.shape;
     const pos = currentTetriminos.pos;
