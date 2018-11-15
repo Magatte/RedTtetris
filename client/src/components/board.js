@@ -1,39 +1,23 @@
 import React from 'react';
 import Square from './square.js';
-import {checkIndexValue} from '../redux/reducers/index'
-function Board(props) {
 
-    const canPlacePiece =(arr) =>{
+const Board = (props) => {
+
+    const setNewPosition = (arr) => {
         let pos = props.pos;
         let oldPos = props.oldPos;
 
-        for (let i = 0; i < 4; i++) {
-            if(arr[oldPos[i].x][oldPos[i].y] !== 0){
-                return false
-            }
-        }
-        return true
-    }
-
-    function setNewPosition(arr) {
-        let pos = props.pos;
-        let oldPos = props.oldPos;
-
-
-        if (!pos || !oldPos )
+        if (!pos || !oldPos)
             return ;
         for (let i = 0; i < 4; i++) {
             arr[oldPos[i].x][oldPos[i].y] = 0;
         }
-
         for (let i = 0; i < 4; i++) {
             arr[pos[i].x][pos[i].y] = 1
         }
-
-
     }
 
-    function renderSquare(x, y, key) {
+    const renderSquare = (x, y, key) => {
         return (
             <Square
                 key={key}
@@ -42,7 +26,7 @@ function Board(props) {
         );
     };
 
-    function createBoard() {
+    const createBoard = () => {
         const b = props.squares;
 
         setNewPosition(b);

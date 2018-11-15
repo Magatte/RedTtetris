@@ -4,8 +4,7 @@ import * as actions from '../actions/index.js';
 
 const { initialGrid, tetriminos } = gameConstants;
 
-
-function gameStatus(state = 'IDLE', action) {
+const gameStatus = (state = 'IDLE', action) => {
     switch(action.type) {
         case actions.START_GAME:
             return 'PLAYING';
@@ -22,7 +21,7 @@ function gameStatus(state = 'IDLE', action) {
     }
 };
 
-function activeTetriminos(state = initialGrid, action) {
+const activeTetriminos = (state = initialGrid, action) => {
     switch(action.type) {
         case actions.START_GAME:
             return state; // TODO a new cleared grid
@@ -33,7 +32,7 @@ function activeTetriminos(state = initialGrid, action) {
     }
 };
 
-function nextTetriminos(state = {}, action) {
+const nextTetriminos = (state = {}, action) => {
     switch(action.type) {
         case actions.START_GAME:
         case actions.NEW_TETRIMINOS:
@@ -48,7 +47,7 @@ function nextTetriminos(state = {}, action) {
     }
 };
 
-function currentTetriminos(state = {}, action) {
+const currentTetriminos = (state = {}, action) => {
     state.offsetX = state.offsetX && state.offsetX < 19 ? state.offsetX : 0;
     state.offsetY = state.offsetY && state.offsetY < 9 && state.offsetY >= 0 ? state.offsetY : (state.offsetY >= 9 ? 8 : 0);
 
