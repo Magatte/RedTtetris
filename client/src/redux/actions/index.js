@@ -98,19 +98,30 @@ export const moveLeft = () => {
 
 export const moveTetriminos = (direction) => (
     function (dispatch, getState) {
-        const { gameStatus, currentTetriminos } = getState();
+        const { gameStatus, currentTetriminos, nextTetriminos } = getState();
+        let nextMove = false;
 
-        if (gameStatus === 'PAUSED' || gameStatus === 'GAME_OVER'|| !checkCollision( currentTetriminos.shape, currentTetriminos.pos) )
+        nextMove = checkCollision( currentTetriminos.shape, currentTetriminos.pos)
+        
+        if (nextMove === 'dropped')
+            return dispatch(newTetriminos(currentTetriminos, nextTetriminos))
+        
+        if (gameStatus === 'PAUSED' || gameStatus === 'GAME_OVER' )
             return ;
+
+        console.log('triggered');
         switch(direction) {
             case 'down':
-                dispatch(moveDown(currentTetriminos));
+                if (nextMove !== 'dropped')
+                    dispatch(moveDown());
                 break ;
             case 'right':
-                dispatch(moveRight(currentTetriminos));
+                if (nextMove !== 'rightEdge')
+                    dispatch(moveRight());
                 break ;
             case 'left':
-                dispatch(moveLeft(currentTetriminos));
+                if (nextMove !== 'leftEdge')
+                    dispatch(moveLeft());
                 break ;
             default:
                 return ;
@@ -160,24 +171,20 @@ const checkCollision = (arr, pos) => {
     for (let i = 0; i < 4; i++) {
         // if (arr[pos[i].x][pos[i].y] !== 0)
         //     return false;
-        if (pos[i].x < 0 || pos[i].x >= 19 || pos[i].y < 0 || pos[i].y >= 9)
-            return false;
+        if (pos[i].x >= 19)
+            return 'dropped'
+        else if (pos[i].y <= 0)
+            return 'leftEdge';
+        else if (pos[i].y >= 9)
+            return 'rightEdge'
     }
     return true;
 }
 
 const dropTetriminos = (dispatch, getState) => {
     const { gameStatus, currentTetriminos, nextTetriminos } = getState();
-    const shape = currentTetriminos.shape;
-    const pos = currentTetriminos.pos;
-    let next = false;
 
-    if (!checkCollision(shape, pos)) {
-        next = true;
-        dispatch(newTetriminos(currentTetriminos, nextTetriminos));
-    }
-    if (gameStatus !== 'PAUSED' && gameStatus !== 'GAME_OVER' && next === false) {
-        console.log(currentTetriminos);
+    if (gameStatus !== 'PAUSED' && gameStatus !== 'GAME_OVER') {
         dispatch(moveTetriminos('down'));
     }
 }
