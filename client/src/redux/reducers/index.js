@@ -83,7 +83,6 @@ const currentTetriminos = (state = {}, action) => {
                 state.pos[i].y++;
             }
             return { ...state, oldPos: state.oldPos, pos: state.pos };
-            return { ...state, offsetY: state.offsetY + 1 };
         case actions.ROTATE_TETRIMINOS:
             return { ...state, shape: action.rotatedTetriminos };
         default:
