@@ -2,7 +2,7 @@ import React from 'react';
 import { AwesomeButton } from 'react-awesome-button';
 import AwesomeButtonStyles from 'react-awesome-button/src/styles/styles.scss'
 
-export default Button = (props) => {
+const Button = (props) => {
     return (
         // <AwesomeButton cssModule={AwesomeButtonStyles} type='primary' action={(element, next) => props.onClick(next)}>
         //     {props.title}
@@ -10,3 +10,5 @@ export default Button = (props) => {
         <button onClick={() => props.onClick(props.currentTetriminos, props.nextTetriminos)}>{props.title}</button>
     );
 };
+
+export default Button;
