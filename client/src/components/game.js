@@ -12,10 +12,10 @@ const methods = {
 };
 
 
-function Game(props) {
+const Game = (props) => {
     const squares = props.gameStatus === 'IDLE' || props.gameStatus === undefined ? props.emptyGrid : props.currentTetriminos.shape;
     
-    function switchAction() {
+    const switchAction = () => {
         console.log('Switch');
         if (props.gameStatus === 'PLAYING') {
             props.pauseGame();

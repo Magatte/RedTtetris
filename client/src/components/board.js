@@ -1,9 +1,9 @@
 import React from 'react';
 import Square from './square.js';
 
-function Board(props) {
+const Board = (props) => {
     
-    function setNewPosition(arr) {
+    const setNewPosition = (arr) => {
         let pos = props.pos;
         let oldPos = props.oldPos;
 
@@ -17,7 +17,7 @@ function Board(props) {
         }
     }
 
-    function renderSquare(x, y, key) {
+    const renderSquare = (x, y, key) => {
         return (
             <Square
                 key={key}
@@ -26,7 +26,7 @@ function Board(props) {
         );
     };
 
-    function createBoard() {
+    const createBoard = () => {
         const b = props.squares;
 
         setNewPosition(b);

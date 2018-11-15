@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from './utils.js';
 
-function Menu(props) {
+const Menu = (props) => {
     return (
         <div className='start'>
             <button
