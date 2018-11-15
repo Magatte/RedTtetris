@@ -15,7 +15,6 @@ function Board(props) {
         for (let i = 0; i < 4; i++) {
             arr[pos[i].x][pos[i].y] = 1
         }
-        console.log(arr);
     }
 
     function renderSquare(x, y, key) {

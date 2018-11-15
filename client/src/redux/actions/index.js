@@ -155,10 +155,28 @@ export const loadGame = () => {
     }
 };
 
-function dropTetriminos(dispatch, getState) {
-    const { gameStatus } = getState();
+function checkCollision(arr, pos) {
+    for (let i = 0; i < 4; i++) {
+        // if (arr[pos[i].x][pos[i].y] !== 0)
+        //     return false;
+        if (pos[i].x < 0 || pos[i].x >= 19 || pos[i].y < 0 || pos[i].y >= 9)
+            return false;
+    }
+    return true;
+}
 
-    if (gameStatus !== 'PAUSED' && gameStatus !== 'GAME_OVER') {
+function dropTetriminos(dispatch, getState) {
+    const { gameStatus, currentTetriminos, nextTetriminos } = getState();
+    const shape = currentTetriminos.shape;
+    const pos = currentTetriminos.pos;
+    let next = false;
+
+    if (!checkCollision(shape, pos)) {
+        next = true;
+        dispatch(newTetriminos(currentTetriminos, nextTetriminos));
+    }
+    if (gameStatus !== 'PAUSED' && gameStatus !== 'GAME_OVER' && next === false) {
+        console.log(currentTetriminos);
         dispatch(moveTetriminos('down'));
     }
 }
