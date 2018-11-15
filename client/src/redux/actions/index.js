@@ -109,7 +109,6 @@ export const moveTetriminos = (direction) => (
         if (gameStatus === 'PAUSED' || gameStatus === 'GAME_OVER' )
             return ;
 
-        console.log('triggered');
         switch(direction) {
             case 'down':
                 if (nextMove !== 'dropped')
