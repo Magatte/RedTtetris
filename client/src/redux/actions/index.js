@@ -1,5 +1,5 @@
 import gameConstants from '../constants/gameConstants';
-
+import store from '../store/index'
 export const START_GAME = 'START_GAME';
 export const STOP_GAME = 'STOP_GAME';
 export const PAUSE_GAME = 'PAUSE_GAME';
@@ -17,7 +17,7 @@ export const newTetriminos = (currentTetriminos, nextTetriminos) => {
     const { shapeTypes } = gameConstants;
     const nextRandNb = Math.floor(Math.random() * (7 - 0)) + 0; // Math.Random return a number between 0 (included) and 1 (excluded)
     const nextShape = shapeTypes[nextRandNb];
-    
+
     return {
         type: NEW_TETRIMINOS,
         // currentTetriminos,
@@ -78,6 +78,7 @@ export const freezeLine = () => {
 };
 
 export const moveDown = () => {
+
     return {
         type: MOVE_DOWN
     }
@@ -97,22 +98,22 @@ export const moveLeft = () => {
 
 export const moveTetriminos = (direction) => (
     function (dispatch, getState) {
-        const { gameStatus } = getState();
+        const { gameStatus, currentTetriminos } = getState();
 
-        if (gameStatus === 'PAUSED' || gameStatus === 'GAME_OVER')
+        if (gameStatus === 'PAUSED' || gameStatus === 'GAME_OVER'|| !checkCollision( currentTetriminos.shape, currentTetriminos.pos) )
             return ;
         switch(direction) {
             case 'down':
-                dispatch(moveDown());
+                dispatch(moveDown(currentTetriminos));
                 break ;
             case 'right':
-                dispatch(moveRight());
+                dispatch(moveRight(currentTetriminos));
                 break ;
             case 'left':
-                dispatch(moveLeft());
+                dispatch(moveLeft(currentTetriminos));
                 break ;
             default:
-                return ; 
+                return ;
         }
     }
 );

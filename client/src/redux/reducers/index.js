@@ -4,6 +4,7 @@ import * as actions from '../actions/index.js';
 
 const { initialGrid, tetriminos } = gameConstants;
 
+
 function gameStatus(state = 'IDLE', action) {
     switch(action.type) {
         case actions.START_GAME:
@@ -50,7 +51,7 @@ function nextTetriminos(state = {}, action) {
 function currentTetriminos(state = {}, action) {
     state.offsetX = state.offsetX && state.offsetX < 19 ? state.offsetX : 0;
     state.offsetY = state.offsetY && state.offsetY < 9 && state.offsetY >= 0 ? state.offsetY : (state.offsetY >= 9 ? 8 : 0);
-    
+
     switch(action.type) {
         case actions.START_GAME:
             return {
@@ -70,9 +71,19 @@ function currentTetriminos(state = {}, action) {
             return { ...state, oldPos: state.oldPos, pos: state.pos };
         case actions.MOVE_LEFT:
             state.oldPos = [{x:state.pos[0].x, y:state.pos[0].y}, {x:state.pos[1].x, y:state.pos[1].y}, {x:state.pos[2].x, y:state.pos[2].y}, {x:state.pos[3].x, y:state.pos[3].y}]
-            return { ...state, offsetY: state.offsetY - 1 };
+            state.offsetY--;
+            for (let i = 0; i < 4; i++) {
+                state.pos[i].y--;
+
+            }
+            return { ...state, oldPos: state.oldPos, pos: state.pos };
         case actions.MOVE_RIGHT:
             state.oldPos = [{x:state.pos[0].x, y:state.pos[0].y}, {x:state.pos[1].x, y:state.pos[1].y}, {x:state.pos[2].x, y:state.pos[2].y}, {x:state.pos[3].x, y:state.pos[3].y}]
+            state.offsetY++;
+            for (let i = 0; i < 4; i++) {
+                state.pos[i].y++;
+            }
+            return { ...state, oldPos: state.oldPos, pos: state.pos };
             return { ...state, offsetY: state.offsetY + 1 };
         case actions.ROTATE_TETRIMINOS:
             return { ...state, shape: action.rotatedTetriminos };
