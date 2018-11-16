@@ -99,10 +99,11 @@ export const moveLeft = () => {
 export const moveTetriminos = (direction) => (
     function (dispatch, getState) {
         const { gameStatus, currentTetriminos, nextTetriminos } = getState();
-        let nextMove = false;
+        let nextMove = null;
 
         nextMove = checkCollision( currentTetriminos.shape, currentTetriminos.pos)
         
+        console.log(nextMove);
         if (nextMove === 'dropped')
             return dispatch(newTetriminos(currentTetriminos, nextTetriminos))
         
@@ -160,24 +161,27 @@ export const loadGame = () => {
         // }
         setInterval(() => {
             dropTetriminos(dispatch, getState);
-        }, 1000);
+        }, 1000);<AwesomeButton cssModule={AwesomeButtonStyles} type='primary' action={(element, next) => props.onClick(next)}>
+        //     {props.title}
+        // </AwesomeButton>
         window.addEventListener('keydown', handleMove);
         // window.addEventListener('keydown', handleRotation);
     }
 };
 
 const checkCollision = (arr, pos) => {
+    let check = {x: true, y: true};
     for (let i = 0; i < 4; i++) {
         // if (arr[pos[i].x][pos[i].y] !== 0)
         //     return false;
-        if (pos[i].x >= 19)
-            return 'dropped'
+        if (pos[i].x === 19)
+            check.x = false;
         else if (pos[i].y <= 0)
-            return 'leftEdge';
+            check.y = false;
         else if (pos[i].y >= 9)
-            return 'rightEdge'
+            check.y = false;
     }
-    return true;
+    return check;
 }
 
 const dropTetriminos = (dispatch, getState) => {

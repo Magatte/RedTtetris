@@ -13,7 +13,7 @@ const Board = (props) => {
             arr[oldPos[i].x][oldPos[i].y] = 0;
         }
         for (let i = 0; i < 4; i++) {
-            arr[pos[i].x][pos[i].y] = 1
+            arr[pos[i].x][pos[i].y] = 1;
         }
     }
 
