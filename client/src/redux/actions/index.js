@@ -161,7 +161,7 @@ export const loadGame = () => {
         // }
         setInterval(() => {
             dropTetriminos(dispatch, getState);
-        }, 1000);<AwesomeButton cssModule={AwesomeButtonStyles} type='primary' action={(element, next) => props.onClick(next)}>
+        }, 1000);
         //     {props.title}
         // </AwesomeButton>
         window.addEventListener('keydown', handleMove);
