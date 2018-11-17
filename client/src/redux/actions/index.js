@@ -106,11 +106,14 @@ export const rotate = () => {
 export const moveTetriminos = (direction) => (
     function (dispatch, getState) {
         const { gameStatus, currentTetriminos, nextTetriminos } = getState();
+        let state = getState();
         let edge = null;
 
         edge = checkCollision( currentTetriminos.shape, currentTetriminos.pos)
-        if (edge.xb === false)
-            return setTimeout(dispatch(newTetriminos(currentTetriminos, nextTetriminos)), 1000);
+        if (edge.xb === false && state.lastMove) {
+            state.lastMove = false;
+            return dispatch(newTetriminos(currentTetriminos, nextTetriminos));
+        }
 
         if (gameStatus === 'PAUSED' || gameStatus === 'GAME_OVER' )
             return ;
@@ -119,6 +122,8 @@ export const moveTetriminos = (direction) => (
             case 'down':
                 if (edge.xb === true)
                     dispatch(moveDown());
+                else
+                    state.lastMove = true;
                 break ;
             case 'right':
                 if (edge.yr === true)
@@ -141,6 +146,8 @@ export const moveTetriminos = (direction) => (
 export const loadGame = () => {
     console.log('About to start the game...');
     return (dispatch, getState) => {
+        let state = getState();
+        state.lastMove = false;
         dispatch(startGame());
         const handleMove = (e) => {
             e.preventDefault();
