@@ -10,6 +10,7 @@ export const FREEZE_LINE = 'FREEZE_LINE';
 export const MOVE_DOWN = 'MOVE_DOWN';
 export const MOVE_RIGHT = 'MOVE_RIGHT';
 export const MOVE_LEFT = 'MOVE_LEFT';
+export const ROTATE = 'ROTATE';
 export const ROTATE_TETRIMINOS = 'ROTATE_TETRIMINOS';
 export const NEW_TETRIMINOS = 'NEW_TETRIMINOS';
 
@@ -96,33 +97,40 @@ export const moveLeft = () => {
     }
 };
 
+export const rotate = () => {
+    return {
+        type: ROTATE_TETRIMINOS
+    }
+};
+
 export const moveTetriminos = (direction) => (
     function (dispatch, getState) {
         const { gameStatus, currentTetriminos, nextTetriminos } = getState();
-        let nextMove = null;
+        let edge = null;
 
-        nextMove = checkCollision( currentTetriminos.shape, currentTetriminos.pos)
-        
-        console.log(nextMove);
-        if (nextMove === 'dropped')
+        edge = checkCollision( currentTetriminos.shape, currentTetriminos.pos)
+        if (edge.x === false)
             return dispatch(newTetriminos(currentTetriminos, nextTetriminos))
-        
+
         if (gameStatus === 'PAUSED' || gameStatus === 'GAME_OVER' )
             return ;
 
         switch(direction) {
             case 'down':
-                if (nextMove !== 'dropped')
+                if (edge.x === true)
                     dispatch(moveDown());
                 break ;
             case 'right':
-                if (nextMove !== 'rightEdge')
+                if (edge.yr === true)
                     dispatch(moveRight());
                 break ;
             case 'left':
-                if (nextMove !== 'leftEdge')
+                if (edge.yl === true)
                     dispatch(moveLeft());
                 break ;
+            case 'rotate':
+                dispatch(rotate())
+                break;
             default:
                 return ;
         }
@@ -135,10 +143,14 @@ export const loadGame = () => {
         dispatch(startGame());
         const handleMove = (e) => {
             e.preventDefault();
+            console.log('code', e.keyCode)
             switch(e.keyCode) {
                 case 37:
                     dispatch(moveTetriminos('left'));
                     break ;
+                case 38:
+                    dispatch(moveTetriminos('rotate'));
+                    break;
                 case 39:
                     dispatch(moveTetriminos('right'));
                     break ;
@@ -149,39 +161,28 @@ export const loadGame = () => {
                     break ;
             }
         }
-        // function handleRotation(e) {
-        //     e.preventDefault();
-        //     switch(e.keyCode) {
-        //         case 38:
-        //             dispatch(rotateTetriminos());
-        //             break ;
-        //         default:
-        //             break ;
-        //     }
-        // }
         setInterval(() => {
             dropTetriminos(dispatch, getState);
         }, 1000);
         //     {props.title}
         // </AwesomeButton>
         window.addEventListener('keydown', handleMove);
-        // window.addEventListener('keydown', handleRotation);
     }
 };
 
 const checkCollision = (arr, pos) => {
-    let check = {x: true, y: true};
+    let edge = {x: true, yl: true, yr: true};
     for (let i = 0; i < 4; i++) {
         // if (arr[pos[i].x][pos[i].y] !== 0)
         //     return false;
-        if (pos[i].x === 19)
-            check.x = false;
+        if (pos[i].x >= 19)
+            edge.x = false;
         else if (pos[i].y <= 0)
-            check.y = false;
+            edge.yl = false;
         else if (pos[i].y >= 9)
-            check.y = false;
+            edge.yr = false;
     }
-    return check;
+    return edge;
 }
 
 const dropTetriminos = (dispatch, getState) => {
