@@ -2,16 +2,6 @@ import { combineReducers } from 'redux';
 import gameConstants from '../constants/gameConstants.js';
 import * as actions from '../actions/index.js';
 
-
-const rotateTetriminos = (cx, cy, x, y) =>{
-    const radians = (Math.PI / 180) * 90,
-        cos = Math.cos(radians),
-        sin = Math.sin(radians),
-        nx = Math.round((cos * (x - cx)) + (sin * (y - cy)) + cx),
-        ny = Math.round((cos * (y - cy)) - (sin * (x - cx)) + cy);
-    return [nx, ny];
-}
-
 const { initialGrid, tetriminos } = gameConstants;
 
 const gameStatus = (state = 'IDLE', action) => {
@@ -98,16 +88,19 @@ const currentTetriminos = (state = {}, action) => {
             }
             return { ...state, oldPos: state.oldPos, pos: state.pos };
         case actions.ROTATE_TETRIMINOS:
-            const cx = state.pos[2].x
-            const cy = state.pos[2].y
-            for(let i = 0 ; i < 4 ; i++){
+            const cx = state.pos[2].x;
+            const cy = state.pos[2].y;
+
+            // state.oldPos = [{x:state.pos[0].x, y:state.pos[0].y}, {x:state.pos[1].x, y:state.pos[1].y}, {x:state.pos[2].x, y:state.pos[2].y}, {x:state.pos[3].x, y:state.pos[3].y}]
+
+            for (let i = 0 ; i < 4 ; i++) {
                 state.oldPos[i].x = state.pos[i].x
                 state.oldPos[i].y = state.pos[i].y
             }
-            for(let i = 0 ; i < 4 ; i++){
+            for (let i = 0 ; i < 4 ; i++) {
                 const newCoods = rotateTetriminos(cx,cy, state.pos[i].x, state.pos[i].y)
-                state.pos[i].x = newCoods[0]
-                state.pos[i].y = newCoods[1]
+                state.pos[i].x = newCoods[0];
+                state.pos[i].y = newCoods[1];
             }
             //return { ...state, shape: action.rotatedTetriminos };
             return { ...state, pos:state.pos};
@@ -115,6 +108,15 @@ const currentTetriminos = (state = {}, action) => {
             return state;
     }
 };
+
+const rotateTetriminos = (cx, cy, x, y) =>{
+    const radians = (Math.PI / 180) * 90,
+        cos = Math.cos(radians),
+        sin = Math.sin(radians),
+        nx = Math.round((cos * (x - cx)) + (sin * (y - cy)) + cx),
+        ny = Math.round((cos * (y - cy)) - (sin * (x - cx)) + cy);
+    return [nx, ny];
+}
 
 const gameReducers = combineReducers({
     gameStatus,

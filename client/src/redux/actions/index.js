@@ -175,15 +175,14 @@ const checkCollision = (arr, pos) => {
     for (let i = 0; i < 4; i++) {
         // if (arr[pos[i].x][pos[i].y] !== 0)
         //     return false;
-        console.log(pos.includes({x:pos[i].x + 1, y:pos[i].y}));
         let pointX = {x:pos[i].x + 1, y:pos[i].y};
         let pointYl = {x:pos[i].x, y:pos[i].y - 1};
         let pointYr = {x:pos[i].x, y:pos[i].y + 1};
-        if (pos[i].x >= 19 || (arr[pos[i].x + 1][pos[i].y] === 1 && !pos.some(pointX => {return typeof pointX == "object"})))
+        if (pos[i].x >= 19 || (arr[pos[i].x + 1][pos[i].y] === 1 && !pos.some(element => {return JSON.stringify(element) === JSON.stringify(pointX)})))
             edge.x = false;
-        else if (pos[i].y <= 0 || (arr[pos[i].x][pos[i].y - 1] === 1 && !pos.some(pointYl => {return typeof pointYl == "object"})))
+        else if (pos[i].y <= 0 || (arr[pos[i].x][pos[i].y - 1] === 1 && !pos.some(element => {return JSON.stringify(element) === JSON.stringify(pointYl)})))
             edge.yl = false;
-        else if (pos[i].y >= 9 || (arr[pos[i].x][pos[i].y + 1] === 1 && !pos.some(pointYr => {return typeof pointYr == "object"})))
+        else if (pos[i].y >= 9 || (arr[pos[i].x][pos[i].y + 1] === 1 && !pos.some(element => {return JSON.stringify(element) === JSON.stringify(pointYr)})))
             edge.yr = false;
     }
     return edge;
