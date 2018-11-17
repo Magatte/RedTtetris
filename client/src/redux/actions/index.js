@@ -178,6 +178,7 @@ const checkCollision = (arr, pos) => {
         let pointX = {x:pos[i].x + 1, y:pos[i].y};
         let pointYl = {x:pos[i].x, y:pos[i].y - 1};
         let pointYr = {x:pos[i].x, y:pos[i].y + 1};
+        // For each point of my tetriminos I check if the next square is out of bound or if it is occupied and not a point of the current tetriminos
         if (pos[i].x >= 19 || (arr[pos[i].x + 1][pos[i].y] === 1 && !pos.some(element => {return JSON.stringify(element) === JSON.stringify(pointX)})))
             edge.x = false;
         else if (pos[i].y <= 0 || (arr[pos[i].x][pos[i].y - 1] === 1 && !pos.some(element => {return JSON.stringify(element) === JSON.stringify(pointYl)})))
