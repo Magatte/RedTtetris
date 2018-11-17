@@ -109,15 +109,15 @@ export const moveTetriminos = (direction) => (
         let edge = null;
 
         edge = checkCollision( currentTetriminos.shape, currentTetriminos.pos)
-        if (edge.x === false)
-            return dispatch(newTetriminos(currentTetriminos, nextTetriminos))
+        if (edge.xb === false)
+            return setTimeout(dispatch(newTetriminos(currentTetriminos, nextTetriminos)), 1000);
 
         if (gameStatus === 'PAUSED' || gameStatus === 'GAME_OVER' )
             return ;
 
         switch(direction) {
             case 'down':
-                if (edge.x === true)
+                if (edge.xb === true)
                     dispatch(moveDown());
                 break ;
             case 'right':
@@ -129,7 +129,8 @@ export const moveTetriminos = (direction) => (
                     dispatch(moveLeft());
                 break ;
             case 'rotate':
-                dispatch(rotate())
+                if (edge.xt && edge.xb && edge.yl && edge.yr)
+                    dispatch(rotate())
                 break;
             default:
                 return ;
@@ -143,7 +144,6 @@ export const loadGame = () => {
         dispatch(startGame());
         const handleMove = (e) => {
             e.preventDefault();
-            console.log('code', e.keyCode)
             switch(e.keyCode) {
                 case 37:
                     dispatch(moveTetriminos('left'));
@@ -171,16 +171,18 @@ export const loadGame = () => {
 };
 
 const checkCollision = (arr, pos) => {
-    let edge = {x: true, yl: true, yr: true};
+    let edge = {xt: true, xb: true, yl: true, yr: true};
+    
     for (let i = 0; i < 4; i++) {
-        // if (arr[pos[i].x][pos[i].y] !== 0)
-        //     return false;
         let pointX = {x:pos[i].x + 1, y:pos[i].y};
         let pointYl = {x:pos[i].x, y:pos[i].y - 1};
         let pointYr = {x:pos[i].x, y:pos[i].y + 1};
+
         // For each point of my tetriminos I check if the next square is out of bound or if it is occupied and not a point of the current tetriminos
-        if (pos[i].x >= 19 || (arr[pos[i].x + 1][pos[i].y] === 1 && !pos.some(element => {return JSON.stringify(element) === JSON.stringify(pointX)})))
-            edge.x = false;
+        if (pos[i].x <= 0)
+            edge.xt = false;
+        else if (pos[i].x >= 19 || (arr[pos[i].x + 1][pos[i].y] === 1 && !pos.some(element => {return JSON.stringify(element) === JSON.stringify(pointX)})))
+            edge.xb = false;
         else if (pos[i].y <= 0 || (arr[pos[i].x][pos[i].y - 1] === 1 && !pos.some(element => {return JSON.stringify(element) === JSON.stringify(pointYl)})))
             edge.yl = false;
         else if (pos[i].y >= 9 || (arr[pos[i].x][pos[i].y + 1] === 1 && !pos.some(element => {return JSON.stringify(element) === JSON.stringify(pointYr)})))
