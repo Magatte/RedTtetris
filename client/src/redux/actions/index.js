@@ -12,6 +12,7 @@ export const MOVE_RIGHT = 'MOVE_RIGHT';
 export const MOVE_LEFT = 'MOVE_LEFT';
 export const ROTATE = 'ROTATE';
 export const ROTATE_TETRIMINOS = 'ROTATE_TETRIMINOS';
+export const HARD_DROP = 'HARD_DROP';
 export const NEW_TETRIMINOS = 'NEW_TETRIMINOS';
 
 export const newTetriminos = (currentTetriminos, nextTetriminos) => {
@@ -103,6 +104,12 @@ export const rotate = () => {
     }
 };
 
+export const hardDrop = () =>{
+    return {
+        type: HARD_DROP
+    }
+}
+
 export const moveTetriminos = (direction) => (
     function (dispatch, getState) {
         const { gameStatus, currentTetriminos, nextTetriminos } = getState();
@@ -112,7 +119,7 @@ export const moveTetriminos = (direction) => (
         if (edge.x === false)
             return dispatch(newTetriminos(currentTetriminos, nextTetriminos))
 
-        if (gameStatus === 'PAUSED' || gameStatus === 'GAME_OVER' )
+        if (gameStatus === 'PAUSED' || gameStatus === 'GAME_OVER'  )
             return ;
 
         switch(direction) {
@@ -129,7 +136,13 @@ export const moveTetriminos = (direction) => (
                     dispatch(moveLeft());
                 break ;
             case 'rotate':
+                if(currentTetriminos.name === 'square'){
+                    return ;
+                }
                 dispatch(rotate())
+                break;
+            case 'drop':
+                dispatch(hardDrop())
                 break;
             default:
                 return ;
@@ -145,6 +158,9 @@ export const loadGame = () => {
             e.preventDefault();
             console.log('code', e.keyCode)
             switch(e.keyCode) {
+                case 32:
+                    dispatch(moveTetriminos('drop'));
+                    break ;
                 case 37:
                     dispatch(moveTetriminos('left'));
                     break ;
