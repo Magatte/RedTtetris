@@ -8,18 +8,18 @@ import { bindActionCreators } from 'redux';
 
 const methods = {
     componentDidMount(props) {
-    } 
+    }
 };
 
 
 const Game = (props) => {
     const squares = props.gameStatus === 'IDLE' || props.gameStatus === undefined ? props.emptyGrid : props.currentTetriminos.shape;
-    
+
     const switchAction = () => {
         console.log('Switch');
         if (props.gameStatus === 'PLAYING') {
             props.pauseGame();
-            return 
+            return
         }
         return props.unpauseGame();
     }
@@ -27,18 +27,19 @@ const Game = (props) => {
     return (
         <div className='game'>
             <div className='game-board'>
-                <Board 
+                <Board
                     squares={squares}
                     pos={props.currentTetriminos.pos}
                     oldPos={props.currentTetriminos.oldPos}
                     status={props.gameStatus}
                     color={props.currentColor}
+                    ghost={props.currentTetriminos.ghost}
                     /* TODO : add tetriminos to get the shape */
                 />
             </div>
             <div className='game-info'>
                 <div className='menu'>console.log(squares);
-                    <Menu 
+                    <Menu
                         pauseTitle={props.gameStatus === 'PAUSED' ? 'UNPAUSE' : 'PAUSE'}
                         loadGame={props.loadGame}
                         pauseGame={props.gameStatus === 'PAUSED' ? props.unpauseGame : props.pauseGame}

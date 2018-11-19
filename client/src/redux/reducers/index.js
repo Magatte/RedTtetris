@@ -102,7 +102,6 @@ const currentTetriminos = (state = {}, action) => {
                 state.pos[i].x = newCoods[0];
                 state.pos[i].y = newCoods[1];
             }
-            //return { ...state, shape: action.rotatedTetriminos };
             return { ...state, pos:state.pos};
         default:
             return state;
