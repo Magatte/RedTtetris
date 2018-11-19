@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import gameConstants from '../constants/gameConstants.js';
 import * as actions from '../actions/index.js';
 
-const { initialGrid, tetriminos } = gameConstants;
+const { initialGrid, tetriminos , newLine} = gameConstants;
 
 const gameStatus = (state = 'IDLE', action) => {
     switch(action.type) {
@@ -67,10 +67,13 @@ const currentTetriminos = (state = {}, action) => {
         case actions.NEW_TETRIMINOS:
             let nextTetri = action.nextTetriminos;
             let initialPos = tetriminos[nextTetri.name].initialPos;
+            if(shape !== undefined){
+                shape = checkArray(shape)
+            }
             nextTetri.pos = [ {x:initialPos[0].x, y:initialPos[0].y}, {x:initialPos[1].x, y:initialPos[1].y}, {x:initialPos[2].x, y:initialPos[2].y}, {x:initialPos[3].x, y:initialPos[3].y} ];
             ghost = getGhost(state.pos, shape)
 
-            return { ...nextTetri , ghost:ghost};
+            return { ...nextTetri , ghost:ghost, shape:shape};
         case actions.MOVE_DOWN:
             state.oldPos = [{x:state.pos[0].x, y:state.pos[0].y}, {x:state.pos[1].x, y:state.pos[1].y}, {x:state.pos[2].x, y:state.pos[2].y}, {x:state.pos[3].x, y:state.pos[3].y}]
             state.offsetX++;
@@ -89,7 +92,7 @@ const currentTetriminos = (state = {}, action) => {
 
             }
             ghost = getGhost(state.pos, shape)
-            return { ...state, oldPos: state.oldPos, pos: state.pos, ghost:ghost };
+            return { ...state, oldPos: state.oldPos, pos: state.pos, ghost:ghost};
 
         case actions.MOVE_RIGHT:
             state.oldPos = [{x:state.pos[0].x, y:state.pos[0].y}, {x:state.pos[1].x, y:state.pos[1].y}, {x:state.pos[2].x, y:state.pos[2].y}, {x:state.pos[3].x, y:state.pos[3].y}]
@@ -98,7 +101,7 @@ const currentTetriminos = (state = {}, action) => {
                 state.pos[i].y++;
             }
             ghost = getGhost(state.pos, shape)
-            return { ...state, oldPos: state.oldPos, pos: state.pos, ghost:ghost };
+            return { ...state, oldPos: state.oldPos, pos: state.pos, ghost:ghost};
 
         case actions.ROTATE_TETRIMINOS:
             const cx = state.pos[2].x;
@@ -114,7 +117,7 @@ const currentTetriminos = (state = {}, action) => {
                 state.pos[i].y = newCoods[1];
             }
             ghost = getGhost(state.pos, shape)
-            return { ...state, pos:state.pos,ghost:ghost };
+            return { ...state, pos:state.pos,ghost:ghost, shape:shape };
         case actions.HARD_DROP:
 
             state.oldPos = [{x:state.pos[0].x, y:state.pos[0].y}, {x:state.pos[1].x, y:state.pos[1].y}, {x:state.pos[2].x, y:state.pos[2].y}, {x:state.pos[3].x, y:state.pos[3].y}]
@@ -125,6 +128,38 @@ const currentTetriminos = (state = {}, action) => {
                     return state;
     }
 };
+
+
+const checkLinesIsFull = (lines) =>{
+
+    for(let i = 0; i < 10 ; i++){
+        if(lines[i] === 0 || lines[i] === 8){
+            return false
+        }
+    }
+    return true
+}
+
+const checkArray = (array) =>{
+
+    let linesIndexToDelete=[]
+
+    for(let i = 0; i < 20 ; i++){
+        if(checkLinesIsFull(array[i])){
+            linesIndexToDelete.push(i)
+        }
+    }
+
+    if(linesIndexToDelete.length !== 0){
+       for( let i = linesIndexToDelete.length -1 ; i >= 0; i--){
+           array.splice(linesIndexToDelete[i], 1)
+       }
+        array.unshift(newLine)
+    }
+    return array
+
+
+}
 
 const checkPiece = (arr, pos, diff) => {
     let edge = {x: true, yl: true, yr: true};
@@ -156,7 +191,6 @@ const checkPlace = (tmpPos, arr, diff) => {
 }
 
 const getGhost = (pos, arr) =>{
-
 
     let canPlace = false
     let realDiff = null
