@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import gameConstants from '../constants/gameConstants.js';
 import * as actions from '../actions/index.js';
 
-const { initialGrid, tetriminos , newLine} = gameConstants;
+const { initialGrid, tetriminos, newLine } = gameConstants;
 
 const gameStatus = (state = 'IDLE', action) => {
     switch(action.type) {
@@ -149,18 +149,23 @@ const checkArray = (array) =>{
             linesIndexToDelete.push(i)
         }
     }
-
     if(linesIndexToDelete.length !== 0){
        for( let i = linesIndexToDelete.length -1 ; i >= 0; i--){
            array.splice(linesIndexToDelete[i], 1)
        }
-        array.unshift(newLine)
+
+       console.log('array.lehght before',array.length , array )
+       for (let line = array.length ; line < 20 ; line++ ){
+           array.unshift( newLine)
+       }
+        console.log('array.lehght after',array.length , array )
+
+
     }
     return array
 
 
 }
-
 const checkPiece = (arr, pos, diff) => {
     let edge = {x: true, yl: true, yr: true};
     for (let i = 0; i < 4; i++) {
@@ -179,6 +184,7 @@ const checkPiece = (arr, pos, diff) => {
     }
     return edge;
 }
+
 const checkPlace = (tmpPos, arr, diff) => {
 
     for (let i = 0; i < 4; i++) {
@@ -196,7 +202,7 @@ const getGhost = (pos, arr) =>{
     let realDiff = null
     for( let i = 0 ; i < 20; i++){
       for(let j = 0 ; j < 10 ; j++){
-        if( arr[i][j] === 8){
+          if( arr[i][j] === 8){
           arr[i][j] = 0
         }
       }
