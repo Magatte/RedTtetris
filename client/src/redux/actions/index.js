@@ -21,7 +21,7 @@ export const newTetriminos = (currentTetriminos, nextTetriminos) => {
 
     return {
         type: NEW_TETRIMINOS,
-        // currentTetriminos,
+        currentTetriminos,
         // color: currentTetriminos.color,
         nextTetriminos,
         nextShape

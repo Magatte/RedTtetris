@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
+import _ from 'lodash';
 import gameConstants from '../constants/gameConstants.js';
 import * as actions from '../actions/index.js';
 
-const { initialGrid, tetriminos } = gameConstants;
+const { tetriminos } = gameConstants;
+let { initialGrid } = gameConstants;
 
 const gameStatus = (state = 'IDLE', action) => {
     switch(action.type) {
@@ -26,7 +28,9 @@ const activeTetriminos = (state = initialGrid, action) => {
         case actions.START_GAME:
             return state; // TODO a new cleared grid
         case actions.NEW_TETRIMINOS:
-            return initialGrid;
+            initialGrid = getNewGrid(initialGrid, action.currentTetriminos);
+            return initialGrid; // Every time we get a new tetriminos we actualise the grid
+            //return getNewGrid(initialGrid, action.currentTetriminos, actio.color);
         default:
             return state;
     }
@@ -116,6 +120,12 @@ const rotateTetriminos = (cx, cy, x, y) =>{
         nx = Math.round((cos * (x - cx)) + (sin * (y - cy)) + cx),
         ny = Math.round((cos * (y - cy)) - (sin * (x - cx)) + cy);
     return [nx, ny];
+}
+
+const getNewGrid = (grid, currentTetriminos) => {
+    let newGrid = _.merge(grid, currentTetriminos.shape);
+    console.log(newGrid);
+    return newGrid;
 }
 
 const gameReducers = combineReducers({

@@ -1,4 +1,4 @@
-const initialGrid = Array(20).fill(null).map(() => Array(10).fill(null));
+const initialGrid = Array(20).fill(0).map(() => Array(10).fill(0));
 
 export default {
     shapeTypes: [
