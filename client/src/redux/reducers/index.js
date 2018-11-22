@@ -26,10 +26,12 @@ const gameStatus = (state = 'IDLE', action) => {
 const activeTetriminos = (state = initialGrid, action) => {
     switch(action.type) {
         case actions.START_GAME:
-            return state; // TODO a new cleared grid
+        return initialGrid; // TODO a new cleared grid
         case actions.NEW_TETRIMINOS:
-            initialGrid = getNewGrid(initialGrid, action.currentTetriminos);
-            return initialGrid; // Every time we get a new tetriminos we actualise the grid
+            console.log('MY STATE');
+            console.log(state);
+            return getNewGrid(state, action.currentTetriminos, action.nextTetriminos);
+            // Every time we get a new tetriminos we actualise the grid
             //return getNewGrid(initialGrid, action.currentTetriminos, actio.color);
         default:
             return state;
@@ -67,8 +69,7 @@ const currentTetriminos = (state = {}, action) => {
             let nextTetri = action.nextTetriminos;
             let initialPos = tetriminos[nextTetri.name].initialPos;
             nextTetri.pos = [ {x:initialPos[0].x, y:initialPos[0].y}, {x:initialPos[1].x, y:initialPos[1].y}, {x:initialPos[2].x, y:initialPos[2].y}, {x:initialPos[3].x, y:initialPos[3].y} ];
-            console.log(nextTetri);
-            return { ...nextTetri };
+            return nextTetri;
         case actions.MOVE_DOWN:
             state.oldPos = [{x:state.pos[0].x, y:state.pos[0].y}, {x:state.pos[1].x, y:state.pos[1].y}, {x:state.pos[2].x, y:state.pos[2].y}, {x:state.pos[3].x, y:state.pos[3].y}]
             state.offsetX++;
@@ -122,8 +123,16 @@ const rotateTetriminos = (cx, cy, x, y) =>{
     return [nx, ny];
 }
 
-const getNewGrid = (grid, currentTetriminos) => {
-    let newGrid = _.merge(grid, currentTetriminos.shape);
+const getNewGrid = (grid, currentTetriminos, nextTetriminos) => {
+    let newGrid = grid.map((row, i, arr) => {
+        row.map((sq, j) => {
+            if (currentTetriminos.shape[i][j] === 1)
+                arr[i][j] = 1;
+            return arr[i][j];
+        });
+        return row;
+    });    
+    console.log('NEW GRID');
     console.log(newGrid);
     return newGrid;
 }
