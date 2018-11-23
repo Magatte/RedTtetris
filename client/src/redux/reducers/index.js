@@ -2,9 +2,9 @@ import { combineReducers } from 'redux';
 import _ from 'lodash';
 import gameConstants from '../constants/gameConstants.js';
 import * as actions from '../actions/index.js';
+import { rotateTetriminos, getNewGrid } from '../../utils/functions.js';
 
-const { tetriminos } = gameConstants;
-let { initialGrid } = gameConstants;
+const { tetriminos, initialGrid } = gameConstants;
 
 const gameStatus = (state = 'IDLE', action) => {
     switch(action.type) {
@@ -30,7 +30,7 @@ const activeTetriminos = (state = initialGrid, action) => {
         case actions.NEW_TETRIMINOS:
             console.log('MY STATE');
             console.log(state);
-            return getNewGrid(state, action.currentTetriminos, action.nextTetriminos);
+            return getNewGrid(state, action.currentTetriminos);
             // Every time we get a new tetriminos we actualise the grid
             //return getNewGrid(initialGrid, action.currentTetriminos, actio.color);
         default:
@@ -113,29 +113,6 @@ const currentTetriminos = (state = {}, action) => {
             return state;
     }
 };
-
-const rotateTetriminos = (cx, cy, x, y) =>{
-    const radians = (Math.PI / 180) * 90,
-        cos = Math.cos(radians),
-        sin = Math.sin(radians),
-        nx = Math.round((cos * (x - cx)) + (sin * (y - cy)) + cx),
-        ny = Math.round((cos * (y - cy)) - (sin * (x - cx)) + cy);
-    return [nx, ny];
-}
-
-const getNewGrid = (grid, currentTetriminos, nextTetriminos) => {
-    let newGrid = grid.map((row, i, arr) => {
-        row.map((sq, j) => {
-            if (currentTetriminos.shape[i][j] === 1)
-                arr[i][j] = 1;
-            return arr[i][j];
-        });
-        return row;
-    });    
-    console.log('NEW GRID');
-    console.log(newGrid);
-    return newGrid;
-}
 
 const gameReducers = combineReducers({
     gameStatus,

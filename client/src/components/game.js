@@ -1,10 +1,11 @@
-import React from 'react';
+    import React from 'react';
 import { connect } from 'react-redux';
 import lifecycle from 'react-pure-lifecycle';
+import { bindActionCreators } from 'redux';
 import Board from './board.js';
 import { loadGame, pauseGame, unpauseGame } from '../redux/actions';
 import Menu from './menu.js';
-import { bindActionCreators } from 'redux';
+import { getNewGrid } from '../utils/functions.js';
 
 const methods = {
     componentDidMount(props) {
@@ -13,7 +14,7 @@ const methods = {
 
 
 const Game = (props) => {
-    const squares = props.gameStatus === 'IDLE' || props.gameStatus === undefined ? props.emptyGrid : props.currentTetriminos.shape;
+    const squares = props.gameStatus === 'IDLE' || props.gameStatus === undefined ? props.activeTetriminos : getNewGrid(props.activeTetriminos, props.currentTetriminos.shape);
     
     const switchAction = () => {
         console.log('Switch');
@@ -37,7 +38,7 @@ const Game = (props) => {
                 />
             </div>
             <div className='game-info'>
-                <div className='menu'>console.log(squares);
+                <div className='menu'>
                     <Menu 
                         pauseTitle={props.gameStatus === 'PAUSED' ? 'UNPAUSE' : 'PAUSE'}
                         loadGame={props.loadGame}
@@ -53,7 +54,7 @@ const Game = (props) => {
 const mapStateToProps = state => {
     return {
         gameStatus: state.gameStatus,
-        emptyGrid: state.activeTetriminos,
+        activeTetriminos: state.activeTetriminos,
         currentTetriminos: state.currentTetriminos,
         currentColor: state.currentTetriminos.color,
         nextTetriminos: state.nextTetriminos,
