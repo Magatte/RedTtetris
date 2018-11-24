@@ -69,22 +69,22 @@ const currentTetriminos = (state = {}, action) => {
         case actions.NEW_TETRIMINOS:
             let nextTetri = action.nextTetriminos;
             let initialPos = tetriminos[nextTetri.name].initialPos;
-            nextTetri.pos = [ {x:initialPos[0].x, y:initialPos[0].y}, {x:initialPos[1].x, y:initialPos[1].y}, {x:initialPos[2].x, y:initialPos[2].y}, {x:initialPos[3].x, y:initialPos[3].y} ];
+            nextTetri.pos = _.merge(nextTetri.pos, initialPos);
             return nextTetri;
         case actions.MOVE_DOWN:
-            state.oldPos = [{x:state.pos[0].x, y:state.pos[0].y}, {x:state.pos[1].x, y:state.pos[1].y}, {x:state.pos[2].x, y:state.pos[2].y}, {x:state.pos[3].x, y:state.pos[3].y}];
+            state.oldPos = _.merge(state.oldPos, state.pos);
             state.offsetX++;
             for (let i = 0; i < 4; i++)
                 state.pos[i].x++;
             return { ...state, oldPos: state.oldPos, pos: state.pos };
         case actions.MOVE_LEFT:
-            state.oldPos = [{x:state.pos[0].x, y:state.pos[0].y}, {x:state.pos[1].x, y:state.pos[1].y}, {x:state.pos[2].x, y:state.pos[2].y}, {x:state.pos[3].x, y:state.pos[3].y}]
+            state.oldPos = _.merge(state.oldPos, state.pos);
             state.offsetY--;
             for (let i = 0; i < 4; i++)
                 state.pos[i].y--;
             return { ...state, oldPos: state.oldPos, pos: state.pos };
         case actions.MOVE_RIGHT:
-            state.oldPos = [{x:state.pos[0].x, y:state.pos[0].y}, {x:state.pos[1].x, y:state.pos[1].y}, {x:state.pos[2].x, y:state.pos[2].y}, {x:state.pos[3].x, y:state.pos[3].y}]
+            state.oldPos = _.merge(state.oldPos, state.pos);
             state.offsetY++;
             for (let i = 0; i < 4; i++)
                 state.pos[i].y++;
