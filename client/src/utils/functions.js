@@ -2,18 +2,18 @@ import { startGame, newTetriminos, rotate, moveDown, moveLeft, moveRight } from 
 
 export const moveTetriminos = (direction) => (
     function (dispatch, getState) {
-        const { gameStatus, currentTetriminos, nextTetriminos } = getState();
+        const { gameStatus, activeTetriminos, currentTetriminos, nextTetriminos } = getState();
         let state = getState();
         let edge = null;
+        
+        if (gameStatus === 'PAUSED' || gameStatus === 'GAME_OVER' )
+            return ;
 
-        edge = checkCollision( currentTetriminos.shape, currentTetriminos.pos)
+        edge = checkCollision(activeTetriminos, currentTetriminos.pos)
         if (edge.xb === false && state.lastMove) {
             state.lastMove = false;
             return dispatch(newTetriminos(currentTetriminos, nextTetriminos));
         }
-
-        if (gameStatus === 'PAUSED' || gameStatus === 'GAME_OVER' )
-            return ;
 
         switch(direction) {
             case 'down':

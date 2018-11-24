@@ -1,4 +1,4 @@
-    import React from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import lifecycle from 'react-pure-lifecycle';
 import { bindActionCreators } from 'redux';
@@ -15,7 +15,7 @@ const methods = {
 
 
 const Game = (props) => {
-    const squares = props.gameStatus === 'IDLE' || props.gameStatus === undefined ? props.activeTetriminos : getNewGrid(props.activeTetriminos, props.currentTetriminos);
+    // const squares = props.gameStatus === 'IDLE' || props.gameStatus === undefined ? props.activeTetriminos : getNewGrid(props.activeTetriminos, props.currentTetriminos);
     
     const switchAction = () => {
         console.log('Switch');
@@ -30,7 +30,7 @@ const Game = (props) => {
         <div className='game'>
             <div className='game-board'>
                 <Board 
-                    squares={squares}
+                    squares={props.activeTetriminos}
                     pos={props.currentTetriminos.pos}
                     oldPos={props.currentTetriminos.oldPos}
                     status={props.gameStatus}
