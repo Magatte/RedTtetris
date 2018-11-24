@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import lifecycle from 'react-pure-lifecycle';
 import { bindActionCreators } from 'redux';
 import Board from './board.js';
-import { loadGame, pauseGame, unpauseGame } from '../redux/actions';
+import { loadGame } from '../utils/functions.js';
+import { pauseGame, unpauseGame } from '../redux/actions';
 import Menu from './menu.js';
 import { getNewGrid } from '../utils/functions.js';
 
@@ -14,7 +15,7 @@ const methods = {
 
 
 const Game = (props) => {
-    const squares = props.gameStatus === 'IDLE' || props.gameStatus === undefined ? props.activeTetriminos : getNewGrid(props.activeTetriminos, props.currentTetriminos.shape);
+    const squares = props.gameStatus === 'IDLE' || props.gameStatus === undefined ? props.activeTetriminos : getNewGrid(props.activeTetriminos, props.currentTetriminos);
     
     const switchAction = () => {
         console.log('Switch');
