@@ -1,33 +1,37 @@
 import React from 'react';
 import Square from './square.js';
+import gameConstants from '../redux/constants/gameConstants.js';
+const { shapeTypes, colors } = gameConstants;
 
 const Board = (props) => {
-
+    
     const setNewPosition = (arr) => {
         let pos = props.pos;
         let oldPos = props.oldPos;
-
+        
         if (!pos || !oldPos)
-            return ;
+        return ;
         for (let i = 0; i < 4; i++) {
             arr[oldPos[i].x][oldPos[i].y] = 0;
         }
         for (let i = 0; i < 4; i++) {
-            arr[pos[i].x][pos[i].y] = 1;
+            arr[pos[i].x][pos[i].y] = shapeTypes.indexOf(props.name) + 1;
         }
     }
-
+    
     const renderSquare = (x, y, key) => {
+        let index = shapeTypes.indexOf(props.name) + 1;
         return (
             <Square
                 key={key}
-                color= { props.squares[x][y] === 1 ? props.color : '#fff' }
+                color={colors[props.squares[x][y]]}
             />
         );
     };
 
     const createBoard = () => {
         const b = props.squares;
+        // console.log(shapeTypes.indexOf(props.name) + 1);
 
         setNewPosition(b);
         const board = b.map((row, j) => {

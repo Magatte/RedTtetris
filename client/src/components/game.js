@@ -7,6 +7,9 @@ import { loadGame } from '../utils/functions.js';
 import { pauseGame, unpauseGame } from '../redux/actions';
 import Menu from './menu.js';
 import { getNewGrid } from '../utils/functions.js';
+import gameConstants from '../redux/constants/gameConstants.js';
+
+const { colors } = gameConstants;
 
 const methods = {
     componentDidMount(props) {
@@ -26,15 +29,18 @@ const Game = (props) => {
         return props.unpauseGame();
     }
 
+    console.log('ACTIVE TETRIMINOS');
+    console.log(props.activeTetriminos);
     return (
         <div className='game'>
             <div className='game-board'>
                 <Board 
                     squares={props.activeTetriminos}
+                    name={props.currentTetriminos.name}
                     pos={props.currentTetriminos.pos}
                     oldPos={props.currentTetriminos.oldPos}
                     status={props.gameStatus}
-                    color={props.currentColor}
+                    // color={props.currentColor}
                     /* TODO : add tetriminos to get the shape */
                 />
             </div>
