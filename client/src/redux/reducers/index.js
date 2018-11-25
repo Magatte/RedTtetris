@@ -27,6 +27,7 @@ const activeTetriminos = (state = initialGrid, action) => {
     switch(action.type) {
         case actions.START_GAME:
             let currentTetriminos = tetriminos[action.currentShape];
+            currentTetriminos.name = action.currentShape;
             return getNewGrid(initialGrid, currentTetriminos); // TODO a new cleared grid
         case actions.NEW_TETRIMINOS:
             // Every time we get a new tetriminos we actualise the grid

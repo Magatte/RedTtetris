@@ -52,15 +52,15 @@ export const rotateTetriminos = (cx, cy, x, y) => {
 }
 
 export const getNewGrid = (grid, currentTetriminos) => {
-    let index = shapeTypes.indexOf(currentTetriminos.name + 1);
+    let index = shapeTypes.indexOf(currentTetriminos.name) + 1;
     let newGrid = grid.map((row, i, arr) => {
         row.map((sq, j) => {
-            if (currentTetriminos.shape[i][j] === 1)
+            if (currentTetriminos.shape[i][j] === index) 
                 arr[i][j] = index; // TO DO
-            return arr[i][j];
+            return sq;
         });
         return row;
-    });    
+    });
     return newGrid;
 }
 

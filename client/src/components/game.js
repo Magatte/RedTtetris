@@ -18,7 +18,6 @@ const methods = {
 
 
 const Game = (props) => {
-    // const squares = props.gameStatus === 'IDLE' || props.gameStatus === undefined ? props.activeTetriminos : getNewGrid(props.activeTetriminos, props.currentTetriminos);
     
     const switchAction = () => {
         console.log('Switch');
@@ -29,8 +28,6 @@ const Game = (props) => {
         return props.unpauseGame();
     }
 
-    console.log('ACTIVE TETRIMINOS');
-    console.log(props.activeTetriminos);
     return (
         <div className='game'>
             <div className='game-board'>
