@@ -1,5 +1,7 @@
 import gameConstants from '../constants/gameConstants';
 import store from '../store/index'
+import {socket} from "../../index";
+
 export const START_GAME = 'START_GAME';
 export const STOP_GAME = 'STOP_GAME';
 export const PAUSE_GAME = 'PAUSE_GAME';
@@ -152,6 +154,11 @@ export const moveTetriminos = (direction) => (
 
 export const loadGame = () => {
     console.log('About to start the game...');
+    socket.on('start', (data)=>{
+
+        console.log('data', data)
+    });
+
     return (dispatch, getState) => {
         dispatch(startGame());
         const handleMove = (e) => {
