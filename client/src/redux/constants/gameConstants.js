@@ -30,6 +30,7 @@ export default {
             ],
             color: 'red',
             pos: [{x:0, y:3}, {x:0, y:4}, {x:0, y:5}, {x:0, y:6}],
+            oldPos: [{x:0, y:3}, {x:0, y:4}, {x:0, y:5}, {x:0, y:6}],
             initialPos: [{x:0, y:3}, {x:0, y:4}, {x:0, y:5}, {x:0, y:6}]
         },
         square: {
@@ -57,6 +58,7 @@ export default {
             ],
             color: '#00BCD4',
             pos: [{x:0, y:4}, {x:0, y:5}, {x:1, y:4}, {x:1, y:5}],
+            oldPos: [{x:0, y:4}, {x:0, y:5}, {x:1, y:4}, {x:1, y:5}],
             initialPos: [{x:0, y:4}, {x:0, y:5}, {x:1, y:4}, {x:1, y:5}]
         },
         tee: {
@@ -84,6 +86,7 @@ export default {
             ],
             color: 'green',
             pos: [{x:0, y:5}, {x:1, y:4}, {x:1, y:5}, {x:1, y:6}],
+            oldPos: [{x:0, y:5}, {x:1, y:4}, {x:1, y:5}, {x:1, y:6}],
             initialPos: [{x:0, y:5}, {x:1, y:4}, {x:1, y:5}, {x:1, y:6}]
         },
         leftGun: {
@@ -111,6 +114,7 @@ export default {
             ],
             color: 'orange',
             pos: [{x:0, y:5}, {x:1, y:3}, {x:1, y:4}, {x:1, y:5}],
+            oldPos: [{x:0, y:5}, {x:1, y:3}, {x:1, y:4}, {x:1, y:5}],
             initialPos: [{x:0, y:5}, {x:1, y:3}, {x:1, y:4}, {x:1, y:5}]
         },
         rightGun: {
@@ -138,6 +142,7 @@ export default {
             ],
             color: 'yellow',
             pos: [{x:0, y:3}, {x:1, y:3}, {x:1, y:4}, {x:1, y:5}],
+            oldPos: [{x:0, y:3}, {x:1, y:3}, {x:1, y:4}, {x:1, y:5}],
             initialPos: [{x:0, y:3}, {x:1, y:3}, {x:1, y:4}, {x:1, y:5}]
         },
         leftSnake: {
@@ -165,6 +170,7 @@ export default {
             ],
             color: 'purple',
             pos: [{x:0, y:3}, {x:0, y:4}, {x:1, y:4}, {x:1, y:5}],
+            oldPos: [{x:0, y:3}, {x:0, y:4}, {x:1, y:4}, {x:1, y:5}],
             initialPos: [{x:0, y:3}, {x:0, y:4}, {x:1, y:4}, {x:1, y:5}]
         },
         rightSnake: {
@@ -192,6 +198,7 @@ export default {
             ],
             color: 'brown',
             pos: [{x:0, y:4}, {x:0, y:5}, {x:1, y:3}, {x:1, y:4}],
+            oldPos: [{x:0, y:4}, {x:0, y:5}, {x:1, y:3}, {x:1, y:4}],
             initialPos: [{x:0, y:4}, {x:0, y:5}, {x:1, y:3}, {x:1, y:4}]
         }
     },

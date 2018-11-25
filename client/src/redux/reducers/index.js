@@ -29,11 +29,9 @@ const activeTetriminos = (state = initialGrid, action) => {
             let currentTetriminos = tetriminos[action.currentShape];
             return getNewGrid(initialGrid, currentTetriminos); // TODO a new cleared grid
         case actions.NEW_TETRIMINOS:
-            console.log('MY STATE');
-            console.log(state);
             // Every time we get a new tetriminos we actualise the grid
             //return getNewGrid(initialGrid, action.currentTetriminos, actio.color);
-            return getNewGrid(state, action.currentTetriminos);
+            return getNewGrid(state, action.nextTetriminos);
         default:
             return state;
     }
@@ -61,7 +59,8 @@ const currentTetriminos = (state = {}, action) => {
                 shape: tetriminos[action.currentShape].shape,
                 name: action.currentShape,
                 color: tetriminos[action.currentShape].color,
-                pos: tetriminos[action.currentShape].pos
+                pos: tetriminos[action.currentShape].pos,
+                initialPos: tetriminos[action.currentShape].initialPos
             };
         case actions.NEW_TETRIMINOS:
             let nextTetri = action.nextTetriminos;
@@ -69,21 +68,21 @@ const currentTetriminos = (state = {}, action) => {
             nextTetri.pos = _.merge(nextTetri.pos, initialPos);
             return nextTetri;
         case actions.MOVE_DOWN:
-            state.oldPos = _.merge(state.oldPos, state.pos);
+            state.oldPos = _.merge([state.oldPos], state.pos);
             state.pos = state.pos.map(c => {
                 c.x++;
                 return c;
             });
             return { ...state, oldPos: state.oldPos, pos: state.pos };
         case actions.MOVE_LEFT:
-            state.oldPos = _.merge(state.oldPos, state.pos);
+            state.oldPos = _.merge([state.oldPos], state.pos);
             state.pos = state.pos.map(c => {
                 c.y--;
                 return c;
             });
             return { ...state, oldPos: state.oldPos, pos: state.pos };
         case actions.MOVE_RIGHT:
-            state.oldPos = _.merge(state.oldPos, state.pos);
+            state.oldPos = _.merge([state.oldPos], state.pos);
             state.pos = state.pos.map(c => {
                 c.y++;
                 return c;
@@ -93,7 +92,7 @@ const currentTetriminos = (state = {}, action) => {
             const cx = state.pos[2].x;
             const cy = state.pos[2].y;
 
-            state.oldPos = _.merge(state.oldPos, state.pos);
+            state.oldPos = _.merge([state.oldPos], state.pos);
             state.pos = state.pos.map((c, i) => {
                 const newCoods = rotateTetriminos(cx,cy, c.x, c.y);
                 c.x = newCoods[0];

@@ -58,8 +58,6 @@ export const getNewGrid = (grid, currentTetriminos) => {
         });
         return row;
     });    
-    console.log('NEW GRID');
-    console.log(newGrid);
     return newGrid;
 }
 
