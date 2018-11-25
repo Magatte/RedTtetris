@@ -55,9 +55,6 @@ const nextTetriminos = (state = {}, action) => {
 };
 
 const currentTetriminos = (state = {}, action) => {
-    state.offsetX = state.offsetX && state.offsetX < 19 ? state.offsetX : 0;
-    state.offsetY = state.offsetY && state.offsetY < 9 && state.offsetY >= 0 ? state.offsetY : (state.offsetY >= 9 ? 8 : 0);
-
     switch(action.type) {
         case actions.START_GAME:
             return {
@@ -73,38 +70,36 @@ const currentTetriminos = (state = {}, action) => {
             return nextTetri;
         case actions.MOVE_DOWN:
             state.oldPos = _.merge(state.oldPos, state.pos);
-            state.offsetX++;
-            for (let i = 0; i < 4; i++)
-                state.pos[i].x++;
+            state.pos = state.pos.map(c => {
+                c.x++;
+                return c;
+            });
             return { ...state, oldPos: state.oldPos, pos: state.pos };
         case actions.MOVE_LEFT:
             state.oldPos = _.merge(state.oldPos, state.pos);
-            state.offsetY--;
-            for (let i = 0; i < 4; i++)
-                state.pos[i].y--;
+            state.pos = state.pos.map(c => {
+                c.y--;
+                return c;
+            });
             return { ...state, oldPos: state.oldPos, pos: state.pos };
         case actions.MOVE_RIGHT:
             state.oldPos = _.merge(state.oldPos, state.pos);
-            state.offsetY++;
-            for (let i = 0; i < 4; i++)
-                state.pos[i].y++;
+            state.pos = state.pos.map(c => {
+                c.y++;
+                return c;
+            });
             return { ...state, oldPos: state.oldPos, pos: state.pos };
         case actions.ROTATE_TETRIMINOS:
             const cx = state.pos[2].x;
             const cy = state.pos[2].y;
 
-            // state.oldPos = [{x:state.pos[0].x, y:state.pos[0].y}, {x:state.pos[1].x, y:state.pos[1].y}, {x:state.pos[2].x, y:state.pos[2].y}, {x:state.pos[3].x, y:state.pos[3].y}]
-
-            for (let i = 0 ; i < 4 ; i++) {
-                state.oldPos[i].x = state.pos[i].x
-                state.oldPos[i].y = state.pos[i].y
-            }
-            for (let i = 0 ; i < 4 ; i++) {
-                const newCoods = rotateTetriminos(cx,cy, state.pos[i].x, state.pos[i].y)
-                state.pos[i].x = newCoods[0];
-                state.pos[i].y = newCoods[1];
-            }
-            //return { ...state, shape: action.rotatedTetriminos };
+            state.oldPos = _.merge(state.oldPos, state.pos);
+            state.pos = state.pos.map((c, i) => {
+                const newCoods = rotateTetriminos(cx,cy, c.x, c.y);
+                c.x = newCoods[0];
+                c.y = newCoods[1];
+                return c;
+            })
             return { ...state, pos:state.pos};
         default:
             return state;
