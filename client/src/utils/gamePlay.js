@@ -14,6 +14,7 @@ export const moveTetriminos = (direction) => (
         edge = checkCollision(activeTetriminos, currentTetriminos.pos)
         if (edge.xb === false && state.lastMove) {
             state.lastMove = false;
+            deleteLine(activeTetriminos);
             return dispatch(newTetriminos(currentTetriminos, nextTetriminos));
         }
 
@@ -127,6 +128,20 @@ export const dropTetriminos = (dispatch, getState) => {
     }
 }
 
-export const checkLineDone = (grid) => {
+export const isLineDone = (gridLine) => {
+    for (let i = 0; i < 10; i++) {
+        if (gridLine[i] === 0)
+            return false;
+    }
+    return true;
+}
 
+export const deleteLine = (grid) => {
+    grid.map((row, i) => {
+        if (isLineDone(row) === true) {
+            grid.splice(i, 1);
+            grid.unshift([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+        }
+        return grid;
+    });
 }
