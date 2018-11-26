@@ -124,6 +124,18 @@ export const dropTetriminos = (dispatch, getState) => {
     }
 }
 
+export const cling = (lineToDelete) => {
+    let line = [...lineToDelete];
+    console.log(line);
+    for (let i = 0; i < 1000; i++) {
+        if (i % 2 === 0)
+            lineToDelete = [0,0,0,0,0,0,0,0,0,0];
+        else
+            lineToDelete = line;    
+    }
+    return line;
+}
+
 export const isLineDone = (gridLine) => {
     for (let i = 0; i < 10; i++) {
         if (gridLine[i] === 0)
@@ -135,6 +147,7 @@ export const isLineDone = (gridLine) => {
 export const deleteLine = (grid) => {
     grid.map((row, i) => {
         if (isLineDone(row) === true) {
+            cling(row);
             grid.splice(i, 1);
             grid.unshift([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
         }
