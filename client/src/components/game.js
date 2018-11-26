@@ -6,28 +6,15 @@ import Board from './board.js';
 import { loadGame } from '../utils/gamePlay.js';
 import { pauseGame, unpauseGame } from '../redux/actions';
 import Menu from './menu.js';
-import { getNewGrid } from '../utils/gamePlay';
-import gameConstants from '../redux/constants/gameConstants';
 
-const { colors } = gameConstants;
 
 const methods = {
     componentDidMount(props) {
     } 
 };
 
-
 const Game = (props) => {
     
-    const switchAction = () => {
-        console.log('Switch');
-        if (props.gameStatus === 'PLAYING') {
-            props.pauseGame();
-            return 
-        }
-        return props.unpauseGame();
-    }
-
     return (
         <div className='game'>
             <div className='game-board'>
@@ -37,8 +24,6 @@ const Game = (props) => {
                     pos={props.currentTetriminos.pos}
                     oldPos={props.currentTetriminos.oldPos}
                     status={props.gameStatus}
-                    // color={props.currentColor}
-                    /* TODO : add tetriminos to get the shape */
                 />
             </div>
             <div className='game-info'>
@@ -73,5 +58,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 };
 
-// Game =  lifecycle(methods)(Game);
 export default connect(mapStateToProps, mapDispatchToProps)(lifecycle(methods)(Game));

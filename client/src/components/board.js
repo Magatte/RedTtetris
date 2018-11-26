@@ -20,7 +20,6 @@ const Board = (props) => {
     }
     
     const renderSquare = (x, y, key) => {
-        let index = shapeTypes.indexOf(props.name) + 1;
         return (
             <Square
                 key={key}
@@ -31,7 +30,6 @@ const Board = (props) => {
 
     const createBoard = () => {
         const b = props.squares;
-        // console.log(shapeTypes.indexOf(props.name) + 1);
 
         setNewPosition(b);
         const board = b.map((row, j) => {

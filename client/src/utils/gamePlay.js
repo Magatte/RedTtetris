@@ -2,6 +2,7 @@ import { startGame, newTetriminos, rotate, moveDown, moveLeft, moveRight, lastMo
 import gameConstants from '../redux/constants/gameConstants.js';
 const { shapeTypes } = gameConstants;
 
+
 export const moveTetriminos = (direction) => (
     function (dispatch, getState) {
         const { gameStatus, activeTetriminos, currentTetriminos, nextTetriminos } = getState();
@@ -56,7 +57,7 @@ export const getNewGrid = (grid, currentTetriminos) => {
     let newGrid = grid.map((row, i, arr) => {
         row.map((sq, j) => {
             if (currentTetriminos.shape[i][j] === index) 
-                arr[i][j] = index; // TO DO
+                arr[i][j] = index;
             return sq;
         });
         return row;
@@ -105,11 +106,11 @@ export const checkCollision = (arr, pos) => {
         // For each point of my tetriminos I check if the next square is out of bound or if it is occupied and not a point of the current tetriminos
         if (pos[i].x <= 0)
             edge.xt = false;
-        else if (pos[i].x >= 19 || (arr[pos[i].x + 1][pos[i].y] != 0 && !pos.some(element => {return JSON.stringify(element) === JSON.stringify(pointX)})))
+        else if (pos[i].x >= 19 || (arr[pos[i].x + 1][pos[i].y] !== 0 && !pos.some(element => {return JSON.stringify(element) === JSON.stringify(pointX)})))
             edge.xb = false;
-        else if (pos[i].y <= 0 || (arr[pos[i].x][pos[i].y - 1] != 0 && !pos.some(element => {return JSON.stringify(element) === JSON.stringify(pointYl)})))
+        else if (pos[i].y <= 0 || (arr[pos[i].x][pos[i].y - 1] !== 0 && !pos.some(element => {return JSON.stringify(element) === JSON.stringify(pointYl)})))
             edge.yl = false;
-        else if (pos[i].y >= 9 || (arr[pos[i].x][pos[i].y + 1] != 0 && !pos.some(element => {return JSON.stringify(element) === JSON.stringify(pointYr)})))
+        else if (pos[i].y >= 9 || (arr[pos[i].x][pos[i].y + 1] !== 0 && !pos.some(element => {return JSON.stringify(element) === JSON.stringify(pointYr)})))
             edge.yr = false;
     }
     return edge;

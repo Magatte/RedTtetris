@@ -90,7 +90,7 @@ const currentTetriminos = (state = {}, action) => {
             });
             return { ...state, oldPos: state.oldPos, pos: state.pos };
         case actions.ROTATE_TETRIMINOS:
-            if (state.name != 'square') {
+            if (state.name !== 'square') {
                 if (state.name === 'straight' && state.pos[0].x < 2)
                     return { ...state, pos:state.pos};
                 const cx = state.pos[2].x;
