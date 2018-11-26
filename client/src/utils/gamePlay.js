@@ -126,3 +126,7 @@ export const dropTetriminos = (dispatch, getState) => {
         dispatch(moveTetriminos('down'));
     }
 }
+
+export const checkLineDone = (grid) => {
+
+}

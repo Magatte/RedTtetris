@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
 import _ from 'lodash';
-import gameConstants from '../constants/gameConstants.js';
-import * as actions from '../actions/index.js';
-import { rotateTetriminos, getNewGrid } from '../../utils/functions.js';
+import gameConstants from '../constants/gameConstants';
+import * as actions from '../actions/index';
+import { rotateTetriminos, getNewGrid } from '../../utils/gamePlay';
 
 const { tetriminos, initialGrid } = gameConstants;
 
@@ -90,16 +90,20 @@ const currentTetriminos = (state = {}, action) => {
             });
             return { ...state, oldPos: state.oldPos, pos: state.pos };
         case actions.ROTATE_TETRIMINOS:
-            const cx = state.pos[2].x;
-            const cy = state.pos[2].y;
-
-            state.oldPos = _.merge([state.oldPos], state.pos);
-            state.pos = state.pos.map((c, i) => {
-                const newCoods = rotateTetriminos(cx,cy, c.x, c.y);
-                c.x = newCoods[0];
-                c.y = newCoods[1];
-                return c;
-            })
+            if (state.name != 'square') {
+                if (state.name === 'straight' && state.pos[0].x < 2)
+                    return { ...state, pos:state.pos};
+                const cx = state.pos[2].x;
+                const cy = state.pos[2].y;
+    
+                state.oldPos = _.merge([state.oldPos], state.pos);
+                state.pos = state.pos.map((c, i) => {
+                    const newCoods = rotateTetriminos(cx,cy, c.x, c.y);
+                    c.x = newCoods[0];
+                    c.y = newCoods[1];
+                    return c;
+                });
+            }
             return { ...state, pos:state.pos};
         default:
             return state;

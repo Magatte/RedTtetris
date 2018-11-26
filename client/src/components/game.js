@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import lifecycle from 'react-pure-lifecycle';
 import { bindActionCreators } from 'redux';
 import Board from './board.js';
-import { loadGame } from '../utils/functions.js';
+import { loadGame } from '../utils/gamePlay.js';
 import { pauseGame, unpauseGame } from '../redux/actions';
 import Menu from './menu.js';
-import { getNewGrid } from '../utils/functions.js';
-import gameConstants from '../redux/constants/gameConstants.js';
+import { getNewGrid } from '../utils/gamePlay';
+import gameConstants from '../redux/constants/gameConstants';
 
 const { colors } = gameConstants;
 
