@@ -13,6 +13,7 @@ export const MOVE_LEFT = 'MOVE_LEFT';
 export const ROTATE = 'ROTATE';
 export const ROTATE_TETRIMINOS = 'ROTATE_TETRIMINOS';
 export const NEW_TETRIMINOS = 'NEW_TETRIMINOS';
+export const LAST_MOVE = 'LAST_MOVE';
 
 export const newTetriminos = (currentTetriminos, nextTetriminos) => {
     const { shapeTypes } = gameConstants;
@@ -100,5 +101,11 @@ export const moveLeft = () => {
 export const rotate = () => {
     return {
         type: ROTATE_TETRIMINOS
+    }
+};
+
+export const lastMove = () => {
+    return {
+        type: LAST_MOVE
     }
 };

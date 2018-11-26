@@ -110,11 +110,21 @@ const currentTetriminos = (state = {}, action) => {
     }
 };
 
+const lastMove = (state = false, action) => {
+    switch(action.type) {
+        case actions.LAST_MOVE:
+            return true;
+        default:
+            return false;
+    }
+}
+
 const gameReducers = combineReducers({
     gameStatus,
     activeTetriminos,
     nextTetriminos,
-    currentTetriminos
+    currentTetriminos,
+    lastMove
 }); // CombineReducers put all these reducers into a single namespace
 
 export default gameReducers;

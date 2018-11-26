@@ -1,4 +1,4 @@
-import { startGame, newTetriminos, rotate, moveDown, moveLeft, moveRight } from '../redux/actions/index.js';
+import { startGame, newTetriminos, rotate, moveDown, moveLeft, moveRight, lastMove } from '../redux/actions/index.js';
 import gameConstants from '../redux/constants/gameConstants.js';
 const { shapeTypes } = gameConstants;
 
@@ -13,7 +13,6 @@ export const moveTetriminos = (direction) => (
 
         edge = checkCollision(activeTetriminos, currentTetriminos.pos)
         if (edge.xb === false && state.lastMove) {
-            state.lastMove = false;
             deleteLine(activeTetriminos);
             return dispatch(newTetriminos(currentTetriminos, nextTetriminos));
         }
@@ -23,7 +22,7 @@ export const moveTetriminos = (direction) => (
                 if (edge.xb === true)
                     dispatch(moveDown());
                 else
-                    state.lastMove = true;
+                    dispatch(lastMove());
                 break ;
             case 'right':
                 if (edge.yr === true)
@@ -68,8 +67,6 @@ export const getNewGrid = (grid, currentTetriminos) => {
 export const loadGame = () => {
     console.log('About to start the game...');
     return (dispatch, getState) => {
-        let state = getState();
-        state.lastMove = false;
         dispatch(startGame());
         const handleMove = (e) => {
             e.preventDefault();
@@ -93,8 +90,6 @@ export const loadGame = () => {
         setInterval(() => {
             dropTetriminos(dispatch, getState);
         }, 1000);
-        //     {props.title}
-        // </AwesomeButton>
         window.addEventListener('keydown', handleMove);
     }
 };
