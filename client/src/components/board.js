@@ -29,10 +29,10 @@ const Board = (props) => {
     };
 
     const createBoard = () => {
-        const b = props.squares;
+        const squares = props.squares;
 
-        setNewPosition(b);
-        const board = b.map((row, j) => {
+        setNewPosition(squares);
+        const board = squares.map((row, j) => {
             let rowKey = j;
             return (
                 <div className='board-row' key={rowKey}>
