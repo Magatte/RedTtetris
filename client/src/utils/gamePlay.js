@@ -1,6 +1,9 @@
 import { startGame, newTetriminos, rotate, moveDown, moveLeft, moveRight, lastMove } from '../redux/actions/index.js';
 import gameConstants from '../redux/constants/gameConstants.js';
 const { shapeTypes } = gameConstants;
+// import {asset, NativeModules} from 'react-360';
+// const {AudioModule} = NativeModules;
+// const deleteSound = new Audio('../../../public/sounds/delete.mp3');
 
 
 export const moveTetriminos = (direction) => (
@@ -147,8 +150,8 @@ export const isLineDone = (gridLine) => {
 export const deleteLine = (grid) => {
     grid.map((row, i) => {
         if (isLineDone(row) === true) {
-            cling(row);
             grid.splice(i, 1);
+            // deleteSound.play();
             grid.unshift([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
         }
         return grid;
