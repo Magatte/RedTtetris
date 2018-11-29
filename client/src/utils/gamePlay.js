@@ -118,6 +118,7 @@ export const rotateTetriminos = (cx, cy, x, y) => {
 export const checkCollision = (arr, pos) => {
     let edge = {xt: true, xb: true, yl: true, yr: true};
     
+    console.log(pos);
     for (let i = 0; i < 4; i++) {
         let pointX = {x:pos[i].x + 1, y:pos[i].y};
         let pointYl = {x:pos[i].x, y:pos[i].y - 1};

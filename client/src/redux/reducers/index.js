@@ -74,12 +74,12 @@ const currentTetriminos = (state = {}, action) => {
                 ghost: tetriminos[action.currentShape].ghost,
                 oldGhost: tetriminos[action.currentShape].oldGhost
             };
-            case actions.NEW_TETRIMINOS:
+        case actions.NEW_TETRIMINOS:
             let nextTetri = action.nextTetriminos;
             let initialPos = tetriminos[nextTetri.name].initialPos;
             nextTetri.pos = _.merge(nextTetri.pos, initialPos);
             ghost = getGhost(state.pos, shape);
-            return { nextTetri, ghost }
+            return nextTetri;
         case actions.MOVE_DOWN:
             state.oldPos = _.merge([state.oldPos], state.pos);
             state.pos = state.pos.map(c => {

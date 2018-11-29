@@ -19,7 +19,8 @@ const Board = (props) => {
         }
         for (let i = 0; i < 4; i++) {
             arr[pos[i].x][pos[i].y] = shapeTypes.indexOf(props.name) + 1;
-            arr[ghost[i].x][ghost[i].y] = 8;
+            if (pos[i].x !== ghost[i].x)
+                arr[ghost[i].x][ghost[i].y] = 8;
         }
     }
     
