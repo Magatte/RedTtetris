@@ -33,6 +33,8 @@ const activeTetriminos = (state = initialGrid, action) => {
             // Every time we get a new tetriminos we actualise the grid
             //return getNewGrid(initialGrid, action.currentTetriminos, actio.color);
             return getNewGrid(state, action.nextTetriminos);
+        case actions.GAME_OVER:
+            return state;
         default:
             return state;
     }
