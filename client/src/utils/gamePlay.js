@@ -1,4 +1,5 @@
-import { startGame, newTetriminos, rotate, moveDown, moveLeft, moveRight, lastMove } from '../redux/actions/index.js';
+import _ from 'lodash';
+import { startGame, newTetriminos, rotate, moveDown, moveLeft, moveRight, lastMove, hardDrop } from '../redux/actions/index.js';
 import gameConstants from '../redux/constants/gameConstants.js';
 const { shapeTypes } = gameConstants;
 // import {asset, NativeModules} from 'react-360';
@@ -25,8 +26,11 @@ export const loadGame = () => {
                 case 40:
                     dispatch(moveTetriminos('down'));
                     break ;
-                default:
+                case 32:
+                    dispatch(moveTetriminos('drop'));
                     break ;
+                default:
+                    ;
             }
         }
         setInterval(() => {
@@ -88,8 +92,13 @@ export const moveTetriminos = (direction) => (
                     dispatch(moveLeft());
                 break ;
             case 'rotate':
+                if(currentTetriminos.name === 'square')
+                    return ;
                 if (edge.xt && edge.xb && edge.yl && edge.yr)
-                    dispatch(rotate())
+                    dispatch(rotate());
+                break;
+            case 'drop':
+                dispatch(hardDrop());
                 break;
             default:
                 return ;
@@ -117,11 +126,11 @@ export const checkCollision = (arr, pos) => {
         // For each point of my tetriminos I check if the next square is out of bound or if it is occupied and not a point of the current tetriminos
         if (pos[i].x <= 0)
             edge.xt = false;
-        if (pos[i].x >= 19 || (arr[pos[i].x + 1][pos[i].y] !== 0 && !pos.some(element => {return JSON.stringify(element) === JSON.stringify(pointX)})))
+        if (pos[i].x >= 19 || (arr[pos[i].x + 1][pos[i].y] !== 0 && arr[pos[i].x + 1][pos[i].y] !== 8 && !pos.some(element => {return JSON.stringify(element) === JSON.stringify(pointX)})))
             edge.xb = false;
-        if (pos[i].y <= 0 || (arr[pos[i].x][pos[i].y - 1] !== 0 && !pos.some(element => {return JSON.stringify(element) === JSON.stringify(pointYl)})))
+        if (pos[i].y <= 0 || (arr[pos[i].x][pos[i].y - 1] !== 0 && arr[pos[i].x][pos[i].y - 1] !== 8 && !pos.some(element => {return JSON.stringify(element) === JSON.stringify(pointYl)})))
             edge.yl = false;
-        if (pos[i].y >= 9 || (arr[pos[i].x][pos[i].y + 1] !== 0 && !pos.some(element => {return JSON.stringify(element) === JSON.stringify(pointYr)})))
+        if (pos[i].y >= 9 || (arr[pos[i].x][pos[i].y + 1] !== 0 && arr[pos[i].x][pos[i].y + 1] !== 8 && !pos.some(element => {return JSON.stringify(element) === JSON.stringify(pointYr)})))
             edge.yr = false;
     }
     return edge;
@@ -156,4 +165,36 @@ export const deleteLine = (grid) => {
         }
         return grid;
     });
+}
+
+const isCollision = (arr, tmpPos) => {
+    let edge = {};
+
+    edge = checkCollision(arr, tmpPos);
+    if (edge.xb === false) {
+        console.log(edge);
+        return true
+    }
+    return false;
+}
+
+export const getGhost = (pos, arr) =>{
+    let tmpPos = _.merge([], pos);
+    console.log('START', tmpPos);
+
+    for (let i = 0; i < 20; i++) {
+        if (isCollision(arr, tmpPos)) {
+            console.log(tmpPos);
+            // tmpPos = tmpPos.map(c => {
+            //     c.x++;
+            //     return c;
+            // });
+            return tmpPos;
+        }
+        tmpPos = tmpPos.map(c => {
+            c.x++;
+            return c;
+        });
+    }
+    return tmpPos;
 }

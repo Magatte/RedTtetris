@@ -11,6 +11,7 @@ export const MOVE_RIGHT = 'MOVE_RIGHT';
 export const MOVE_LEFT = 'MOVE_LEFT';
 export const ROTATE = 'ROTATE';
 export const ROTATE_TETRIMINOS = 'ROTATE_TETRIMINOS';
+export const HARD_DROP = 'HARD_DROP';
 export const NEW_TETRIMINOS = 'NEW_TETRIMINOS';
 export const LAST_MOVE = 'LAST_MOVE';
 
@@ -108,3 +109,8 @@ export const lastMove = () => {
         type: LAST_MOVE
     }
 };
+export const hardDrop = () =>{
+    return {
+        type: HARD_DROP
+    }
+}

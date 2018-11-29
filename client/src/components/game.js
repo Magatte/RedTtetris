@@ -10,7 +10,7 @@ import Menu from './menu.js';
 
 const methods = {
     componentDidMount(props) {
-    } 
+    }
 };
 
 const Game = (props) => {
@@ -24,6 +24,9 @@ const Game = (props) => {
                     pos={props.currentTetriminos.pos}
                     oldPos={props.currentTetriminos.oldPos}
                     status={props.gameStatus}
+                    ghost={props.currentTetriminos.ghost}
+                    oldGhost={props.currentTetriminos.oldGhost}
+
                 />
             </div>
             <div className='game-info'>

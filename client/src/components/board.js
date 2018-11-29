@@ -8,22 +8,31 @@ const Board = (props) => {
     const setNewPosition = (arr) => {
         let pos = props.pos;
         let oldPos = props.oldPos;
+        let ghost = props.ghost;
+        let oldGhost = props.oldGhost;
         
         if (!pos || !oldPos)
         return ;
         for (let i = 0; i < 4; i++) {
             arr[oldPos[i].x][oldPos[i].y] = 0;
+            arr[oldGhost[i].x][oldGhost[i].y] = 0;
         }
         for (let i = 0; i < 4; i++) {
             arr[pos[i].x][pos[i].y] = shapeTypes.indexOf(props.name) + 1;
+            arr[ghost[i].x][ghost[i].y] = 8;
         }
     }
     
     const renderSquare = (x, y, key) => {
+        // let color = '#fff';
+
+        // if (props.squares[x][y] === 8)
+            // color = '#A74ACC';
         return (
             <Square
                 key={key}
                 color={colors[props.squares[x][y]]}
+                value={props.squares[x][y]}
             />
         );
     };
@@ -54,7 +63,6 @@ const Board = (props) => {
             </div>
         </div>
     );
-
-};
+  };
 
 export default Board;

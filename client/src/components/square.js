@@ -6,6 +6,7 @@ const Square = (props) => {
             className='square'
             style={{backgroundColor: props.color}}
         >
+            {props.value}
         </div>
     );
 }

@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import _ from 'lodash';
 import gameConstants from '../constants/gameConstants';
 import * as actions from '../actions/index';
-import { rotateTetriminos, getNewGrid } from '../../utils/gamePlay';
+import { rotateTetriminos, getNewGrid, getGhost } from '../../utils/gamePlay';
 
 const { tetriminos, initialGrid } = gameConstants;
 
@@ -41,6 +41,7 @@ const activeTetriminos = (state = initialGrid, action) => {
 };
 
 const nextTetriminos = (state = {}, action) => {
+
     switch(action.type) {
         case actions.START_GAME:
         case actions.NEW_TETRIMINOS:
@@ -48,14 +49,20 @@ const nextTetriminos = (state = {}, action) => {
                 shape: tetriminos[action.nextShape].shape,
                 name: action.nextShape,
                 color: tetriminos[action.nextShape].color,
-                pos: tetriminos[action.nextShape].pos
+                pos: tetriminos[action.nextShape].pos,
+                ghost: tetriminos[action.nextShape].ghost
             };
-        default:
+            default:
             return state;
-    }
-};
-
+        }
+    };
+    
 const currentTetriminos = (state = {}, action) => {
+    let {ghost, shape} = state
+        
+    state.offsetX = state.offsetX && state.offsetX < 19 ? state.offsetX : 0;
+    state.offsetY = state.offsetY && state.offsetY < 9 && state.offsetY >= 0 ? state.offsetY : (state.offsetY >= 9 ? 8 : 0);
+        
     switch(action.type) {
         case actions.START_GAME:
             return {
@@ -63,34 +70,42 @@ const currentTetriminos = (state = {}, action) => {
                 name: action.currentShape,
                 color: tetriminos[action.currentShape].color,
                 pos: tetriminos[action.currentShape].pos,
-                initialPos: tetriminos[action.currentShape].initialPos
+                initialPos: tetriminos[action.currentShape].initialPos,
+                ghost: tetriminos[action.currentShape].ghost,
+                oldGhost: tetriminos[action.currentShape].oldGhost
             };
-        case actions.NEW_TETRIMINOS:
+            case actions.NEW_TETRIMINOS:
             let nextTetri = action.nextTetriminos;
             let initialPos = tetriminos[nextTetri.name].initialPos;
             nextTetri.pos = _.merge(nextTetri.pos, initialPos);
-            return nextTetri;
+            ghost = getGhost(state.pos, shape);
+            return { nextTetri, ghost }
         case actions.MOVE_DOWN:
             state.oldPos = _.merge([state.oldPos], state.pos);
             state.pos = state.pos.map(c => {
                 c.x++;
                 return c;
             });
-            return { ...state, oldPos: state.oldPos, pos: state.pos };
+            ghost = getGhost(state.pos, shape);
+            return { ...state, oldPos: state.oldPos, pos: state.pos, ghost: ghost };
         case actions.MOVE_LEFT:
             state.oldPos = _.merge([state.oldPos], state.pos);
+            state.oldGhost = _.merge([state.oldGhost], state.ghost);
             state.pos = state.pos.map(c => {
                 c.y--;
                 return c;
             });
+            ghost = getGhost(state.pos, shape)
             return { ...state, oldPos: state.oldPos, pos: state.pos };
         case actions.MOVE_RIGHT:
             state.oldPos = _.merge([state.oldPos], state.pos);
+            state.oldGhost = _.merge([state.oldGhost], state.ghost);
             state.pos = state.pos.map(c => {
                 c.y++;
                 return c;
             });
-            return { ...state, oldPos: state.oldPos, pos: state.pos };
+            ghost = getGhost(state.pos, shape)
+            return { ...state, oldPos: state.oldPos, pos: state.pos, ghost: ghost };
         case actions.ROTATE_TETRIMINOS:
             if (state.name !== 'square') {
                 if (state.name === 'straight' && state.pos[0].x < 2)
@@ -106,7 +121,13 @@ const currentTetriminos = (state = {}, action) => {
                     return c;
                 });
             }
-            return { ...state, pos:state.pos};
+            ghost = getGhost(state.pos, shape);
+            return { ...state, pos: state.pos, ghost: ghost };
+        case actions.HARD_DROP:
+            state.oldPos = _.merge([state.oldPos], state.pos);
+            state.pos = _.merge([state.pos], state.ghost);
+
+            return { ...state, pos:state.pos, oldPos:state.oldPos};
         default:
             return state;
     }
