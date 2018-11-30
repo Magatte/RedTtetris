@@ -70,7 +70,7 @@ export const moveTetriminos = (direction) => (
         if (gameStatus === 'PAUSED' || gameStatus === 'GAME_OVER' )
             return ;
 
-        edge = checkCollision(activeTetriminos, currentTetriminos.pos)
+        edge = checkCollision(activeTetriminos.newGrid, currentTetriminos.pos)
         if (edge.xb === false && state.lastMove) {
             deleteLine(activeTetriminos);
             return dispatch(newTetriminos(currentTetriminos, nextTetriminos));
@@ -118,7 +118,6 @@ export const rotateTetriminos = (cx, cy, x, y) => {
 export const checkCollision = (arr, pos) => {
     let edge = {xt: true, xb: true, yl: true, yr: true};
     
-    console.log(pos);
     for (let i = 0; i < 4; i++) {
         let pointX = {x:pos[i].x + 1, y:pos[i].y};
         let pointYl = {x:pos[i].x, y:pos[i].y - 1};
@@ -129,9 +128,9 @@ export const checkCollision = (arr, pos) => {
             edge.xt = false;
         if (pos[i].x >= 19 || (arr[pos[i].x + 1][pos[i].y] !== 0 && arr[pos[i].x + 1][pos[i].y] !== 8 && !pos.some(element => {return JSON.stringify(element) === JSON.stringify(pointX)})))
             edge.xb = false;
-        if (pos[i].y <= 0 || (arr[pos[i].x][pos[i].y - 1] !== 0 && arr[pos[i].x][pos[i].y - 1] !== 8 && !pos.some(element => {return JSON.stringify(element) === JSON.stringify(pointYl)})))
+        if (pos[i].y <= 0 || (arr[pos[i].x][pos[i].y - 1] !== 0 && !pos.some(element => {return JSON.stringify(element) === JSON.stringify(pointYl)})))
             edge.yl = false;
-        if (pos[i].y >= 9 || (arr[pos[i].x][pos[i].y + 1] !== 0 && arr[pos[i].x][pos[i].y + 1] !== 8 && !pos.some(element => {return JSON.stringify(element) === JSON.stringify(pointYr)})))
+        if (pos[i].y >= 9 || (arr[pos[i].x][pos[i].y + 1] !== 0 && !pos.some(element => {return JSON.stringify(element) === JSON.stringify(pointYr)})))
             edge.yr = false;
     }
     return edge;
@@ -172,20 +171,16 @@ const isCollision = (arr, tmpPos) => {
     let edge = {};
 
     edge = checkCollision(arr, tmpPos);
-    if (edge.xb === false) {
-        console.log(edge);
+    if (edge.xb === false)
         return true
-    }
     return false;
 }
 
 export const getGhost = (pos, arr) =>{
     let tmpPos = _.merge([], pos);
-    console.log('START', tmpPos);
 
     for (let i = 0; i < 20; i++) {
         if (isCollision(arr, tmpPos)) {
-            console.log(tmpPos);
             // tmpPos = tmpPos.map(c => {
             //     c.x++;
             //     return c;
@@ -199,3 +194,81 @@ export const getGhost = (pos, arr) =>{
     }
     return tmpPos;
 }
+
+// const checkPiece = (arr, pos, diff) => {
+//     let edge = {x: true, yl: true, yr: true};
+//     for (let i = 0; i < 4; i++) {
+//         // if (arr[pos[i].x][pos[i].y] !== 0)
+//         //     return false;
+//         let pointX = {x:pos[i].x + diff, y:pos[i].y};
+//         let pointYl = {x:pos[i].x, y:pos[i].y - diff};
+//         let pointYr = {x:pos[i].x, y:pos[i].y + diff};
+//         // For each point of my tetriminos I check if the next square is out of bound or if it is occupied and not a point of the current tetriminos
+//         if (pos[i].x >= 19 || (arr[pos[i].x + 1][pos[i].y] !== 0 && arr[pos[i].x + 1][pos[i].y] !== 8 && !pos.some(element => {return JSON.stringify(element) === JSON.stringify(pointX)})))
+//             edge.x = false;
+//         else if (pos[i].y <= 0 || (arr[pos[i].x][pos[i].y - 1] !== 0 && arr[pos[i].x][pos[i].y - 1] !== 8 && !pos.some(element => {return JSON.stringify(element) === JSON.stringify(pointYl)})))
+//             edge.yl = false;
+//         else if (pos[i].y >= 9 || (arr[pos[i].x][pos[i].y + 1] !== 0 && arr[pos[i].x][pos[i].y + 1] !== 8 && !pos.some(element => {return JSON.stringify(element) === JSON.stringify(pointYr)})))
+//             edge.yr = false;
+//     }
+//     return edge;
+// }
+
+// const checkPlace = (tmpPos, arr, diff) => {
+
+//     for (let i = 0; i < 4; i++) {
+//         // Bien checker que la valeur est différent de 8 et ne fais pas partie du tetriminos( utiliser le checkCollision de Magatte)
+//         if (arr[tmpPos[i].x + diff][tmpPos[i].y] !== 0 && arr[tmpPos[i].x + diff][tmpPos[i].y] !== 8 && checkPiece(arr, tmpPos, diff) ) {
+//             return false
+//         }
+//     }
+//     return true
+// }
+
+// export const getGhost = (pos, arr) =>{
+
+//     let canPlace = false
+//     let realDiff = null
+//     for( let i = 0 ; i < 20; i++){
+//       for(let j = 0 ; j < 10 ; j++){
+//           if( arr[i][j] === 8){
+//           arr[i][j] = 0
+//         }
+//       }
+//     }
+//     const allYCoord = pos.reduce((acc, cur) => {
+//       acc.push(cur.x)
+//       return acc
+//     }, [])
+
+//     const maxValue = Math.max(...allYCoord)
+
+//     const diff = 19 - maxValue
+
+//     const ghost = []
+//     for (let i = 0; i < 4; i++) {
+//        ghost.push(Object.assign({}, pos[i]))
+//     }
+//     for (let i = diff; i > -1; i--) {
+//       if (checkPlace(pos, arr, i)) {
+//         canPlace = true
+//         realDiff = i
+//         break
+//       }
+//     }
+
+//     if (canPlace) {
+//       for (let i = 0; i < 4; i++) {
+//         if(arr[pos[i].x + realDiff][pos[i].y] === 0){
+//             arr[pos[i].x + realDiff][pos[i].y] = 8
+//         }
+//       }
+//     }
+
+
+//     for (let i = 0; i < 4; i++) {
+//         ghost[i].x  = ghost[i].x + realDiff
+//     }
+
+//     return ghost
+// }

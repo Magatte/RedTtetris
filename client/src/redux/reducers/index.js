@@ -24,19 +24,42 @@ const gameStatus = (state = 'IDLE', action) => {
 };
 
 const activeTetriminos = (state = initialGrid, action) => {
+    let ghost = [];
+    let oldGhost = [];
     switch(action.type) {
         case actions.START_GAME:
             let currentTetriminos = tetriminos[action.currentShape];
             currentTetriminos.name = action.currentShape;
-            return getNewGrid(initialGrid, currentTetriminos); // TODO a new cleared grid
+            console.log('Pos', currentTetriminos.pos);
+            ghost = getGhost(currentTetriminos.pos, currentTetriminos.shape);
+            oldGhost = currentTetriminos.oldGhost;
+            return { ghost: ghost, oldGhost: oldGhost, newGrid: getNewGrid(initialGrid, currentTetriminos) }; // TODO a new cleared grid
         case actions.NEW_TETRIMINOS:
             // Every time we get a new tetriminos we actualise the grid
             //return getNewGrid(initialGrid, action.currentTetriminos, actio.color);
-            return getNewGrid(state, action.nextTetriminos);
+            console.log('Pos', nextTetriminos.pos);
+            oldGhost = nextTetriminos.oldGhost;
+            ghost = getGhost(nextTetriminos.pos, state.newGrid);
+            return { ghost: ghost, oldGhost: oldGhost, newGrid: getNewGrid(state.newGrid, action.nextTetriminos) };
+        case actions.MOVE_DOWN:
+            oldGhost = [...state.ghost];
+            console.log('Pos', state.ghost);
+            ghost = getGhost(state.ghost, state.newGrid);
+            return { ...state, ghost: ghost, oldGhost: oldGhost };
+        case actions.MOVE_LEFT:
+            oldGhost = [...state.ghost];
+            console.log('Pos', currentTetriminos.pos);
+            ghost = getGhost(state.ghost, state.newGrid);
+            return {...state, ghost: ghost, oldGhost: oldGhost};
+        case actions.MOVE_RIGHT:
+            console.log('Pos', currentTetriminos.pos);
+            oldGhost = [...state.ghost];
+            ghost = getGhost(state.ghost, state.newGrid);
+            return {...state, ghost: ghost, oldGhost: oldGhost};
         case actions.GAME_OVER:
             return state;
         default:
-            return state;
+            return {newGrid: state};
     }
 };
 
@@ -78,7 +101,8 @@ const currentTetriminos = (state = {}, action) => {
             let nextTetri = action.nextTetriminos;
             let initialPos = tetriminos[nextTetri.name].initialPos;
             nextTetri.pos = _.merge(nextTetri.pos, initialPos);
-            ghost = getGhost(state.pos, shape);
+            nextTetri.ghost = getGhost(tetriminos[nextTetri.name].ghost, shape);
+            nextTetri.oldGhost = tetriminos[nextTetri.name].oldGhost;
             return nextTetri;
         case actions.MOVE_DOWN:
             state.oldPos = _.merge([state.oldPos], state.pos);
@@ -87,7 +111,7 @@ const currentTetriminos = (state = {}, action) => {
                 return c;
             });
             ghost = getGhost(state.pos, shape);
-            return { ...state, oldPos: state.oldPos, pos: state.pos, ghost: ghost };
+            return { ...state, oldPos: state.oldPos, pos: state.pos };
         case actions.MOVE_LEFT:
             state.oldPos = _.merge([state.oldPos], state.pos);
             state.oldGhost = _.merge([state.oldGhost], state.ghost);
@@ -105,7 +129,7 @@ const currentTetriminos = (state = {}, action) => {
                 return c;
             });
             ghost = getGhost(state.pos, shape)
-            return { ...state, oldPos: state.oldPos, pos: state.pos, ghost: ghost };
+            return { ...state, oldPos: state.oldPos, pos: state.pos };
         case actions.ROTATE_TETRIMINOS:
             if (state.name !== 'square') {
                 if (state.name === 'straight' && state.pos[0].x < 2)

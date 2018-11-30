@@ -19,14 +19,13 @@ const Game = (props) => {
         <div className='game'>
             <div className='game-board'>
                 <Board 
-                    squares={props.activeTetriminos}
+                    squares={props.activeTetriminos.newGrid}
                     name={props.currentTetriminos.name}
                     pos={props.currentTetriminos.pos}
                     oldPos={props.currentTetriminos.oldPos}
                     status={props.gameStatus}
-                    ghost={props.currentTetriminos.ghost}
-                    oldGhost={props.currentTetriminos.oldGhost}
-
+                    ghost={props.activeTetriminos.ghost}
+                    oldGhost={props.activeTetriminos.oldGhost}
                 />
             </div>
             <div className='game-info'>
