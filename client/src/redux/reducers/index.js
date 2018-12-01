@@ -58,7 +58,7 @@ const nextTetriminos = (state = {}, action) => {
     };
     
 const currentTetriminos = (state = {}, action) => {
-    let {ghost, shape} = state
+    let {ghost, oldGhost, pos, oldPos, shape} = state
         
     state.offsetX = state.offsetX && state.offsetX < 19 ? state.offsetX : 0;
     state.offsetY = state.offsetY && state.offsetY < 9 && state.offsetY >= 0 ? state.offsetY : (state.offsetY >= 9 ? 8 : 0);
@@ -78,38 +78,38 @@ const currentTetriminos = (state = {}, action) => {
             let nextTetri = action.nextTetriminos;
             let initialPos = tetriminos[nextTetri.name].initialPos;
             nextTetri.pos = _.merge(nextTetri.pos, initialPos);
-            ghost = getGhost(state.pos, shape);
+            nextTetri.ghost = getGhost(state.pos, shape);
             return nextTetri;
         case actions.MOVE_DOWN:
-            state.oldPos = _.merge([state.oldPos], state.pos);
-            state.pos = state.pos.map(c => {
+            oldPos = _.merge(state.oldPos, pos);
+            pos = state.pos.map(c => {
                 c.x++;
                 return c;
             });
-            ghost = getGhost(state.pos, shape);
-            return { ...state, oldPos: state.oldPos, pos: state.pos, ghost: ghost };
+            ghost = getGhost(pos, shape);
+            return { ...state, oldPos: oldPos, pos: pos, ghost: ghost, oldGhost: state.oldGhost };
         case actions.MOVE_LEFT:
-            state.oldPos = _.merge([state.oldPos], state.pos);
-            state.oldGhost = _.merge([state.oldGhost], state.ghost);
-            state.pos = state.pos.map(c => {
+            oldPos = _.merge(state.oldPos, pos);
+            oldGhost = [...state.ghost];
+            pos = state.pos.map(c => {
                 c.y--;
                 return c;
             });
-            ghost = getGhost(state.pos, shape)
-            return { ...state, oldPos: state.oldPos, pos: state.pos };
+            ghost = getGhost(pos, shape);
+            return { ...state, oldPos: oldPos, pos: pos, ghost: ghost, oldGhost: oldGhost };
         case actions.MOVE_RIGHT:
-            state.oldPos = _.merge([state.oldPos], state.pos);
-            state.oldGhost = _.merge([state.oldGhost], state.ghost);
-            state.pos = state.pos.map(c => {
+            oldPos = _.merge(state.oldPos, pos);
+            oldGhost = [...state.ghost];
+            pos = pos.map(c => {
                 c.y++;
                 return c;
             });
-            ghost = getGhost(state.pos, shape)
-            return { ...state, oldPos: state.oldPos, pos: state.pos, ghost: ghost };
+            ghost = getGhost(pos, shape);
+            return { ...state, oldPos: oldPos, pos: pos, ghost: ghost, oldGhost: oldGhost };
         case actions.ROTATE_TETRIMINOS:
             if (state.name !== 'square') {
                 if (state.name === 'straight' && state.pos[0].x < 2)
-                    return { ...state, pos:state.pos};
+                    return { ...state, pos:pos};
                 const cx = state.pos[2].x;
                 const cy = state.pos[2].y;
     
