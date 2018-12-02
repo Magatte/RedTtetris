@@ -37,25 +37,7 @@ const activeTetriminos = (state = initialGrid, action) => {
         case actions.NEW_TETRIMINOS:
             // Every time we get a new tetriminos we actualise the grid
             //return getNewGrid(initialGrid, action.currentTetriminos, actio.color);
-            console.log('Pos', nextTetriminos.pos);
-            oldGhost = nextTetriminos.oldGhost;
-            ghost = getGhost(nextTetriminos.pos, state.newGrid);
-            return { ghost: ghost, oldGhost: oldGhost, newGrid: getNewGrid(state.newGrid, action.nextTetriminos) };
-        case actions.MOVE_DOWN:
-            oldGhost = [...state.ghost];
-            console.log('Pos', state.ghost);
-            ghost = getGhost(state.ghost, state.newGrid);
-            return { ...state, ghost: ghost, oldGhost: oldGhost };
-        case actions.MOVE_LEFT:
-            oldGhost = [...state.ghost];
-            console.log('Pos', currentTetriminos.pos);
-            ghost = getGhost(state.ghost, state.newGrid);
-            return {...state, ghost: ghost, oldGhost: oldGhost};
-        case actions.MOVE_RIGHT:
-            console.log('Pos', currentTetriminos.pos);
-            oldGhost = [...state.ghost];
-            ghost = getGhost(state.ghost, state.newGrid);
-            return {...state, ghost: ghost, oldGhost: oldGhost};
+            return getNewGrid(state, action.nextTetriminos);
         case actions.GAME_OVER:
             return state;
         default:
