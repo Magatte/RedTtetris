@@ -10,10 +10,12 @@ const Board = (props) => {
         let oldPos = props.oldPos;
         let ghost = props.ghost;
         let oldGhost = props.oldGhost;
+        let initialPos = props.initialPos;
         
         if (!pos || !oldPos)
         return ;
         for (let i = 0; i < 4; i++) {
+            arr[initialPos[i].x][initialPos[i].y] = 0;
             arr[oldGhost[i].x][oldGhost[i].y] = 0;
             arr[oldPos[i].x][oldPos[i].y] = 0;
         }

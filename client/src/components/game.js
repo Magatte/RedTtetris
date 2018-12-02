@@ -28,6 +28,7 @@ const Game = (props) => {
                     status={props.gameStatus}
                     ghost={props.currentTetriminos.ghost}
                     oldGhost={props.currentTetriminos.oldGhost}
+                    initialPos={props.currentTetriminos.initialPos}
                 />
             </div>
             <div className='game-info'>
