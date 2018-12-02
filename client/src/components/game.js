@@ -15,6 +15,7 @@ const methods = {
 
 const Game = (props) => {
     
+    console.log(props.activeTetriminos);
     return (
         <div className='game'>
             <div className='game-board'>

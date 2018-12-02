@@ -72,7 +72,7 @@ export const moveTetriminos = (direction) => (
 
         edge = checkCollision(activeTetriminos.newGrid, currentTetriminos.pos)
         if (edge.xb === false && state.lastMove) {
-            deleteLine(activeTetriminos);
+            deleteLine(activeTetriminos.newGrid);
             return dispatch(newTetriminos(currentTetriminos, nextTetriminos));
         }
         

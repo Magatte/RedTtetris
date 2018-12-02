@@ -23,25 +23,23 @@ const gameStatus = (state = 'IDLE', action) => {
     }
 };
 
-const activeTetriminos = (state = initialGrid, action) => {
-    let ghost = [];
-    let oldGhost = [];
+const activeTetriminos = (state = { newGrid: initialGrid }, action) => {
     switch(action.type) {
         case actions.START_GAME:
             let currentTetriminos = tetriminos[action.currentShape];
             currentTetriminos.name = action.currentShape;
-            console.log('Pos', currentTetriminos.pos);
-            ghost = getGhost(currentTetriminos.pos, currentTetriminos.shape);
-            oldGhost = currentTetriminos.oldGhost;
+            let ghost = getGhost(currentTetriminos.pos, currentTetriminos.shape);
+            let oldGhost = currentTetriminos.oldGhost;
+            console.log('OLDGHOST', oldGhost);
             return { ghost: ghost, oldGhost: oldGhost, newGrid: getNewGrid(initialGrid, currentTetriminos) }; // TODO a new cleared grid
         case actions.NEW_TETRIMINOS:
             // Every time we get a new tetriminos we actualise the grid
             //return getNewGrid(initialGrid, action.currentTetriminos, actio.color);
-            return getNewGrid(state, action.nextTetriminos);
+            return { ...state, newGrid: getNewGrid(state.newGrid, action.nextTetriminos) };
         case actions.GAME_OVER:
             return state;
         default:
-            return {newGrid: state};
+            return state;
     }
 };
 
