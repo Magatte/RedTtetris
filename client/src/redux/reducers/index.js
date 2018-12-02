@@ -24,12 +24,14 @@ const gameStatus = (state = 'IDLE', action) => {
 };
 
 const activeTetriminos = (state = { newGrid: initialGrid }, action) => {
+    let ghost, oldGhost;
+
     switch(action.type) {
         case actions.START_GAME:
             let currentTetriminos = tetriminos[action.currentShape];
             currentTetriminos.name = action.currentShape;
-            let ghost = getGhost(currentTetriminos.pos, currentTetriminos.shape);
-            let oldGhost = currentTetriminos.oldGhost;
+            ghost = getGhost(currentTetriminos.pos, currentTetriminos.shape);
+            oldGhost = currentTetriminos.oldGhost;
             console.log('OLDGHOST', oldGhost);
             return { ghost: ghost, oldGhost: oldGhost, newGrid: getNewGrid(initialGrid, currentTetriminos) }; // TODO a new cleared grid
         case actions.NEW_TETRIMINOS:
@@ -99,6 +101,7 @@ const currentTetriminos = (state = {}, action) => {
                 return c;
             });
             ghost = getGhost(pos, shape);
+            console.log('GHOST', ghost);
             return { ...state, oldPos: oldPos, pos: pos, ghost: ghost, oldGhost: oldGhost };
         case actions.MOVE_RIGHT:
             oldPos = _.merge(state.oldPos, pos);

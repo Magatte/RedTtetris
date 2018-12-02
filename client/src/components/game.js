@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import lifecycle from 'react-pure-lifecycle';
 import { bindActionCreators } from 'redux';
 import Board from './board.js';
-import { loadGame } from '../utils/gamePlay.js';
+import { loadGame, getNewGrid } from '../utils/gamePlay.js';
 import { pauseGame, unpauseGame } from '../redux/actions';
 import Menu from './menu.js';
 
@@ -15,18 +15,19 @@ const methods = {
 
 const Game = (props) => {
     
-    console.log(props.activeTetriminos);
+    let square = props.currentTetriminos.shape ? getNewGrid(props.activeTetriminos.newGrid, props.currentTetriminos) : props.activeTetriminos.newGrid;
+
     return (
         <div className='game'>
             <div className='game-board'>
                 <Board 
-                    squares={props.activeTetriminos.newGrid}
+                    squares={square}
                     name={props.currentTetriminos.name}
                     pos={props.currentTetriminos.pos}
                     oldPos={props.currentTetriminos.oldPos}
                     status={props.gameStatus}
-                    ghost={props.activeTetriminos.ghost}
-                    oldGhost={props.activeTetriminos.oldGhost}
+                    ghost={props.currentTetriminos.ghost}
+                    oldGhost={props.currentTetriminos.oldGhost}
                 />
             </div>
             <div className='game-info'>
