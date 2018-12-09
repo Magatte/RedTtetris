@@ -171,6 +171,7 @@ const isCollision = (arr, tmpPos) => {
     let edge = {};
 
     edge = checkCollision(arr, tmpPos);
+    // console.log('POS TEMP', tmpPos);
     if (edge.xb === false)
         return true
     return false;
@@ -179,18 +180,22 @@ const isCollision = (arr, tmpPos) => {
 export const getGhost = (pos, arr) =>{
     let tmpPos = _.merge([], pos);
 
-    for (let i = 0; i < 20; i++) {
-        if (isCollision(arr, tmpPos)) {
-            // tmpPos = tmpPos.map(c => {
-            //     c.x++;
-            //     return c;
-            // });
-            return tmpPos;
+    console.log('tmpPo', tmpPos);
+    console.log('POS', pos);
+    const getNewPosition = (tmpPos) => {
+        for (let i = 0; i < 20; i++) {
+            if (isCollision(arr, tmpPos)) {
+                // tmpPos = tmpPos.map(c => {
+                //     c.x++;
+                //     return c;
+                // });
+                return tmpPos;
+            }
+            tmpPos = tmpPos.map(c => {
+                c.x++;
+                return c;
+            });
         }
-        tmpPos = tmpPos.map(c => {
-            c.x++;
-            return c;
-        });
     }
     return tmpPos;
 }
