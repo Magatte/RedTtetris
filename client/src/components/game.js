@@ -5,7 +5,9 @@ import { bindActionCreators } from 'redux';
 import Board from './board.js';
 import { loadGame, getNewGrid } from '../utils/gamePlay.js';
 import { pauseGame, unpauseGame } from '../redux/actions';
+import gameConstants from '../redux/constants/gameConstants';
 import Menu from './menu.js';
+const { initialGrid } = gameConstants;
 
 
 const methods = {
@@ -15,8 +17,10 @@ const methods = {
 
 const Game = (props) => {
     
-    let square = props.currentTetriminos.shape ? getNewGrid(props.activeTetriminos.newGrid, props.currentTetriminos) : props.activeTetriminos.newGrid;
+    let square = props.gameStatus === 'IDLE' ? initialGrid : props.activeTetriminos.newGrid;
 
+    console.log('GAME STATUS', props.gameStatus);
+    console.log('SQUARE', square);
     return (
         <div className='game'>
             <div className='game-board'>

@@ -32,8 +32,8 @@ export default {
             initialPos: [{x:0, y:3}, {x:0, y:4}, {x:0, y:5}, {x:0, y:6}],
             pos: [{x:0, y:3}, {x:0, y:4}, {x:0, y:5}, {x:0, y:6}],
             oldPos: [{x:0, y:3}, {x:0, y:4}, {x:0, y:5}, {x:0, y:6}],
-            ghost: [{x:0, y:3}, {x:0, y:4}, {x:0, y:5}, {x:0, y:6}],
-            oldGhost: [{x:0, y:3}, {x:0, y:4}, {x:0, y:5}, {x:0, y:6}]
+            ghost: [{x:19, y:3}, {x:19, y:4}, {x:19, y:5}, {x:19, y:6}],
+            oldGhost: [{x:19, y:3}, {x:19, y:4}, {x:19, y:5}, {x:19, y:6}]
         },
         square: {
             shape: [
@@ -61,8 +61,8 @@ export default {
             initialPos: [{x:0, y:4}, {x:0, y:5}, {x:1, y:4}, {x:1, y:5}],
             pos: [{x:0, y:4}, {x:0, y:5}, {x:1, y:4}, {x:1, y:5}],
             oldPos: [{x:0, y:4}, {x:0, y:5}, {x:1, y:4}, {x:1, y:5}],
-            ghost: [{x:0, y:4}, {x:0, y:5}, {x:1, y:4}, {x:1, y:5}],
-            oldGhost: [{x:0, y:4}, {x:0, y:5}, {x:1, y:4}, {x:1, y:5}]
+            ghost: [{x:18, y:4}, {x:18, y:5}, {x:19, y:4}, {x:19, y:5}],
+            oldGhost: [{x:18, y:4}, {x:18, y:5}, {x:19, y:4}, {x:19, y:5}]
         },
         tee: {
             shape: [
@@ -90,8 +90,8 @@ export default {
             initialPos: [{x:0, y:5}, {x:1, y:4}, {x:1, y:5}, {x:1, y:6}],
             pos: [{x:0, y:5}, {x:1, y:4}, {x:1, y:5}, {x:1, y:6}],
             oldPos: [{x:0, y:5}, {x:1, y:4}, {x:1, y:5}, {x:1, y:6}],
-            ghost: [{x:0, y:5}, {x:1, y:4}, {x:1, y:5}, {x:1, y:6}],
-            oldGhost: [{x:0, y:5}, {x:1, y:4}, {x:1, y:5}, {x:1, y:6}]
+            ghost: [{x:18, y:5}, {x:19, y:4}, {x:19, y:5}, {x:19, y:6}],
+            oldGhost: [{x:18, y:5}, {x:19, y:4}, {x:19, y:5}, {x:19, y:6}]
         },
         leftGun: {
             shape: [
@@ -119,8 +119,8 @@ export default {
             initialPos: [{x:0, y:5}, {x:1, y:3}, {x:1, y:4}, {x:1, y:5}],
             pos: [{x:0, y:5}, {x:1, y:3}, {x:1, y:4}, {x:1, y:5}],
             oldPos: [{x:0, y:5}, {x:1, y:3}, {x:1, y:4}, {x:1, y:5}],
-            ghost: [{x:0, y:5}, {x:1, y:3}, {x:1, y:4}, {x:1, y:5}],
-            oldGhost: [{x:0, y:5}, {x:1, y:3}, {x:1, y:4}, {x:1, y:5}]
+            ghost: [{x:18, y:5}, {x:19, y:3}, {x:19, y:4}, {x:19, y:5}],
+            oldGhost: [{x:18, y:5}, {x:19, y:3}, {x:19, y:4}, {x:19, y:5}]
         },
         rightGun: {
             shape: [
@@ -148,8 +148,8 @@ export default {
             initialPos: [{x:0, y:3}, {x:1, y:3}, {x:1, y:4}, {x:1, y:5}],
             pos: [{x:0, y:3}, {x:1, y:3}, {x:1, y:4}, {x:1, y:5}],
             oldPos: [{x:0, y:3}, {x:1, y:3}, {x:1, y:4}, {x:1, y:5}],
-            ghost: [{x:0, y:3}, {x:1, y:3}, {x:1, y:4}, {x:1, y:5}],
-            oldGhost: [{x:0, y:3}, {x:1, y:3}, {x:1, y:4}, {x:1, y:5}]
+            ghost: [{x:18, y:3}, {x:19, y:3}, {x:19, y:4}, {x:19, y:5}],
+            oldGhost: [{x:18, y:3}, {x:19, y:3}, {x:19, y:4}, {x:19, y:5}]
         },
         leftSnake: {
             shape: [
@@ -177,8 +177,8 @@ export default {
             initialPos: [{x:0, y:3}, {x:0, y:4}, {x:1, y:4}, {x:1, y:5}],
             pos: [{x:0, y:3}, {x:0, y:4}, {x:1, y:4}, {x:1, y:5}],
             oldPos: [{x:0, y:3}, {x:0, y:4}, {x:1, y:4}, {x:1, y:5}],
-            ghost : [{x:0, y:3}, {x:0, y:4}, {x:1, y:4}, {x:1, y:5}],
-            oldGhost : [{x:0, y:3}, {x:0, y:4}, {x:1, y:4}, {x:1, y:5}]
+            ghost : [{x:18, y:3}, {x:18, y:4}, {x:19, y:4}, {x:19, y:5}],
+            oldGhost : [{x:18, y:3}, {x:18, y:4}, {x:19, y:4}, {x:19, y:5}]
         },
         rightSnake: {
             shape: [
@@ -206,8 +206,8 @@ export default {
             initialPos: [{x:0, y:4}, {x:0, y:5}, {x:1, y:3}, {x:1, y:4}],
             pos: [{x:0, y:4}, {x:0, y:5}, {x:1, y:3}, {x:1, y:4}],
             oldPos: [{x:0, y:4}, {x:0, y:5}, {x:1, y:3}, {x:1, y:4}],
-            ghost: [{x:0, y:4}, {x:0, y:5}, {x:1, y:3}, {x:1, y:4}],
-            oldGhost: [{x:0, y:4}, {x:0, y:5}, {x:1, y:3}, {x:1, y:4}]
+            ghost: [{x:18, y:4}, {x:18, y:5}, {x:19, y:3}, {x:19, y:4}],
+            oldGhost: [{x:18, y:4}, {x:18, y:5}, {x:19, y:3}, {x:19, y:4}]
         }
     },
     initialGrid,

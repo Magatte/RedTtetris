@@ -35,7 +35,6 @@ export const startGame = () => {
     const nextRandNb = Math.floor(Math.random() * (7 - 0)) + 0; // Math.Random return a number between 0 (included) and 1 (excluded)
     const currentShape = shapeTypes[curRandNb];
     const nextShape = shapeTypes[nextRandNb];
-
     return {
         type: START_GAME,
         currentShape,

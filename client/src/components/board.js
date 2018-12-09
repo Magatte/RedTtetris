@@ -10,18 +10,16 @@ const Board = (props) => {
         let oldPos = props.oldPos;
         let ghost = props.ghost;
         let oldGhost = props.oldGhost;
-        let initialPos = props.initialPos;
         
-        if (!pos || !oldPos)
-        return ;
+        if (!pos || !oldPos || !ghost || !oldGhost)
+            return ;
         for (let i = 0; i < 4; i++) {
-            arr[initialPos[i].x][initialPos[i].y] = 0;
-            arr[oldGhost[i].x][oldGhost[i].y] = 0;
             arr[oldPos[i].x][oldPos[i].y] = 0;
+            arr[oldGhost[i].x][oldGhost[i].y] = 0;
         }
         for (let i = 0; i < 4; i++) {
-            arr[ghost[i].x][ghost[i].y] = 8;
             arr[pos[i].x][pos[i].y] = shapeTypes.indexOf(props.name) + 1;
+            arr[ghost[i].x][ghost[i].y] = 8;
         }
     }
     
