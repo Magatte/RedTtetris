@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import lifecycle from 'react-pure-lifecycle';
 import { bindActionCreators } from 'redux';
 import Board from './board.js';
-import { loadGame, getNewGrid } from '../utils/gamePlay.js';
+import { loadGame, getGhost } from '../utils/gamePlay.js';
 import { pauseGame, unpauseGame } from '../redux/actions';
 import gameConstants from '../redux/constants/gameConstants';
 import Menu from './menu.js';
@@ -16,11 +16,19 @@ const methods = {
 };
 
 const Game = (props) => {
-    
-    let square = props.gameStatus === 'IDLE' ? initialGrid : props.activeTetriminos.newGrid;
+    let square = null;
+    let ghost = null;
+    let oldGhost = null;
+    if (props.gameStatus === 'IDLE')
+        square = initialGrid;
+    else {
+        square = props.activeTetriminos.newGrid;
+        oldGhost = props.currentTetriminos.oldGhost;
+        // console.log('GHOST', ghost);
+        console.log('OLDGHOST', oldGhost);
+        props.currentTetriminos.ghost = getGhost(props.currentTetriminos.pos, square);
+    }
 
-    console.log('GAME STATUS', props.gameStatus);
-    console.log('SQUARE', square);
     return (
         <div className='game'>
             <div className='game-board'>
@@ -31,7 +39,7 @@ const Game = (props) => {
                     oldPos={props.currentTetriminos.oldPos}
                     status={props.gameStatus}
                     ghost={props.currentTetriminos.ghost}
-                    oldGhost={props.currentTetriminos.oldGhost}
+                    oldGhost={oldGhost}
                     initialPos={props.currentTetriminos.initialPos}
                 />
             </div>
