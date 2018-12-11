@@ -23,9 +23,8 @@ const Game = (props) => {
         square = initialGrid;
     else {
         square = props.activeTetriminos.newGrid;
+        console.log('SQUARE', square);
         oldGhost = props.currentTetriminos.oldGhost;
-        // console.log('GHOST', ghost);
-        console.log('OLDGHOST', oldGhost);
         props.currentTetriminos.ghost = getGhost(props.currentTetriminos.pos, square);
     }
 
@@ -45,7 +44,7 @@ const Game = (props) => {
             </div>
             <div className='game-info'>
                 <div className='menu'>
-                    <Menu 
+                    <Menu
                         pauseTitle={props.gameStatus === 'PAUSED' ? 'UNPAUSE' : 'PAUSE'}
                         loadGame={props.loadGame}
                         pauseGame={props.gameStatus === 'PAUSED' ? props.unpauseGame : props.pauseGame}

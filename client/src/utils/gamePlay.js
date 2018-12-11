@@ -45,7 +45,7 @@ export const getNewGrid = (grid, currentTetriminos) => {
     let newGrid = grid.map((row, i, arr) => {
         row.map((sq, j) => {
             if (currentTetriminos.shape[i][j] === index) 
-            arr[i][j] = index;
+                arr[i][j] = index;
             return sq;
         });
         return row;
@@ -118,7 +118,6 @@ export const rotateTetriminos = (cx, cy, x, y) => {
 export const checkCollision = (arr, pos) => {
     let edge = {xt: true, xb: true, yl: true, yr: true};
     
-    console.log('POS', pos);
     for (let i = 0; i < 4; i++) {
         let pointX = {x:pos[i].x + 1, y:pos[i].y};
         let pointYl = {x:pos[i].x, y:pos[i].y - 1};

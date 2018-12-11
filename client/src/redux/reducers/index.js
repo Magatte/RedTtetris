@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import _ from 'lodash';
 import gameConstants from '../constants/gameConstants';
 import * as actions from '../actions/index';
-import { rotateTetriminos, getNewGrid, getGhost } from '../../utils/gamePlay';
+import { rotateTetriminos, getNewGrid } from '../../utils/gamePlay';
 
 const { tetriminos, initialGrid } = gameConstants;
 
@@ -24,8 +24,6 @@ const gameStatus = (state = 'IDLE', action) => {
 };
 
 const activeTetriminos = (state = { newGrid: initialGrid }, action) => {
-    let ghost, oldGhost;
-
     switch (action.type) {
         case actions.START_GAME:
             let currentTetriminos = tetriminos[action.currentShape];
@@ -43,7 +41,6 @@ const activeTetriminos = (state = { newGrid: initialGrid }, action) => {
 };
 
 const nextTetriminos = (state = {}, action) => {
-
     switch (action.type) {
         case actions.START_GAME:
         case actions.NEW_TETRIMINOS:
@@ -53,8 +50,8 @@ const nextTetriminos = (state = {}, action) => {
                 color: tetriminos[action.nextShape].color,
                 pos: tetriminos[action.nextShape].pos,
                 oldPos: tetriminos[action.nextShape].oldPos,
-                ghost: tetriminos[action.nextShape].ghost,
-                oldGhost: tetriminos[action.nextShape].oldGhost
+                ghost: tetriminos[action.nextShape].initialPos,
+                oldGhost: tetriminos[action.nextShape].initialPos
             };
         default:
             return state;
@@ -81,9 +78,9 @@ const currentTetriminos = (state = {}, action) => {
         case actions.NEW_TETRIMINOS:
             let nextTetri = action.nextTetriminos;
             nextTetri.initialPos = tetriminos[nextTetri.name].initialPos;
-            nextTetri.pos = _.merge(nextTetri.pos, nextTetri.initialPos);
-            nextTetri.oldGhost = tetriminos[nextTetri.name].initialPos;
-            // nextTetri.ghost = getGhost(nextTetri.initialPos, shape);
+            nextTetri.oldPos = _.cloneDeep(nextTetri.initialPos);
+            nextTetri.pos = _.cloneDeep(nextTetri.initialPos);
+            nextTetri.oldGhost = _.cloneDeep(nextTetri.initialPos);
             return nextTetri;
         case actions.MOVE_DOWN:
             oldPos = _.merge(state.oldPos, pos);
@@ -91,25 +88,20 @@ const currentTetriminos = (state = {}, action) => {
                 c.x++;
                 return c;
             });
-            // ghost = getGhost(pos, shape);
             return { ...state, oldPos: oldPos, pos: pos, oldGhost: ghost };
         case actions.MOVE_LEFT:
             oldPos = _.merge(state.oldPos, pos);
-            oldGhost = [...state.ghost];
             pos = state.pos.map(c => {
                 c.y--;
                 return c;
             });
-            // ghost = getGhost(pos, shape);
             return { ...state, oldPos: oldPos, pos: pos, oldGhost: ghost };
         case actions.MOVE_RIGHT:
             oldPos = _.merge(state.oldPos, pos);
-            oldGhost = [...state.ghost];
             pos = pos.map(c => {
                 c.y++;
                 return c;
             });
-            // ghost = getGhost(pos, shape);
             return { ...state, oldPos: oldPos, pos: pos, oldGhost: ghost };
         case actions.ROTATE_TETRIMINOS:
             if (state.name !== 'square') {
@@ -126,7 +118,6 @@ const currentTetriminos = (state = {}, action) => {
                     return c;
                 });
             }
-            // ghost = getGhost(state.pos, shape);
             return { ...state, pos: state.pos, oldGhost: ghost };
         case actions.HARD_DROP:
             state.oldPos = _.merge([state.oldPos], state.pos);
