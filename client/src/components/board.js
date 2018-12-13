@@ -24,10 +24,7 @@ const Board = (props) => {
     }
     
     const renderSquare = (x, y, key) => {
-        // let color = '#fff';
 
-        // if (props.squares[x][y] === 8)
-            // color = '#A74ACC';
         return (
             <Square
                 key={key}

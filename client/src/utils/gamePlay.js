@@ -180,10 +180,12 @@ export const getGhost = (pos, arr) =>{
     for (let i = pos[0].x; i < 20; i++) {
         if (isCollision(arr, tmpPos))
             return tmpPos;
-        tmpPos = tmpPos.map(c => {
-            c.x++;
-            return c;
-        });
+        for (let i = 0; i < 4; i++)
+            tmpPos[i].x++
+        // tmpPos = tmpPos.map(c => {
+        //     c.x++;
+        //     return c;
+        // });
     }
     return tmpPos;
 }

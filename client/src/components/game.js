@@ -21,12 +21,10 @@ const { initialGrid } = gameConstants;
 const Game = (props) => {
     let square = null;
     let ghost = null;
-    let oldGhost = null;
     if (props.gameStatus === 'IDLE')
         square = initialGrid;
     else {
         square = props.activeTetriminos.newGrid;
-        oldGhost = props.currentTetriminos.oldGhost;
         props.currentTetriminos.ghost = getGhost(props.currentTetriminos.pos, square);
     }
 
@@ -40,7 +38,7 @@ const Game = (props) => {
                     oldPos={props.currentTetriminos.oldPos}
                     status={props.gameStatus}
                     ghost={props.currentTetriminos.ghost}
-                    oldGhost={oldGhost}
+                    oldGhost={props.currentTetriminos.oldGhost}
                     initialPos={props.currentTetriminos.initialPos}
                 />
             </div>

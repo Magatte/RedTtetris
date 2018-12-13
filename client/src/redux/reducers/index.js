@@ -32,7 +32,7 @@ const activeTetriminos = (state = { newGrid: initialGrid }, action) => {
         case actions.NEW_TETRIMINOS:
             // Every time we get a new tetriminos we actualise the grid
             //return getNewGrid(initialGrid, action.currentTetriminos, actio.color);
-            return { ...state, newGrid: getNewGrid(state.newGrid, action.nextTetriminos) };
+            return { ...state };
         case actions.GAME_OVER:
             return state;
         default:
@@ -59,7 +59,7 @@ const nextTetriminos = (state = {}, action) => {
 };
 
 const currentTetriminos = (state = {}, action) => {
-    let { ghost, pos, oldPos } = state
+    let { ghost, pos, oldPos, name } = state
 
     state.offsetX = state.offsetX && state.offsetX < 19 ? state.offsetX : 0;
     state.offsetY = state.offsetY && state.offsetY < 9 && state.offsetY >= 0 ? state.offsetY : (state.offsetY >= 9 ? 8 : 0);
@@ -98,11 +98,11 @@ const currentTetriminos = (state = {}, action) => {
                 pos[i].y++;
             return { ...state, oldPos: oldPos, pos: pos, oldGhost: ghost };
         case actions.ROTATE_TETRIMINOS:
-            if (state.name !== 'square') {
-                if (state.name === 'straight' && state.pos[0].x < 2)
+            if (name !== 'square') {
+                if (name === 'straight' && state.pos[0].x < 2)
                     return { ...state, pos: pos };
-                const cx = state.pos[2].x;
-                const cy = state.pos[2].y;
+                const cx = pos[2].x;
+                const cy = pos[2].y;
 
                 state.oldPos = _.cloneDeep(state.pos);
                 state.pos = state.pos.map((c, i) => {
