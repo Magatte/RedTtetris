@@ -32,7 +32,7 @@ const activeTetriminos = (state = { newGrid: initialGrid }, action) => {
         case actions.NEW_TETRIMINOS:
             // Every time we get a new tetriminos we actualise the grid
             //return getNewGrid(initialGrid, action.currentTetriminos, actio.color);
-            return { ...state };
+            return { state, newGrid: getNewGrid(state.newGrid, action.nextTetriminos) };
         case actions.GAME_OVER:
             return state;
         default:
@@ -83,7 +83,7 @@ const currentTetriminos = (state = {}, action) => {
             nextTetri.oldGhost = _.cloneDeep(nextTetri.initialPos);
             return nextTetri;
         case actions.MOVE_DOWN:
-            oldPos = _.merge(state.oldPos, pos);
+            oldPos = _.cloneDeep(pos);
             for (let i = 0; i < 4; i++)
                 pos[i].x++;
             return { ...state, oldPos: oldPos, pos: pos };

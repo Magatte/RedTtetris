@@ -129,7 +129,7 @@ export const checkCollision = (arr, pos) => {
         if (pos[i].x >= 19 || (arr[pos[i].x + 1][pos[i].y] !== 0 && arr[pos[i].x + 1][pos[i].y] !== 8 && !pos.some(element => {return JSON.stringify(element) === JSON.stringify(pointX)}))) 
             edge.xb = false;
         if (pos[i].y <= 0 || (arr[pos[i].x][pos[i].y - 1] !== 0 && !pos.some(element => {return JSON.stringify(element) === JSON.stringify(pointYl)})))
-            edge.yl = false;
+            edge.y0l = false;
         if (pos[i].y >= 9 || (arr[pos[i].x][pos[i].y + 1] !== 0 && !pos.some(element => {return JSON.stringify(element) === JSON.stringify(pointYr)})))
             edge.yr = false;
     }
@@ -157,14 +157,15 @@ export const isLineDone = (gridLine) => {
 }
 
 export const deleteLine = (grid) => {
-    grid.map((row, i) => {
+    grid = grid.map((row, i) => {
         if (isLineDone(row) === true) {
             grid.splice(i, 1);
+            grid.unshift([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
             // deleteSound.play();
-            grid.unshift(newLine);
         }
-        return grid;
+        return row;
     });
+    return grid;
 }
 
 const isCollision = (arr, tmpPos) => {
@@ -182,10 +183,6 @@ export const getGhost = (pos, arr) =>{
             return tmpPos;
         for (let i = 0; i < 4; i++)
             tmpPos[i].x++
-        // tmpPos = tmpPos.map(c => {
-        //     c.x++;
-        //     return c;
-        // });
     }
     return tmpPos;
 }
