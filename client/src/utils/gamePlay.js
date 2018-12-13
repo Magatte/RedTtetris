@@ -129,7 +129,7 @@ export const checkCollision = (arr, pos) => {
         if (pos[i].x >= 19 || (arr[pos[i].x + 1][pos[i].y] !== 0 && arr[pos[i].x + 1][pos[i].y] !== 8 && !pos.some(element => {return JSON.stringify(element) === JSON.stringify(pointX)}))) 
             edge.xb = false;
         if (pos[i].y <= 0 || (arr[pos[i].x][pos[i].y - 1] !== 0 && !pos.some(element => {return JSON.stringify(element) === JSON.stringify(pointYl)})))
-            edge.y0l = false;
+            edge.yl = false;
         if (pos[i].y >= 9 || (arr[pos[i].x][pos[i].y + 1] !== 0 && !pos.some(element => {return JSON.stringify(element) === JSON.stringify(pointYr)})))
             edge.yr = false;
     }
