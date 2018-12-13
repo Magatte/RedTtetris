@@ -11,13 +11,11 @@ const Board = (props) => {
         let ghost = props.ghost;
         let oldGhost = props.oldGhost;
         
-        if (!pos || !oldPos || !ghost || !oldGhost)
-        return ;
-        // console.log('GHOST', ...ghost);
-        // console.log('OLDGHOST', ...oldGhost);
+        if (!pos || !oldPos)
+            return ;
         for (let i = 0; i < 4; i++) {
-            arr[oldGhost[i].x][oldGhost[i].y] = 0;
             arr[oldPos[i].x][oldPos[i].y] = 0;
+            arr[oldGhost[i].x][oldGhost[i].y] = 0;
         }
         for (let i = 0; i < 4; i++) {
             arr[ghost[i].x][ghost[i].y] = 8;

@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { startGame, newTetriminos, rotate, moveDown, moveLeft, moveRight, lastMove, hardDrop } from '../redux/actions/index.js';
 import gameConstants from '../redux/constants/gameConstants.js';
-const { shapeTypes } = gameConstants;
+const { shapeTypes,  newLine } = gameConstants;
 // import {asset, NativeModules} from 'react-360';
 // const {AudioModule} = NativeModules;
 // const deleteSound = new Audio('../../../public/sounds/delete.mp3');
@@ -141,7 +141,7 @@ export const cling = (lineToDelete) => {
     console.log(line);
     for (let i = 0; i < 1000; i++) {
         if (i % 2 === 0)
-            lineToDelete = [0,0,0,0,0,0,0,0,0,0];
+            lineToDelete = newLine;
         else
             lineToDelete = line;    
     }
@@ -161,7 +161,7 @@ export const deleteLine = (grid) => {
         if (isLineDone(row) === true) {
             grid.splice(i, 1);
             // deleteSound.play();
-            grid.unshift([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+            grid.unshift(newLine);
         }
         return grid;
     });
@@ -177,7 +177,7 @@ const isCollision = (arr, tmpPos) => {
 
 export const getGhost = (pos, arr) =>{
     let tmpPos = _.cloneDeep(pos);
-    for (let i = 0; i < 20; i++) {
+    for (let i = pos[0].x; i < 20; i++) {
         if (isCollision(arr, tmpPos))
             return tmpPos;
         tmpPos = tmpPos.map(c => {

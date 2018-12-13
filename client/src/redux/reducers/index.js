@@ -59,7 +59,7 @@ const nextTetriminos = (state = {}, action) => {
 };
 
 const currentTetriminos = (state = {}, action) => {
-    let { ghost, oldGhost, pos, oldPos, shape } = state
+    let { ghost, pos, oldPos } = state
 
     state.offsetX = state.offsetX && state.offsetX < 19 ? state.offsetX : 0;
     state.offsetY = state.offsetY && state.offsetY < 9 && state.offsetY >= 0 ? state.offsetY : (state.offsetY >= 9 ? 8 : 0);
@@ -84,24 +84,18 @@ const currentTetriminos = (state = {}, action) => {
             return nextTetri;
         case actions.MOVE_DOWN:
             oldPos = _.merge(state.oldPos, pos);
-            pos = state.pos.map(c => {
-                c.x++;
-                return c;
-            });
-            return { ...state, oldPos: oldPos, pos: pos, oldGhost: ghost };
+            for (let i = 0; i < 4; i++)
+                pos[i].x++;
+            return { ...state, oldPos: oldPos, pos: pos };
         case actions.MOVE_LEFT:
-            oldPos = _.merge(state.oldPos, pos);
-            pos = state.pos.map(c => {
-                c.y--;
-                return c;
-            });
+            oldPos = _.cloneDeep(pos);
+            for (let i = 0; i < 4; i++)
+                pos[i].y--;
             return { ...state, oldPos: oldPos, pos: pos, oldGhost: ghost };
         case actions.MOVE_RIGHT:
-            oldPos = _.merge(state.oldPos, pos);
-            pos = pos.map(c => {
-                c.y++;
-                return c;
-            });
+            oldPos = _.cloneDeep(pos);
+            for (let i = 0; i < 4; i++)
+                pos[i].y++;
             return { ...state, oldPos: oldPos, pos: pos, oldGhost: ghost };
         case actions.ROTATE_TETRIMINOS:
             if (state.name !== 'square') {
@@ -110,7 +104,7 @@ const currentTetriminos = (state = {}, action) => {
                 const cx = state.pos[2].x;
                 const cy = state.pos[2].y;
 
-                state.oldPos = _.merge([state.oldPos], state.pos);
+                state.oldPos = _.cloneDeep(state.pos);
                 state.pos = state.pos.map((c, i) => {
                     const newCoods = rotateTetriminos(cx, cy, c.x, c.y);
                     c.x = newCoods[0];
@@ -120,10 +114,10 @@ const currentTetriminos = (state = {}, action) => {
             }
             return { ...state, pos: state.pos, oldGhost: ghost };
         case actions.HARD_DROP:
-            state.oldPos = _.merge([state.oldPos], state.pos);
-            state.pos = _.merge([state.pos], state.ghost);
+            oldPos = _.cloneDeep(pos);
+            pos = _.cloneDeep(ghost);
 
-            return { ...state, pos: state.pos, oldPos: state.oldPos };
+            return { ...state, pos: pos, oldPos: oldPos };
         default:
             return state;
     }

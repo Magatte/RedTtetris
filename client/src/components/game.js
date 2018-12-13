@@ -10,11 +10,14 @@ import Menu from './menu.js';
 const { initialGrid } = gameConstants;
 
 
-const methods = {
-    componentDidMount(props) {
-    }
-};
+// const methods = {
+//     componentDidMount(props) {
+//     }
+// };
 
+// BUGS
+// left snake bug
+// latency for ghost
 const Game = (props) => {
     let square = null;
     let ghost = null;
@@ -23,7 +26,6 @@ const Game = (props) => {
         square = initialGrid;
     else {
         square = props.activeTetriminos.newGrid;
-        console.log('SQUARE', square);
         oldGhost = props.currentTetriminos.oldGhost;
         props.currentTetriminos.ghost = getGhost(props.currentTetriminos.pos, square);
     }
@@ -74,4 +76,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(lifecycle(methods)(Game));
+export default connect(mapStateToProps, mapDispatchToProps)(Game);
