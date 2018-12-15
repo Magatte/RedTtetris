@@ -31,7 +31,6 @@ const activeTetriminos = (state = { newGrid: initialGrid }, action) => {
             return { newGrid: getNewGrid(initialGrid, currentTetriminos) }; // TODO a new cleared grid
         case actions.NEW_TETRIMINOS:
             // Every time we get a new tetriminos we actualise the grid
-            console.log('STATE', state);
             return { state, newGrid: getNewGrid(state.newGrid, action.nextTetriminos) };
         case actions.GAME_OVER:
             return state;

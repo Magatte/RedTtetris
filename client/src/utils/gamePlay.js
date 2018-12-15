@@ -55,7 +55,7 @@ export const callGameOver = () => {
     }
 }
 
-export const getNewGrid = (grid, currentTetriminos) => dispatch => {
+export const getNewGrid = (grid, currentTetriminos) => {
     let isPlace = true;
     let index = shapeTypes.indexOf(currentTetriminos.name) + 1;
     let newGrid = grid.map((row, i, arr) => {
@@ -70,6 +70,7 @@ export const getNewGrid = (grid, currentTetriminos) => dispatch => {
         return row;
     });
     if (isPlace === false) {
+        dispatch(callGameOver());
         return grid;
     }
     return newGrid;
