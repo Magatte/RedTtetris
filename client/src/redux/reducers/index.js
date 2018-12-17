@@ -3,6 +3,7 @@ import _ from 'lodash';
 import gameConstants from '../constants/gameConstants';
 import * as actions from '../actions/index';
 import { rotateTetriminos, getNewGrid } from '../../utils/gamePlay';
+import {userInitaleState} from "../constants/storesConstans";
 
 const { tetriminos, initialGrid } = gameConstants;
 
@@ -131,12 +132,44 @@ const lastMove = (state = false, action) => {
     }
 }
 
+const user = (state = userInitaleState, action) =>{
+    switch(action.type) {
+        case actions.SEND_LOGIN_ROOM:{
+            const {login, room} = action
+            return {login:login, room:room}
+        }
+        case actions.GET_PLAYER_STATUS:{
+            if( action.data){
+                return{...state, status:action.data.status, piecesStock:action.data.newPieces}
+
+            }
+            return state
+        }
+        default:
+            return state;
+    }
+
+}
+
+const games = (state = {rooms: []}, action) =>{
+    switch(action.type) {
+        case 'GET_GAMES_LIST':{
+            return {rooms:action.games ? action.games:[]}
+        }
+        default:
+            return state;
+    }
+    return state
+}
+
 const gameReducers = combineReducers({
     gameStatus,
     activeTetriminos,
     nextTetriminos,
     currentTetriminos,
-    lastMove
+    lastMove,
+    user,
+    games,
 }); // CombineReducers put all these reducers into a single namespace
 
 export default gameReducers;

@@ -4,13 +4,15 @@ import gameConstants from '../redux/constants/gameConstants.js';
 const { shapeTypes, colors } = gameConstants;
 
 const Board = (props) => {
-    
+
+    const { user } = props
+    console.log('props dans Board', props)
     const setNewPosition = (arr) => {
         let pos = props.pos;
         let oldPos = props.oldPos;
         let ghost = props.ghost;
         let oldGhost = props.oldGhost;
-        
+
         if (!pos || !oldPos)
             return ;
         for (let i = 0; i < 4; i++) {
@@ -22,7 +24,7 @@ const Board = (props) => {
             arr[pos[i].x][pos[i].y] = shapeTypes.indexOf(props.name) + 1;
         }
     }
-    
+
     const renderSquare = (x, y, key) => {
 
         return (
@@ -55,7 +57,12 @@ const Board = (props) => {
     return (
         <div>
             <div className='status'>{props.status}</div>
-            <div className='board'>
+            <div className='status'>
+                <h1>Salut {user.login} {user.status
+                    ? <p>tu es le  {user.status} de cette partie</p>:null}
+                </h1>
+            </div>
+            <div>
                 {createBoard()}
             </div>
         </div>

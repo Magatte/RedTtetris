@@ -4,16 +4,17 @@ import lifecycle from 'react-pure-lifecycle';
 import { bindActionCreators } from 'redux';
 import Board from './board.js';
 import { loadGame, getGhost } from '../utils/gamePlay.js';
-import { pauseGame, unpauseGame, gameOver } from '../redux/actions';
+import {pauseGame, unpauseGame, gameOver, getPlayerStatus} from '../redux/actions';
 import gameConstants from '../redux/constants/gameConstants';
 import Menu from './menu.js';
 const { initialGrid } = gameConstants;
 
 
-// const methods = {
-//     componentDidMount(props) {
-//     }
-// };
+const methods = {
+    componentDidMount(props) {
+        props.getPlayerStatus()
+    }
+};
 
 // BUGS
 // left snake bug
@@ -29,10 +30,13 @@ const Game = (props) => {
         props.gameOver();
     }
 
+    console.log('DZANS GAME', props)
+    console.log('DZANS GAME user', props.user)
+
     return (
         <div className='game'>
             <div className='game-board'>
-                <Board 
+                <Board
                     squares={square}
                     name={props.currentTetriminos.name}
                     pos={props.currentTetriminos.pos}
@@ -41,6 +45,7 @@ const Game = (props) => {
                     ghost={props.currentTetriminos.ghost}
                     oldGhost={props.currentTetriminos.oldGhost}
                     initialPos={props.currentTetriminos.initialPos}
+                    user={props.user}
                 />
             </div>
             <div className='game-info'>
@@ -49,6 +54,7 @@ const Game = (props) => {
                         pauseTitle={props.gameStatus === 'PAUSED' ? 'UNPAUSE' : 'PAUSE'}
                         loadGame={props.loadGame}
                         pauseGame={props.gameStatus === 'PAUSED' ? props.unpauseGame : props.pauseGame}
+                        user={props.user}
                     />
                 </div>
                 <ol> {/* TODO */} </ol>
@@ -64,6 +70,7 @@ const mapStateToProps = state => {
         currentTetriminos: state.currentTetriminos,
         currentColor: state.currentTetriminos.color,
         nextTetriminos: state.nextTetriminos,
+        user:state.user
     }
 };
 
@@ -72,8 +79,9 @@ const mapDispatchToProps = (dispatch) => {
         loadGame: bindActionCreators(loadGame, dispatch),
         pauseGame: bindActionCreators(pauseGame, dispatch),
         unpauseGame: bindActionCreators(unpauseGame, dispatch),
-        gameOver: bindActionCreators(gameOver, dispatch)
+        gameOver: bindActionCreators(gameOver, dispatch),
+        getPlayerStatus: bindActionCreators(getPlayerStatus, dispatch)
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Game);
+export default connect(mapStateToProps, mapDispatchToProps)(lifecycle(methods)(Game))

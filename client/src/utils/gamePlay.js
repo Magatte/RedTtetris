@@ -70,7 +70,7 @@ export const getNewGrid = (grid, currentTetriminos) => {
         return row;
     });
     if (isPlace === false) {
-        dispatch(callGameOver());
+        //dispatch(callGameOver());
         return grid;
     }
     return newGrid;

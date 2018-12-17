@@ -14,6 +14,10 @@ export const ROTATE_TETRIMINOS = 'ROTATE_TETRIMINOS';
 export const HARD_DROP = 'HARD_DROP';
 export const NEW_TETRIMINOS = 'NEW_TETRIMINOS';
 export const LAST_MOVE = 'LAST_MOVE';
+export const SEND_LOGIN_ROOM = 'SEND_LOGIN_ROOM'
+export const GET_GAMES_LIST = 'GET_GAMES_LIST'
+export const GET_PLAYER_STATUS = 'GET_PLAYER_STATUS'
+
 
 export const newTetriminos = (currentTetriminos, nextTetriminos) => {
     const { shapeTypes } = gameConstants;
@@ -40,6 +44,28 @@ export const startGame = () => {
         nextShape
     }
 };
+
+export const getPlayerStatus = () =>{
+    return{
+        type:GET_PLAYER_STATUS
+    }
+}
+
+export const sendLoginRoom = (login, room) => {
+    return {
+        type: SEND_LOGIN_ROOM,
+        login,
+        room
+
+    }
+}
+
+export const getGamesList = (l) => {
+
+    return {
+        type: GET_GAMES_LIST,
+    }
+}
 
 export const stopGame = () => {
     return {
