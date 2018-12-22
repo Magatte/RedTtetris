@@ -63,7 +63,7 @@ const Form = (props) =>{
 
 const Games = (props) =>{
     const list = props.gamesList.map((game, key)=>{
-        return <ul key={key}>{game}</ul>
+        return <ul key={key}>{game.name}</ul>
     })
     return(
         <div>

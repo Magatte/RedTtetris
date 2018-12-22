@@ -11,7 +11,7 @@ const Square = (props) => {
     };
 
     return (
-        <div 
+        <div
             className='square'
             style={tetriminoStyle}
         >

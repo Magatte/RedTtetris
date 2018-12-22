@@ -12,9 +12,11 @@ app.get('/', function(req, res){
 });
 let games = new Games()
 let gameTest = new Game('test','me')
+let gameTest2 = new Game('test2','you')
 games.addGame(gameTest)
+games.addGame(gameTest2)
 let gamesList = games.getNameList()
-
+console.log('gamesList============', gamesList)
 io.on('connection', function(socket){
     console.log('a user connected', socket.id);
     socket.emit('start', 'Un utilisateur est connecté')
@@ -25,21 +27,22 @@ io.on('connection', function(socket){
         console.log('newPlayer', data)
 
     })
-    socket.on('launch', (data)=>{
+    /*socket.on('launch', (data)=>{
         console.log('data', data)
-    })
+    })*/
     socket.on('userData', (login, room) =>{
         console.log('Login', login)
         console.log('Room', room)
         gamesList = games.getNameList()
         //console.log('gameees', games)
         socket.join(room)
-        const gameExist = gamesList.find(element =>element === room)
+        const gameExist = gamesList.find(element =>element.name === room)
+        console.log('gameExiste++++++++', gameExist)
         if(gameExist){
             const gameData = games.getGameData(room)
             const newPieces = gameData.getPiece()
             socket.emit('playerStatus', {
-                game:room,
+                name:room,
                 status:'follower',
                 login,
                 newPieces
@@ -60,7 +63,7 @@ io.on('connection', function(socket){
             const newPieces = createGame.getPiece()
             gamesList = games.getNameList()
             socket.emit('playerStatus', {
-                game:room,
+                name:room,
                 status:'master',
                 login,
                 newPieces
@@ -80,10 +83,7 @@ io.on('connection', function(socket){
             console.log('newPIECES', newPieces)
             io.to(data.room).emit('pieces',newPieces)
         }*/
-        //io.to(data.room).emit('launch',newPieces)
-
-
-
+        io.to(data.room).emit('status','START_GAME')
     })
     socket.on('resquestShape', (room) =>{
         console.log('le user ' + room + ' veut une nouvelle pièece')

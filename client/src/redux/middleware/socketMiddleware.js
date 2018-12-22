@@ -2,20 +2,23 @@
 
 
 export default function socketMiddleware(socket){
-    if(!socket){
-        socket.emit('connection', 'hello je suis connecte')
-    }
-    //console.log('SOCKET', socket)
-    socket.on('start', (data)=>{
-        console.log('dans start', data)
-    })
-
-    socket.emit('launch', 'hello', (data)=>{
-
-        //console.log('data lal lal', data)
-    });
     return ({dispatch}) => next =>(action) => {
-        console.log('action', action)
+
+        if(!socket){
+            socket.emit('connection', 'hello je suis connecte')
+        }
+        socket.on('start', (data)=>{
+            console.log('dans start', data)
+        })
+
+        socket.on('status', (data)=>{
+            const action = {
+                type:'DATA_FROM_SOCKET',
+                data
+            }
+            return next(action)
+        })
+
         const {
             type,
             room
@@ -23,7 +26,7 @@ export default function socketMiddleware(socket){
 
         switch(type){
             case 'START_GAME':{
-                console.log('room', action)
+
                 const data ={
                     type,
                     room
@@ -33,10 +36,9 @@ export default function socketMiddleware(socket){
             }
             case 'UNPAUSE_GAME':
             case 'PAUSE_GAME':{
-                console.log('room', action)
+
                 const data ={
                     type,
-                    //action.gameName,
                 }
                 socket.emit('gameStatus', data)
                 break;
@@ -45,8 +47,8 @@ export default function socketMiddleware(socket){
                 socket.emit('userData', action.login, action.room)
                 break;
             }
-            case 'NEW_TETRIMINOS':{
-                if(action.leftPieces === 5){
+            case 'MANAGE_PIECES_STOCK':{
+                if(action.piecesStock === 5){
 
                     socket.emit('resquestShape', action.room)
                     socket.on('getNewPieces', data =>{
@@ -71,13 +73,9 @@ export default function socketMiddleware(socket){
             }
             case 'GET_PLAYER_STATUS':{
                 socket.on('playerStatus', (data)=>{
-                    //aaconsole.log('playerStatus', data)
 
                     action = {...action, data}
 
-                    /*console.log('playerStatus', data)
-                    console.log('playerStatus newPieces', data.newPieces)
-                    console.log('playerStatus action', action)*/
                     return next(action)
 
                 })

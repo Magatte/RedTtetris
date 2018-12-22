@@ -12,7 +12,10 @@ export default class Games{
     }
     getNameList(){
         return this.list.map((game) =>{
-            return game.getName()
+            return {
+                name: game.getName(),
+                piecesStock: game.getPiece()
+            }
         })
     }
 

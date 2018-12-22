@@ -1,12 +1,12 @@
 import React from 'react';
 
 const Menu = (props) => {
-    console.log('props dans Menu', props)
+    //console.log('props dans Menu', props)
     return (
         <div className='start'>
             {props.user.status === 'master'
                 ?     <button
-                    onClick={() => props.loadGame(props.user.room)}
+                    onClick={() => props.loadGame(props.user.room, props.piecesStock)}
                 >
                     START
                 </button>

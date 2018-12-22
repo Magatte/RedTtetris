@@ -2,16 +2,21 @@ import _ from 'lodash';
 import { startGame, newTetriminos, rotate, moveDown, moveLeft, moveRight, lastMove, hardDrop, gameOver } from '../redux/actions/index.js';
 import gameConstants from '../redux/constants/gameConstants.js';
 import store from '../redux/store/index';
+import {managePiecesStock} from "../redux/actions";
 const { shapeTypes, newLine } = gameConstants;
 // import {asset, NativeModules} from 'react-360';
 // const {AudioModule} = NativeModules;
 // const deleteSound = new Audio('../../../public/sounds/delete.mp3');
 
 
-export const loadGame = () => {
-    console.log('About to start the game...');
+export const loadGame = (room, piecesStock) => {
+    console.log('About to start the game...', piecesStock);
     return (dispatch, getState) => {
-        dispatch(startGame());
+        const state = getState()
+        const currentRoom = state.games.rooms.find(room => room.name === state.user.room)
+        const curRandNb = currentRoom.piecesStock[0]
+        const nextRandNb = currentRoom.piecesStock[1]
+        dispatch(startGame(room, curRandNb, nextRandNb));
         const handleMove = (e) => {
             e.preventDefault();
             switch (e.keyCode) {
@@ -87,8 +92,17 @@ export const moveTetriminos = (direction) => (
 
         edge = checkCollision(activeTetriminos.newGrid, currentTetriminos.pos)
         if (edge.xb === false && state.lastMove) {
+            const currentRoom = state.games.rooms.find(room => room.name === state.user.room)
+            const nextRandNb = currentRoom.piecesStock[0]
+            //const nextRandNb = currentRoom.piecesStock[1]
             deleteLine(activeTetriminos.newGrid);
-            return dispatch(newTetriminos(currentTetriminos, nextTetriminos));
+            dispatch(managePiecesStock(state.user.room, currentRoom.piecesStock))
+            console.log('piecesStock===', state.piecesStock)
+            console.log('piecesStock===', currentTetriminos)
+            console.log('piecesStock===', nextTetriminos)
+            console.log('nextRandNb===', nextRandNb)
+            console.log('currentRoom===', currentRoom)
+            return dispatch(newTetriminos(currentTetriminos, nextTetriminos, nextRandNb));
         }
 
         switch (direction) {

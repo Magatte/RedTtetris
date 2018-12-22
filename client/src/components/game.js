@@ -13,7 +13,18 @@ const { initialGrid } = gameConstants;
 const methods = {
     componentDidMount(props) {
         props.getPlayerStatus()
-    }
+    },
+    componentDidUpdate(prevProps, prevState){
+        const gamePieces = prevProps.rooms.find(room => room.name === prevProps.user.room)
+
+        if(gamePieces){
+            //console.log('gamesPieces', gamePieces)
+        }
+        if(prevProps.status === 'START_GAME' && prevProps.status !== prevState.status){
+
+            prevProps.loadGame(prevProps.user.room, gamePieces.piecesStock)
+        }
+    },
 };
 
 // BUGS
@@ -27,11 +38,9 @@ const Game = (props) => {
     else {
         square = props.activeTetriminos.newGrid;
         props.currentTetriminos.ghost = getGhost(props.currentTetriminos.pos, square);
-        props.gameOver();
+        //props.gameOver();
     }
 
-    console.log('DZANS GAME', props)
-    console.log('DZANS GAME user', props.user)
 
     return (
         <div className='game'>
@@ -51,6 +60,7 @@ const Game = (props) => {
             <div className='game-info'>
                 <div className='menu'>
                     <Menu
+                        piecesStock={props.piecesStock}
                         pauseTitle={props.gameStatus === 'PAUSED' ? 'UNPAUSE' : 'PAUSE'}
                         loadGame={props.loadGame}
                         pauseGame={props.gameStatus === 'PAUSED' ? props.unpauseGame : props.pauseGame}
@@ -64,13 +74,16 @@ const Game = (props) => {
 }
 
 const mapStateToProps = state => {
+
     return {
         gameStatus: state.gameStatus,
         activeTetriminos: state.activeTetriminos,
         currentTetriminos: state.currentTetriminos,
         currentColor: state.currentTetriminos.color,
         nextTetriminos: state.nextTetriminos,
-        user:state.user
+        user: state.user,
+        status: state.socket.status,
+        rooms: state.games.rooms
     }
 };
 

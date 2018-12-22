@@ -156,12 +156,49 @@ const games = (state = {rooms: []}, action) =>{
         case 'GET_GAMES_LIST':{
             return {rooms:action.games ? action.games:[]}
         }
+        case 'GET_PLAYER_STATUS':{
+            if(action.data){
+                if(!state.rooms.find(room => room.name === action.data.room)){
+                    const data =  {
+                        name: action.data.name,
+                        piecesStock: action.data.newPieces
+                    }
+                    return { rooms:[...state.rooms,data]}
+
+                }
+            }
+            return state
+        }
+        case 'MANAGE_PIECES_STOCK':{
+            const roomIndex = state.rooms.findIndex( room => room.name === action.room)
+            console.log('state', state)
+            console.log('roomIndex', roomIndex)
+            console.log(' state.rooms[roomIndex]',  state.rooms[roomIndex])
+            console.log(' state.rooms[roomIndex].piecesStock',  state.rooms[roomIndex].piecesStock)
+            if(roomIndex){
+                state.rooms[roomIndex].piecesStock.shift()
+            }
+            if(action.newPieces && roomIndex){
+                state.rooms[roomIndex].piecesStock = [...state.rooms[roomIndex].piecesStock, ...action.newPieces]
+            }
+            console.log('State%%%%%%%%%%%%%%%%%%%%%%%%', state)
+            return state
+        }
         default:
             return state;
     }
     return state
 }
 
+const socket = (state = {status:""}, action) =>{
+    switch (action.type) {
+        case 'DATA_FROM_SOCKET':
+            return {...state, status:action.data}
+        default:
+            return state;
+    }
+    return state
+}
 const gameReducers = combineReducers({
     gameStatus,
     activeTetriminos,
@@ -170,6 +207,7 @@ const gameReducers = combineReducers({
     lastMove,
     user,
     games,
+    socket
 }); // CombineReducers put all these reducers into a single namespace
 
 export default gameReducers;

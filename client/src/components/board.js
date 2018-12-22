@@ -6,7 +6,7 @@ const { shapeTypes, colors } = gameConstants;
 const Board = (props) => {
 
     const { user } = props
-    console.log('props dans Board', props)
+    //console.log('props dans Board', props)
     const setNewPosition = (arr) => {
         let pos = props.pos;
         let oldPos = props.oldPos;
