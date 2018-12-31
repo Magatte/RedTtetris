@@ -31,6 +31,7 @@ const methods = {
 // left snake bug
 // latency for ghost
 const Game = (props) => {
+
     let square = null;
     let ghost = null;
     if (props.gameStatus === 'IDLE')
@@ -40,7 +41,7 @@ const Game = (props) => {
         props.currentTetriminos.ghost = getGhost(props.currentTetriminos.pos, square);
         //props.gameOver();
     }
-
+    const gameData = props.rooms.find(room => room.name === props.user.room)
 
     return (
         <div className='game'>
@@ -65,6 +66,8 @@ const Game = (props) => {
                         loadGame={props.loadGame}
                         pauseGame={props.gameStatus === 'PAUSED' ? props.unpauseGame : props.pauseGame}
                         user={props.user}
+                        gameStatus={props.gameStatus}
+                        gameData={gameData}
                     />
                 </div>
                 <ol> {/* TODO */} </ol>
@@ -83,7 +86,7 @@ const mapStateToProps = state => {
         nextTetriminos: state.nextTetriminos,
         user: state.user,
         status: state.socket.status,
-        rooms: state.games.rooms
+        rooms: state.games.rooms,
     }
 };
 

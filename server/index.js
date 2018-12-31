@@ -16,7 +16,7 @@ let gameTest2 = new Game('test2','you')
 games.addGame(gameTest)
 games.addGame(gameTest2)
 let gamesList = games.getNameList()
-console.log('gamesList============', gamesList)
+
 io.on('connection', function(socket){
     console.log('a user connected', socket.id);
     socket.emit('start', 'Un utilisateur est connecté')
@@ -27,37 +27,35 @@ io.on('connection', function(socket){
         console.log('newPlayer', data)
 
     })
-    /*socket.on('launch', (data)=>{
-        console.log('data', data)
-    })*/
     socket.on('userData', (login, room) =>{
-        console.log('Login', login)
-        console.log('Room', room)
+
         gamesList = games.getNameList()
         //console.log('gameees', games)
         socket.join(room)
         const gameExist = gamesList.find(element =>element.name === room)
-        console.log('gameExiste++++++++', gameExist)
         if(gameExist){
+
             const gameData = games.getGameData(room)
             const newPieces = gameData.getPiece()
+            gameData.addSpectre(login,[0,0,0,0,0,0,0,0,0,0])
+            const allSpectres = gameData.getAllSpectres
             socket.emit('playerStatus', {
                 name:room,
                 status:'follower',
                 login,
-                newPieces
+                newPieces,
+                spectres:allSpectres
             })
 
         }else{
+
             let createGame = new Game(room, login)
             createGame.addPlayer(login)
             createGame.createNewPieces(7)
             createGame.setStatus('ready')
-            // console.log( 'get new Pieces', createGame.getPiece() )
+            createGame.addSpectre(login,[0,0,0,0,0,0,0,0,0,0])
+
             const nvxPlayer = new Player(login, createGame)
-            /*console.log('nvxPlayer', nvxPlayer)
-            console.log('nvxPlayer room', nvxPlayer.getRooms())
-            console.log( 'createGame', createGame )*/
 
             games.addGame(createGame)
             const newPieces = createGame.getPiece()
@@ -66,33 +64,41 @@ io.on('connection', function(socket){
                 name:room,
                 status:'master',
                 login,
-                newPieces
+                newPieces,
+                spectres:{
+                    name:login,
+                    spectre:[0,0,0,0,0,0,0,0,0,0]
+                }
             })
 
         }
     })
+
     socket.on('gameStatus', (data) =>{
 
-        console.log('game has been launch => ' , data, data.type === 'START_GAME')
-
-        /*if(data.type === 'START_GAME'){
-            console.log('------------------------------------')
-            console.log('gameees', games)
-            const linkedRoom = games.getGameData(data.room)
-            console.log('linkedRoom', linkedRoom)
-            console.log('newPIECES', newPieces)
-            io.to(data.room).emit('pieces',newPieces)
-        }*/
         io.to(data.room).emit('status','START_GAME')
     })
+
     socket.on('resquestShape', (room) =>{
-        console.log('le user ' + room + ' veut une nouvelle pièece')
+
         const roomData = games.getGameData(room)
-        console.log('^^^^^^^^^^^^ roomData', roomData)
         roomData.createNewPieces(7)
         const newCreatedPieces = roomData.getPiece()
-        console.log('^^^^^^^^^^^^ newCreatedPieces', newCreatedPieces)
-        socket.emit('getNewPieces', newCreatedPieces )
+        io.to(room).emit('getNewPieces', newCreatedPieces, room )
+
+    })
+    socket.on('sendSpectre', (spectre,room, login) =>{
+
+        const gameExist = gamesList.find(element =>element.name === room)
+
+        if(gameExist){
+            const gameData = games.getGameData(room)
+            gameData.addSpectre(login, spectre)
+            const allSpectre = gameData.getAllSpectres()
+
+            io.to(room).emit('receiveSpectres', room,allSpectre )
+
+        }
     })
 });
 

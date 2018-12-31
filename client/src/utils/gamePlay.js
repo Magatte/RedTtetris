@@ -2,7 +2,8 @@ import _ from 'lodash';
 import { startGame, newTetriminos, rotate, moveDown, moveLeft, moveRight, lastMove, hardDrop, gameOver } from '../redux/actions/index.js';
 import gameConstants from '../redux/constants/gameConstants.js';
 import store from '../redux/store/index';
-import {managePiecesStock} from "../redux/actions";
+import { managePiecesStock } from "../redux/actions";
+import { sendSpectre } from "../redux/actions/index";
 const { shapeTypes, newLine } = gameConstants;
 // import {asset, NativeModules} from 'react-360';
 // const {AudioModule} = NativeModules;
@@ -10,7 +11,7 @@ const { shapeTypes, newLine } = gameConstants;
 
 
 export const loadGame = (room, piecesStock) => {
-    console.log('About to start the game...', piecesStock);
+
     return (dispatch, getState) => {
         const state = getState()
         const currentRoom = state.games.rooms.find(room => room.name === state.user.room)
@@ -83,7 +84,7 @@ export const getNewGrid = (grid, currentTetriminos) => {
 
 export const moveTetriminos = (direction) => (
     (dispatch, getState) => {
-        const { gameStatus, activeTetriminos, currentTetriminos, nextTetriminos } = getState();
+        const { gameStatus, activeTetriminos, currentTetriminos, nextTetriminos, user } = getState();
         let state = getState();
         let edge = {};
 
@@ -96,12 +97,9 @@ export const moveTetriminos = (direction) => (
             const nextRandNb = currentRoom.piecesStock[0]
             //const nextRandNb = currentRoom.piecesStock[1]
             deleteLine(activeTetriminos.newGrid);
+            const spectre = getSpectre(activeTetriminos.newGrid)
+            dispatch(sendSpectre(spectre, user.room, user.login))
             dispatch(managePiecesStock(state.user.room, currentRoom.piecesStock))
-            console.log('piecesStock===', state.piecesStock)
-            console.log('piecesStock===', currentTetriminos)
-            console.log('piecesStock===', nextTetriminos)
-            console.log('nextRandNb===', nextRandNb)
-            console.log('currentRoom===', currentRoom)
             return dispatch(newTetriminos(currentTetriminos, nextTetriminos, nextRandNb));
         }
 
@@ -214,6 +212,37 @@ export const getGhost = (pos, arr) => {
             tmpPos[i].x++
     }
     return tmpPos;
+}
+
+
+const getPositionInLine = ( line ) => {
+    const savePos = []
+
+    for ( let a =  0 ; a < 10 ; a++) {
+        if ( line[a] !== 0 && line[a] !== 8 ) {
+            savePos.push(a)
+        }
+    }
+    return savePos
+}
+
+const getSpectre = ( game ) =>{
+    return game.reduce(( acc, cur, i ) =>{
+
+        const poses = getPositionInLine(cur, i)
+
+        if ( poses.length > 0 ) {
+            poses.map((element) =>{
+                if ( acc[element] === 0 ) {
+                    acc[element] = 20 - i
+                }
+            })
+        }
+
+        return acc
+
+    }, [0,0,0,0,0,0,0,0,0,0])
+
 }
 
 const mapDispatchToProps = dispatch => {

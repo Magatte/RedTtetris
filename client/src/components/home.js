@@ -26,7 +26,7 @@ const Form = (props) =>{
         if(event.target[0].value && event.target[1].value){
             const url = '/'+event.target[1].value + '[' + event.target[0].value + ']'
             props.sendLoginRoom(event.target[0].value, event.target[1].value)
-            console.log('url', url)
+
             history.push(url)
         }
     }
@@ -85,7 +85,7 @@ const Home =(props)=> {
 }
 
 const mapStateToProps = state => {
-    console.log('STATE Rooms', state)
+
     return {
         gameStatus: state.gameStatus,
         emptyGrid: state.activeTetriminos,

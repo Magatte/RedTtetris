@@ -3,7 +3,8 @@ export default class Game{
         this.name = name;
         this.master = master;
         this.players = [];
-        this.pieces =[]
+        this.pieces =[];
+        this.spectres = []
         this.status= 0
     }
     setStatus(status){
@@ -26,6 +27,26 @@ export default class Game{
         }
 
     }
+
+    addSpectre( playerName, spectre ) {
+
+        const playerIndex = this.spectres.findIndex( p => p.name === playerName )
+
+        if ( playerIndex > -1 ) {
+
+            this.spectres.splice(playerIndex, 1)
+        }
+
+        this.spectres.push({
+            name:playerName,
+            spectre
+        })
+    }
+
+    getAllSpectres(){
+        return this.spectres
+    }
+
     addPlayer(player){
         this.players.push(player)
         return this.players

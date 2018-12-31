@@ -48,17 +48,20 @@ export default function socketMiddleware(socket){
                 break;
             }
             case 'MANAGE_PIECES_STOCK':{
-                if(action.piecesStock === 5){
+
+                if(action.piecesStock.length === 5){
 
                     socket.emit('resquestShape', action.room)
-                    socket.on('getNewPieces', data =>{
-
-                        action = {...action, newPieces:data}
-
+                    socket.on('getNewPieces', (newCreatedPieces, room) =>{
+                        const action = {
+                            type:'NEW_PIECES_FROM_SOCKET',
+                            newCreatedPieces,
+                            room
+                        }
                         return next(action)
-
                     })
                 }
+
                 break;
             }
             case 'GET_GAMES_LIST':{
@@ -80,6 +83,19 @@ export default function socketMiddleware(socket){
 
                 })
                 break;
+            }
+            case 'SEND_SPECTRE':{
+
+                socket.emit('sendSpectre',action.spectre, action.room, action.login)
+                socket.on('receiveSpectres', (room, allSpectres)=>{
+                    const action = {
+                        type:'RECEIVE_NEW_SPECTRE',
+                        room,
+                        allSpectres
+                    }
+                    console.log('RECEIVE_NEW_SPECTRE', room, allSpectres)
+                    return next(action)
+                })
             }
             default:
                 break;

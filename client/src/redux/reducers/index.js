@@ -161,8 +161,10 @@ const games = (state = {rooms: []}, action) =>{
                 if(!state.rooms.find(room => room.name === action.data.room)){
                     const data =  {
                         name: action.data.name,
-                        piecesStock: action.data.newPieces
+                        piecesStock: action.data.newPieces,
+                        spectres:[action.data.spectres]
                     }
+                    // faire un find index puis remplacer les datas existantes par celle qui arrivent
                     return { rooms:[...state.rooms,data]}
 
                 }
@@ -171,17 +173,36 @@ const games = (state = {rooms: []}, action) =>{
         }
         case 'MANAGE_PIECES_STOCK':{
             const roomIndex = state.rooms.findIndex( room => room.name === action.room)
-            console.log('state', state)
-            console.log('roomIndex', roomIndex)
-            console.log(' state.rooms[roomIndex]',  state.rooms[roomIndex])
-            console.log(' state.rooms[roomIndex].piecesStock',  state.rooms[roomIndex].piecesStock)
             if(roomIndex){
                 state.rooms[roomIndex].piecesStock.shift()
             }
             if(action.newPieces && roomIndex){
                 state.rooms[roomIndex].piecesStock = [...state.rooms[roomIndex].piecesStock, ...action.newPieces]
             }
-            console.log('State%%%%%%%%%%%%%%%%%%%%%%%%', state)
+            return state
+        }
+        case 'NEW_PIECES_FROM_SOCKET':{
+            const roomIndex = state.rooms.findIndex( room => room.name === action.room)
+
+            if ( roomIndex ) {
+                state.rooms[roomIndex].piecesStock = [...state.rooms[roomIndex].piecesStock, ...action.newCreatedPieces]
+            }
+            return state
+        }
+        case 'RECEIVE_NEW_SPECTRE':{
+
+            if(action.room){
+                const roomIndex = state.rooms.findIndex(room => room.name === action.room)
+                if(roomIndex > -1){
+
+                    state.rooms[roomIndex]['spectres'] = [...action.allSpectres]
+                    //return {...state;
+
+                    return state
+
+
+                }
+            }
             return state
         }
         default:
