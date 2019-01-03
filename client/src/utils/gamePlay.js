@@ -69,10 +69,8 @@ export const getNewGrid = (grid, currentTetriminos) => {
         });
         return row;
     });
-    if (isPlace === false) {
-        dispatch(callGameOver());
+    if (isPlace === false)
         return grid;
-    }
     return newGrid;
 }
 
