@@ -10,10 +10,12 @@ import Menu from './menu.js';
 const { initialGrid } = gameConstants;
 
 
-// const methods = {
-//     componentDidMount(props) {
-//     }
-// };
+const methods = {
+    componentDidUpdate(props) {
+        if (props.activeTetriminos.isPlace === false)
+            props.gameOver();
+    }
+};
 
 // BUGS
 // left snake bug
@@ -40,6 +42,7 @@ const Game = (props) => {
                     ghost={props.currentTetriminos.ghost}
                     oldGhost={props.currentTetriminos.oldGhost}
                     initialPos={props.currentTetriminos.initialPos}
+                    isPlace={props.activeTetriminos.isPlace}
                 />
             </div>
             <div className='game-info'>
@@ -75,4 +78,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Game);
+export default connect(mapStateToProps, mapDispatchToProps)(lifecycle(methods)(Game));

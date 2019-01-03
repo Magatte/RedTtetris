@@ -28,10 +28,18 @@ const activeTetriminos = (state = { newGrid: initialGrid }, action) => {
         case actions.START_GAME:
             let currentTetriminos = tetriminos[action.currentShape];
             currentTetriminos.name = action.currentShape;
-            return { newGrid: getNewGrid(initialGrid, currentTetriminos) }; // TODO a new cleared grid
+            return { newGrid: getNewGrid(initialGrid, currentTetriminos), isPlace: true }; // TODO a new cleared grid
         case actions.NEW_TETRIMINOS:
             // Every time we get a new tetriminos we actualise the grid
-            return { state, newGrid: getNewGrid(state.newGrid, action.nextTetriminos) };
+            let pos = action.nextTetriminos.pos;
+            let newGrid = state.newGrid;
+            let isPlace = true;
+            for (let i = 0; i < 4; i++) {
+                if (newGrid[pos[i].x][pos[i].y] > 0)
+                    isPlace = false;
+            }
+            newGrid = isPlace ? getNewGrid(state.newGrid, action.nextTetriminos) : state.newGrid;
+            return { state, newGrid: newGrid, isPlace: isPlace };
         case actions.GAME_OVER:
             return state;
         default:

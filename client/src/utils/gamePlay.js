@@ -48,29 +48,16 @@ export const dropTetriminos = (dispatch, getState) => {
         dispatch(moveTetriminos('down'));
 }
 
-export const callGameOver = () => {
-    return dispatch => {
-        console.log('DISPATCH');
-        dispatch(gameOver());
-    }
-}
-
 export const getNewGrid = (grid, currentTetriminos) => {
-    let isPlace = true;
     let index = shapeTypes.indexOf(currentTetriminos.name) + 1;
     let newGrid = grid.map((row, i, arr) => {
         row.map((sq, j) => {
-            if (currentTetriminos.shape[i][j] === index) {
-                if (arr[i][j] !== 0)
-                    isPlace = false;
+            if (currentTetriminos.shape[i][j] === index)
                 arr[i][j] = index;
-            }
             return sq;
         });
         return row;
     });
-    if (isPlace === false)
-        return grid;
     return newGrid;
 }
 
@@ -198,10 +185,4 @@ export const getGhost = (pos, arr) => {
             tmpPos[i].x++
     }
     return tmpPos;
-}
-
-const mapDispatchToProps = dispatch => {
-    return {
-        callGameOver: dispatch(callGameOver())
-    }
 }
