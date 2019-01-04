@@ -5,8 +5,6 @@ const { shapeTypes, colors } = gameConstants;
 
 const Board = (props) => {
     
-    let status = props.status;
-
     const setNewPosition = (arr) => {
         let pos = props.pos;
         let oldPos = props.oldPos;
@@ -41,8 +39,6 @@ const Board = (props) => {
 
         if (props.isPlace)
             setNewPosition(squares);
-        else
-            status = 'GAME_OVER';
         const board = squares.map((row, j) => {
             let rowKey = j;
             return (
@@ -59,7 +55,7 @@ const Board = (props) => {
 
     return (
         <div>
-            <div className='status'>{status}</div>
+            <div className='status'>{props.status}</div>
             <div className='board'>
                 {createBoard()}
             </div>

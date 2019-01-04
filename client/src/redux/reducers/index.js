@@ -31,7 +31,7 @@ const activeTetriminos = (state = { newGrid: initialGrid }, action) => {
             return { newGrid: getNewGrid(initialGrid, currentTetriminos), isPlace: true }; // TODO a new cleared grid
         case actions.NEW_TETRIMINOS:
             // Every time we get a new tetriminos we actualise the grid
-            let pos = action.nextTetriminos.pos;
+            let pos = action.nextTetriminos.initialPos;
             let newGrid = state.newGrid;
             let isPlace = true;
             for (let i = 0; i < 4; i++) {
@@ -55,6 +55,7 @@ const nextTetriminos = (state = {}, action) => {
                 shape: tetriminos[action.nextShape].shape,
                 name: action.nextShape,
                 color: tetriminos[action.nextShape].color,
+                initialPos: tetriminos[action.nextShape].initialPos,
                 pos: tetriminos[action.nextShape].pos,
                 oldPos: tetriminos[action.nextShape].oldPos,
                 ghost: tetriminos[action.nextShape].initialPos,

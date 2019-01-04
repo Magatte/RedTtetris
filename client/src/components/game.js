@@ -12,7 +12,7 @@ const { initialGrid } = gameConstants;
 
 const methods = {
     componentDidUpdate(props) {
-        if (props.activeTetriminos.isPlace === false)
+        if (props.activeTetriminos.isPlace === false && props.gameStatus === 'PLAYING')
             props.gameOver();
     }
 };
