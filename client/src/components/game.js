@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import lifecycle from 'react-pure-lifecycle';
 import { bindActionCreators, compose } from 'redux';
+import { AwesomeButton } from 'react-awesome-button';
+import 'react-awesome-button/dist/themes/theme-bojack.css';
 import Board from './board.js';
 import { loadGame, getGhost } from '../utils/gamePlay.js';
 import { pauseGame, unpauseGame, gameOver } from '../redux/actions';
@@ -32,7 +34,21 @@ const Game = (props) => {
 
     return (
         <div id='game'>
-            {props.gameStatus === 'GAME_OVER' && <div className='game-overlay'>GAME OVER</div>}
+            {
+                props.gameStatus === 'GAME_OVER' && 
+                <div className='game-overlay'>
+                    <p> GAME OVER </p>
+                    <p>
+                        <AwesomeButton
+                            className='restart'
+                            type='primary'
+                            size='medium'
+                        >
+                            RESTART
+                        </AwesomeButton>
+                    </p>
+                </div>
+            }
             <Board 
                 squares={square}
                 name={props.currentTetriminos.name}
