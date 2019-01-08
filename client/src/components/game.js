@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import lifecycle from 'react-pure-lifecycle';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators, compose } from 'redux';
 import Board from './board.js';
 import { loadGame, getGhost } from '../utils/gamePlay.js';
 import { pauseGame, unpauseGame, gameOver } from '../redux/actions';
@@ -11,9 +11,9 @@ const { initialGrid } = gameConstants;
 
 
 const methods = {
-    componentDidUpdate(props) {
-        if (props.activeTetriminos.isPlace === false && props.gameStatus === 'PLAYING')
-            props.gameOver();
+    componentDidUpdate({ activeTetriminos, gameStatus, gameOver }) {
+        if (!activeTetriminos.isPlace && gameStatus === 'PLAYING')
+            gameOver();
     }
 };
 
@@ -31,22 +31,21 @@ const Game = (props) => {
     }
 
     return (
-        <div className='game'>
-            <div className='game-board'>
-                <Board 
-                    squares={square}
-                    name={props.currentTetriminos.name}
-                    pos={props.currentTetriminos.pos}
-                    oldPos={props.currentTetriminos.oldPos}
-                    status={props.gameStatus}
-                    ghost={props.currentTetriminos.ghost}
-                    oldGhost={props.currentTetriminos.oldGhost}
-                    initialPos={props.currentTetriminos.initialPos}
-                    isPlace={props.activeTetriminos.isPlace}
-                />
-            </div>
-            <div className='game-info'>
-                <div className='menu'>
+        <div id='game'>
+            {props.gameStatus === 'GAME_OVER' && <div className='game-overlay'>GAME OVER</div>}
+            <Board 
+                squares={square}
+                name={props.currentTetriminos.name}
+                pos={props.currentTetriminos.pos}
+                oldPos={props.currentTetriminos.oldPos}
+                status={props.gameStatus}
+                ghost={props.currentTetriminos.ghost}
+                oldGhost={props.currentTetriminos.oldGhost}
+                initialPos={props.currentTetriminos.initialPos}
+                isPlace={props.activeTetriminos.isPlace}
+            />
+            <div id='game-info'>
+                <div id='menu'>
                     <Menu
                         pauseTitle={props.gameStatus === 'PAUSED' ? 'UNPAUSE' : 'PAUSE'}
                         loadGame={props.loadGame}
@@ -78,4 +77,7 @@ const mapDispatchToProps = (dispatch) => {
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(lifecycle(methods)(Game));
+export default compose(
+    connect(mapStateToProps, mapDispatchToProps),
+    lifecycle(methods)
+)(Game);

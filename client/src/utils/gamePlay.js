@@ -2,10 +2,11 @@ import _ from 'lodash';
 import { startGame, newTetriminos, rotate, moveDown, moveLeft, moveRight, lastMove, hardDrop, gameOver } from '../redux/actions/index.js';
 import gameConstants from '../redux/constants/gameConstants.js';
 import store from '../redux/store/index';
-const { shapeTypes, newLine } = gameConstants;
 // import {asset, NativeModules} from 'react-360';
+
+const { shapeTypes, newLine } = gameConstants;
 // const {AudioModule} = NativeModules;
-// const deleteSound = new Audio('../../../public/sounds/delete.mp3');
+const deleteSound = new Audio('../sounds/delete.mp3');
 
 
 export const loadGame = () => {
@@ -161,7 +162,7 @@ export const deleteLine = (grid) => {
         if (isLineDone(row) === true) {
             grid.splice(i, 1);
             grid.unshift([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-            // deleteSound.play();
+            deleteSound.play();
         }
         return row;
     });

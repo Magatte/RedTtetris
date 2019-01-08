@@ -39,7 +39,7 @@ const activeTetriminos = (state = { newGrid: initialGrid }, action) => {
                     isPlace = false;
             }
             newGrid = isPlace ? getNewGrid(state.newGrid, action.nextTetriminos) : state.newGrid;
-            return { state, newGrid: newGrid, isPlace: isPlace };
+            return { ...state, newGrid: newGrid, isPlace: isPlace };
         case actions.GAME_OVER:
             return state;
         default:
@@ -114,9 +114,9 @@ const currentTetriminos = (state = {}, action) => {
 
                 state.oldPos = _.cloneDeep(state.pos);
                 state.pos = state.pos.map((c, i) => {
-                    const newCoods = rotateTetriminos(cx, cy, c.x, c.y);
-                    c.x = newCoods[0];
-                    c.y = newCoods[1];
+                    const [x, y] = rotateTetriminos(cx, cy, c.x, c.y);
+                    c.x = x;
+                    c.y = y;
                     return c;
                 });
             }

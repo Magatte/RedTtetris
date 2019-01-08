@@ -54,7 +54,7 @@ const Board = (props) => {
     };
 
     return (
-        <div>
+        <div className="game-board">
             <div className='status'>{props.status}</div>
             <div className='board'>
                 {createBoard()}

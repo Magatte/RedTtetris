@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'Joystix';
+    src: url(./fonts/joystix-monospace.ttf);
+}
+  
 body {
     font: 14px "Century Gothic", Futura, sans-serif;
     margin: 20px;
@@ -5,6 +10,37 @@ body {
   
 ol, ul {
     padding-left: 30px;
+}
+
+#game {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+}
+
+.game-overlay {
+    position: absolute;
+    background-color: rgba(0,0,0,0.5);
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 50px;
+    font-family: Joystix;
+}
+
+#game-info {
+    /* margin-left: 20px; */
+    margin-top: 30px;
+    margin-left: 30px;
+    border: 5px solid #999;
+    padding: 10px;
+}
+
+#menu {
+    margin-top: 15px;
 }
 
 .status {
@@ -41,19 +77,6 @@ ol, ul {
     box-sizing: border-box;
 }
 
-.game {
-    display: flex;
-    flex-direction: row;
-}
-
-.game-info {
-    /* margin-left: 20px; */
-    margin-top: 30px;
-    margin-left: 30px;
-    border: 5px solid #999;
-    padding: 10px;
-}
-
-.menu {
-    margin-top: 15px;
+ .menu-button {
+    margin-bottom: 5px;
 }
