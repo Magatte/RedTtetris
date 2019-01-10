@@ -38,13 +38,20 @@ const Game = (props) => {
                 props.gameStatus === 'GAME_OVER' && 
                 <div className='game-overlay'>
                     <p> GAME OVER </p>
-                    <p>
+                    <p id='overlay-buttons'>
                         <AwesomeButton
                             className='restart'
                             type='primary'
                             size='medium'
                         >
                             RESTART
+                        </AwesomeButton>
+                        <AwesomeButton
+                            className='restart'
+                            type='primary'
+                            size='medium'
+                        >
+                            QUIT
                         </AwesomeButton>
                     </p>
                 </div>
