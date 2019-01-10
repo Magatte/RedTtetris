@@ -50,8 +50,8 @@ export const dropTetriminos = (dispatch, getState) => {
 }
 
 export const restart = () => {
-    return async (dispatch, getState) => {
-        await dispatch(stopGame());
+    return (dispatch) => {
+        dispatch(stopGame());
         dispatch(loadGame());
     }
 };

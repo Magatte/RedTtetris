@@ -25,12 +25,13 @@ const gameStatus = (state = 'IDLE', action) => {
     }
 };
 
-const activeTetriminos = (state = { newGrid: _.cloneDeep(initialGrid) }, action) => {
+const activeTetriminos = (state = { newGrid: initialGrid }, action) => {
     switch (action.type) {
         case actions.START_GAME:
             let currentTetriminos = tetriminos[action.currentShape];
             currentTetriminos.name = action.currentShape;
-            return { newGrid: getNewGrid(state.newGrid, currentTetriminos), isPlace: true }; // TODO a new cleared grid
+            let initial = Array(20).fill(0).map(() => Array(10).fill(0));
+            return { newGrid: getNewGrid(initial, currentTetriminos), isPlace: true }; // TODO a new cleared grid
         case actions.NEW_TETRIMINOS:
             // Every time we get a new tetriminos we actualise the grid
             let pos = action.nextTetriminos.initialPos;

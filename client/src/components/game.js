@@ -17,8 +17,6 @@ const methods = {
     componentDidUpdate({ activeTetriminos, gameStatus, gameOver, loadGame, stopGame }) {
         if (!activeTetriminos.isPlace && gameStatus === 'PLAYING')
             gameOver();
-        if (gameStatus === 'RESTART')
-            stopGame();
     }
 };
 
@@ -29,13 +27,10 @@ const Game = (props) => {
     let square = null;
     let ghost = null;
     
-    const restart = () => {
-        props.restart();
-        // props.loadGame();
-    }
-
-    if (props.gameStatus === 'IDLE')
+    if (props.gameStatus === 'IDLE') {
+        console.log('INITIALGRID', initialGrid);
         square = initialGrid;
+    }
     else {
         square = props.activeTetriminos.newGrid;
         props.currentTetriminos.ghost = getGhost(props.currentTetriminos.pos, square);
