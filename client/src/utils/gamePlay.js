@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { startGame, newTetriminos, rotate, moveDown, moveLeft, moveRight, lastMove, hardDrop, gameOver } from '../redux/actions/index.js';
+import { startGame, stopGame, newTetriminos, rotate, moveDown, moveLeft, moveRight, lastMove, hardDrop } from '../redux/actions/index.js';
 import gameConstants from '../redux/constants/gameConstants.js';
 import store from '../redux/store/index';
 // import {asset, NativeModules} from 'react-360';
@@ -45,9 +45,16 @@ export const loadGame = () => {
 export const dropTetriminos = (dispatch, getState) => {
     const { gameStatus } = getState();
 
-    if (gameStatus !== 'PAUSED' && gameStatus !== 'GAME_OVER')
+    if (gameStatus !== 'PAUSED' && gameStatus !== 'GAME_OVER' && gameStatus !== 'IDLE')
         dispatch(moveTetriminos('down'));
 }
+
+export const restart = () => {
+    return async (dispatch, getState) => {
+        await dispatch(stopGame());
+        dispatch(loadGame());
+    }
+};
 
 export const getNewGrid = (grid, currentTetriminos) => {
     let index = shapeTypes.indexOf(currentTetriminos.name) + 1;

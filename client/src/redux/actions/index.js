@@ -1,6 +1,7 @@
 import gameConstants from '../constants/gameConstants';
 export const START_GAME = 'START_GAME';
 export const STOP_GAME = 'STOP_GAME';
+export const RESTART = 'RESTART';
 export const PAUSE_GAME = 'PAUSE_GAME';
 export const UNPAUSE_GAME = 'UNPAUSE_GAME';
 export const GAME_OVER = 'GAME_OVER';
@@ -46,6 +47,12 @@ export const stopGame = () => {
         type: STOP_GAME
     }
 };
+
+// export const restart = () => {
+//     return {
+//         type: RESTART
+//     }
+// };
 
 export const pauseGame = () => {
     return {

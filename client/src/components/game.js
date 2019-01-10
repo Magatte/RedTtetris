@@ -1,21 +1,24 @@
+import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
-import lifecycle from 'react-pure-lifecycle';
+import lifecycle, { componentWillReceiveProps } from 'react-pure-lifecycle';
 import { bindActionCreators, compose } from 'redux';
 import { AwesomeButton } from 'react-awesome-button';
 import 'react-awesome-button/dist/themes/theme-bojack.css';
 import Board from './board.js';
-import { loadGame, getGhost } from '../utils/gamePlay.js';
-import { pauseGame, unpauseGame, gameOver } from '../redux/actions';
+import { loadGame, restart, getGhost } from '../utils/gamePlay.js';
+import { pauseGame, unpauseGame, gameOver, stopGame } from '../redux/actions';
 import gameConstants from '../redux/constants/gameConstants';
 import Menu from './menu.js';
 const { initialGrid } = gameConstants;
 
 
 const methods = {
-    componentDidUpdate({ activeTetriminos, gameStatus, gameOver }) {
+    componentDidUpdate({ activeTetriminos, gameStatus, gameOver, loadGame, stopGame }) {
         if (!activeTetriminos.isPlace && gameStatus === 'PLAYING')
             gameOver();
+        if (gameStatus === 'RESTART')
+            stopGame();
     }
 };
 
@@ -25,6 +28,12 @@ const methods = {
 const Game = (props) => {
     let square = null;
     let ghost = null;
+    
+    const restart = () => {
+        props.restart();
+        // props.loadGame();
+    }
+
     if (props.gameStatus === 'IDLE')
         square = initialGrid;
     else {
@@ -43,6 +52,7 @@ const Game = (props) => {
                             className='restart'
                             type='primary'
                             size='medium'
+                            action={() => props.restart()}
                         >
                             RESTART
                         </AwesomeButton>
@@ -50,6 +60,7 @@ const Game = (props) => {
                             className='restart'
                             type='primary'
                             size='medium'
+                            action={() => props.stopGame()}
                         >
                             QUIT
                         </AwesomeButton>
@@ -71,7 +82,7 @@ const Game = (props) => {
                 <div id='menu'>
                     <Menu
                         pauseTitle={props.gameStatus === 'PAUSED' ? 'UNPAUSE' : 'PAUSE'}
-                        loadGame={props.loadGame}
+                        loadGame={props.gameStatus === 'IDLE' && props.loadGame }
                         pauseGame={props.gameStatus === 'PAUSED' ? props.unpauseGame : props.pauseGame}
                     />
                 </div>
@@ -96,7 +107,9 @@ const mapDispatchToProps = (dispatch) => {
         loadGame: bindActionCreators(loadGame, dispatch),
         pauseGame: bindActionCreators(pauseGame, dispatch),
         unpauseGame: bindActionCreators(unpauseGame, dispatch),
-        gameOver: bindActionCreators(gameOver, dispatch)
+        gameOver: bindActionCreators(gameOver, dispatch),
+        stopGame: bindActionCreators(stopGame, dispatch),
+        restart: bindActionCreators(restart, dispatch)
     }
 };
 

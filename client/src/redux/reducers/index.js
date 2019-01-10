@@ -15,7 +15,9 @@ const gameStatus = (state = 'IDLE', action) => {
         case actions.UNPAUSE_GAME:
             return 'PLAYING';
         case actions.STOP_GAME:
-            return 'PAUSED';
+            return 'IDLE';
+        case actions.RESTART:
+            return 'RESTART'
         case actions.GAME_OVER:
             return 'GAME_OVER';
         default:
@@ -23,12 +25,12 @@ const gameStatus = (state = 'IDLE', action) => {
     }
 };
 
-const activeTetriminos = (state = { newGrid: initialGrid }, action) => {
+const activeTetriminos = (state = { newGrid: _.cloneDeep(initialGrid) }, action) => {
     switch (action.type) {
         case actions.START_GAME:
             let currentTetriminos = tetriminos[action.currentShape];
             currentTetriminos.name = action.currentShape;
-            return { newGrid: getNewGrid(initialGrid, currentTetriminos), isPlace: true }; // TODO a new cleared grid
+            return { newGrid: getNewGrid(state.newGrid, currentTetriminos), isPlace: true }; // TODO a new cleared grid
         case actions.NEW_TETRIMINOS:
             // Every time we get a new tetriminos we actualise the grid
             let pos = action.nextTetriminos.initialPos;

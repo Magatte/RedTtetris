@@ -10,7 +10,7 @@ const Menu = (props) => {
                 <AwesomeButton
                     type="primary"
                     size="medium"
-                    action={() => props.loadGame()}
+                    action={() => props.loadGame && props.loadGame()}
                 >
                     START
                 </AwesomeButton>
