@@ -1,20 +1,23 @@
 import _ from 'lodash';
-import { startGame, stopGame, newTetriminos, rotate, moveDown, moveLeft, moveRight, lastMove, hardDrop } from '../redux/actions/index.js';
-import gameConstants from '../redux/constants/gameConstants.js';
-import store from '../redux/store/index';
-// import {asset, NativeModules} from 'react-360';
+import { startGame, stopGame, newTetriminos, rotate, moveDown, moveLeft, moveRight, lastMove, hardDrop } from '../redux/actions/index';
+import gameConstants from '../redux/constants/gameConstants';
+import { managePiecesStock } from "../redux/actions";
+import { sendSpectre } from "../redux/actions/index";
 
 const { shapeTypes, newLine } = gameConstants;
-// const {AudioModule} = NativeModules;
 const deleteSound = new Audio('../sounds/delete.mp3');
 
 
 /** REDUX THUNK ACTION CREATORS  START */
 
-export const loadGame = () => {
-    console.log('About to start the game...');
+export const loadGame = (room, piecesStock) => {
+
     return (dispatch, getState) => {
-        dispatch(startGame());
+        const state = getState()
+        const currentRoom = state.games.rooms.find(room => room.name === state.user.room)
+        const curRandNb = currentRoom.piecesStock[0]
+        const nextRandNb = currentRoom.piecesStock[1]
+        dispatch(startGame(room, curRandNb, nextRandNb));
         const handleMove = (e) => {
             e.preventDefault();
             switch (e.keyCode) {
@@ -73,7 +76,7 @@ export const getNewGrid = (grid, currentTetriminos) => {
 
 export const moveTetriminos = (direction) => (
     (dispatch, getState) => {
-        const { gameStatus, activeTetriminos, currentTetriminos, nextTetriminos } = getState();
+        const { gameStatus, activeTetriminos, currentTetriminos, nextTetriminos, user } = getState();
         let state = getState();
         let edge = {};
 
@@ -82,8 +85,14 @@ export const moveTetriminos = (direction) => (
 
         edge = checkCollision(activeTetriminos.newGrid, currentTetriminos.pos)
         if (edge.xb === false && state.lastMove) {
+            const currentRoom = state.games.rooms.find(room => room.name === state.user.room)
+            const nextRandNb = currentRoom.piecesStock[0]
+            //const nextRandNb = currentRoom.piecesStock[1]
             deleteLine(activeTetriminos.newGrid);
-            return dispatch(newTetriminos(currentTetriminos, nextTetriminos));
+            const spectre = getSpectre(activeTetriminos.newGrid)
+            dispatch(sendSpectre(spectre, user.room, user.login))
+            dispatch(managePiecesStock(state.user.room, currentRoom.piecesStock))
+            return dispatch(newTetriminos(currentTetriminos, nextTetriminos, nextRandNb));
         }
 
         switch (direction) {
@@ -198,4 +207,35 @@ export const getGhost = (pos, arr) => {
             tmpPos[i].x++
     }
     return tmpPos;
+}
+
+const getPositionInLine = ( line ) => {
+    const savePos = []
+
+    for ( let a =  0 ; a < 10 ; a++) {
+        if ( line[a] !== 0 && line[a] !== 8 ) {
+            savePos.push(a)
+        }
+    }
+    return savePos
+}
+
+const getSpectre = ( game ) => {
+    return game.reduce(( acc, cur, i ) => {
+
+        const poses = getPositionInLine(cur, i)
+
+        if ( poses.length > 0 ) {
+            poses.map((element) => {
+                if ( acc[element] === 0 ) {
+                    acc[element] = 20 - i
+                }
+                return element;
+            })
+        }
+
+        return acc;
+
+    }, [0,0,0,0,0,0,0,0,0,0]);
+
 }

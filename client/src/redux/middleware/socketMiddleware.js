@@ -107,9 +107,9 @@ export default function socketMiddleware(socket) {
                     console.log('RECEIVE_NEW_SPECTRE', room, allSpectres);
                     return next(action);
                 });
+                break;
             }
             default:
-                break;
         }
         return next(action);
     }

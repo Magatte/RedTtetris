@@ -1,22 +1,29 @@
-import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
-import lifecycle, { componentWillReceiveProps } from 'react-pure-lifecycle';
+import lifecycle from 'react-pure-lifecycle';
 import { bindActionCreators, compose } from 'redux';
 import { AwesomeButton } from 'react-awesome-button';
 import 'react-awesome-button/dist/themes/theme-bojack.css';
 import Board from './board.js';
 import { loadGame, restart, getGhost } from '../utils/gamePlay.js';
-import { pauseGame, unpauseGame, gameOver, stopGame } from '../redux/actions';
+import { pauseGame, unpauseGame, gameOver, stopGame, getPlayerStatus } from '../redux/actions';
 import gameConstants from '../redux/constants/gameConstants';
 import Menu from './menu.js';
 const { initialGrid } = gameConstants;
 
 
 const methods = {
-    componentDidUpdate({ activeTetriminos, gameStatus, gameOver, loadGame, stopGame }) {
-        if (!activeTetriminos.isPlace && gameStatus === 'PLAYING')
-            gameOver();
+    componentDidMount(props) {
+        props.getPlayerStatus()
+    },
+    componentDidUpdate(prevProps, prevState) {
+        const gamePieces = prevProps.rooms.find(room => room.name === prevProps.user.room);
+
+        if (!prevProps.activeTetriminos.isPlace && prevProps.gameStatus === 'PLAYING')
+            prevProps.gameOver();
+
+        if(prevProps.status === 'START_GAME' && prevProps.status !== prevState.status)
+            prevProps.loadGame(prevProps.user.room, gamePieces.piecesStock)
     }
 };
 
@@ -24,17 +31,16 @@ const methods = {
 // left snake bug
 // latency for ghost
 const Game = (props) => {
+
     let square = null;
-    let ghost = null;
     
-    if (props.gameStatus === 'IDLE') {
-        console.log('INITIALGRID', initialGrid);
+    if (props.gameStatus === 'IDLE')
         square = initialGrid;
-    }
     else {
         square = props.activeTetriminos.newGrid;
         props.currentTetriminos.ghost = getGhost(props.currentTetriminos.pos, square);
     }
+    const gameData = props.rooms.find(room => room.name === props.user.room)
 
     return (
         <div id='game'>
@@ -72,13 +78,18 @@ const Game = (props) => {
                 oldGhost={props.currentTetriminos.oldGhost}
                 initialPos={props.currentTetriminos.initialPos}
                 isPlace={props.activeTetriminos.isPlace}
+                user={props.user}
             />
             <div id='game-info'>
                 <div id='menu'>
                     <Menu
+                        piecesStock={props.piecesStock}
                         pauseTitle={props.gameStatus === 'PAUSED' ? 'UNPAUSE' : 'PAUSE'}
                         loadGame={props.gameStatus === 'IDLE' && props.loadGame }
                         pauseGame={props.gameStatus === 'PAUSED' ? props.unpauseGame : props.pauseGame}
+                        user={props.user}
+                        gameStatus={props.gameStatus}
+                        gameData={gameData}
                     />
                 </div>
                 <ol> {/* TODO */} </ol>
@@ -88,12 +99,16 @@ const Game = (props) => {
 }
 
 const mapStateToProps = state => {
+
     return {
         gameStatus: state.gameStatus,
         activeTetriminos: state.activeTetriminos,
         currentTetriminos: state.currentTetriminos,
         currentColor: state.currentTetriminos.color,
         nextTetriminos: state.nextTetriminos,
+        user: state.user,
+        status: state.socket.status,
+        rooms: state.games.rooms,
     }
 };
 
@@ -104,7 +119,8 @@ const mapDispatchToProps = (dispatch) => {
         unpauseGame: bindActionCreators(unpauseGame, dispatch),
         gameOver: bindActionCreators(gameOver, dispatch),
         stopGame: bindActionCreators(stopGame, dispatch),
-        restart: bindActionCreators(restart, dispatch)
+        restart: bindActionCreators(restart, dispatch),
+        getPlayerStatus: bindActionCreators(getPlayerStatus, dispatch)
     }
 };
 

@@ -24,9 +24,27 @@ export const GET_PLAYER_STATUS = 'GET_PLAYER_STATUS';
 export const SEND_SPECTRE = 'SEND_SPECTRE';
 export const RECEIVE_NEW_SPECTRE = 'RECEIVE_NEW_SPECTRE';
 
-export const newTetriminos = (currentTetriminos, nextTetriminos) => {
+
+export const managePiecesStock =(room,piecesStock) => {
+    return {
+        type:MANAGE_PIECES_STOCK,
+        room,
+        piecesStock
+    }
+}
+
+export const sendSpectre = (spectre, room, login) =>{
+
+    return {
+        type: SEND_SPECTRE,
+        spectre,
+        room,
+        login
+    }
+}
+
+export const newTetriminos = (currentTetriminos, nextTetriminos, nextRandNb) => {
     const { shapeTypes } = gameConstants;
-    const nextRandNb = Math.floor(Math.random() * (7 - 0)) + 0; // Math.Random return a number between 0 (included) and 1 (excluded)
     const nextShape = shapeTypes[nextRandNb];
 
     return {
@@ -37,18 +55,41 @@ export const newTetriminos = (currentTetriminos, nextTetriminos) => {
     };
 };
 
-export const startGame = () => {
+export const startGame = (room, curRandNb, nextRandNb) => {
+
     const { shapeTypes } = gameConstants;
-    const curRandNb = Math.floor(Math.random() * (7 - 0)) + 0; // Math.Random return a number between 0 (included) and 1 (excluded)
-    const nextRandNb = Math.floor(Math.random() * (7 - 0)) + 0; // Math.Random return a number between 0 (included) and 1 (excluded)
     const currentShape = shapeTypes[curRandNb];
     const nextShape = shapeTypes[nextRandNb];
+
     return {
         type: START_GAME,
         currentShape,
-        nextShape
+        nextShape,
+        room
     }
 };
+
+export const getPlayerStatus = () =>{
+    return{
+        type:GET_PLAYER_STATUS
+    }
+}
+
+export const sendLoginRoom = (login, room) => {
+    return {
+        type: SEND_LOGIN_ROOM,
+        login,
+        room
+
+    }
+}
+
+export const getGamesList = (l) => {
+
+    return {
+        type: GET_GAMES_LIST,
+    }
+}
 
 export const stopGame = () => {
     return {

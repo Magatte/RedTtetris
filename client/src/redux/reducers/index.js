@@ -3,6 +3,7 @@ import _ from 'lodash';
 import gameConstants from '../constants/gameConstants';
 import * as actions from '../actions/index';
 import { rotateTetriminos, getNewGrid } from '../../utils/gamePlay';
+import {userInitaleState} from "../constants/storesConstans";
 
 const { tetriminos, initialGrid } = gameConstants;
 
@@ -143,12 +144,102 @@ const lastMove = (state = false, action) => {
     }
 }
 
+const user = (state = userInitaleState, action) =>{
+    switch(action.type) {
+        case actions.SEND_LOGIN_ROOM:{
+            const {login, room} = action
+            return {login:login, room:room}
+        }
+        case actions.GET_PLAYER_STATUS:{
+            if( action.data){
+                return{...state, status:action.data.status, piecesStock:action.data.newPieces}
+
+            }
+            return state
+        }
+        default:
+            return state;
+    }
+
+}
+
+const games = (state = {rooms: []}, action) => {
+    switch(action.type) {
+        case 'GET_GAMES_LIST':{
+            return {rooms:action.games ? action.games:[]}
+        }
+        case 'GET_PLAYER_STATUS':{
+            if(action.data){
+                if(!state.rooms.find(room => room.name === action.data.room)){
+                    const data =  {
+                        name: action.data.name,
+                        piecesStock: action.data.newPieces,
+                        spectres:[action.data.spectres]
+                    }
+                    // faire un find index puis remplacer les datas existantes par celle qui arrivent
+                    return { rooms:[...state.rooms,data]}
+
+                }
+            }
+            return state
+        }
+        case 'MANAGE_PIECES_STOCK':{
+            const roomIndex = state.rooms.findIndex( room => room.name === action.room)
+            if(roomIndex){
+                state.rooms[roomIndex].piecesStock.shift()
+            }
+            if(action.newPieces && roomIndex){
+                state.rooms[roomIndex].piecesStock = [...state.rooms[roomIndex].piecesStock, ...action.newPieces]
+            }
+            return state
+        }
+        case 'NEW_PIECES_FROM_SOCKET':{
+            const roomIndex = state.rooms.findIndex( room => room.name === action.room)
+
+            if ( roomIndex ) {
+                state.rooms[roomIndex].piecesStock = [...state.rooms[roomIndex].piecesStock, ...action.newCreatedPieces]
+            }
+            return state
+        }
+        case 'RECEIVE_NEW_SPECTRE':{
+
+            if(action.room){
+                const roomIndex = state.rooms.findIndex(room => room.name === action.room)
+                if(roomIndex > -1){
+
+                    state.rooms[roomIndex]['spectres'] = [...action.allSpectres]
+                    //return {...state;
+
+                    return state
+
+
+                }
+            }
+            return state
+        }
+        default:
+            return state;
+    }
+}
+
+const socket = (state = {status:""}, action) => {
+    switch (action.type) {
+        case 'DATA_FROM_SOCKET':
+            return {...state, status:action.data}
+        default:
+            return state;
+    }
+}
+
 const gameReducers = combineReducers({
     gameStatus,
     activeTetriminos,
     nextTetriminos,
     currentTetriminos,
-    lastMove
+    lastMove,
+    user,
+    games,
+    socket
 }); // CombineReducers put all these reducers into a single namespace
 
 export default gameReducers;
