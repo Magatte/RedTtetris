@@ -9,6 +9,7 @@ import { loadGame, restart, getGhost } from '../utils/gamePlay.js';
 import { pauseGame, unpauseGame, gameOver, stopGame, getPlayerStatus } from '../redux/actions';
 import gameConstants from '../redux/constants/gameConstants';
 import Menu from './menu.js';
+import history from '../history'
 const { initialGrid } = gameConstants;
 
 
@@ -33,7 +34,7 @@ const methods = {
 const Game = (props) => {
 
     let square = null;
-    
+
     if (props.gameStatus === 'IDLE')
         square = initialGrid;
     else {
@@ -45,7 +46,7 @@ const Game = (props) => {
     return (
         <div id='game'>
             {
-                props.gameStatus === 'GAME_OVER' && 
+                props.gameStatus === 'GAME_OVER' &&
                 <div className='game-overlay'>
                     <p> GAME OVER </p>
                     <p id='overlay-buttons'>
@@ -68,7 +69,7 @@ const Game = (props) => {
                     </p>
                 </div>
             }
-            <Board 
+            <Board
                 squares={square}
                 name={props.currentTetriminos.name}
                 pos={props.currentTetriminos.pos}
@@ -83,7 +84,7 @@ const Game = (props) => {
             <div id='game-info'>
                 <div id='menu'>
                     <Menu
-                        piecesStock={props.piecesStock}
+                        goToHome={()=>{history.push('/')} }
                         pauseTitle={props.gameStatus === 'PAUSED' ? 'UNPAUSE' : 'PAUSE'}
                         loadGame={props.gameStatus === 'IDLE' && props.loadGame }
                         pauseGame={props.gameStatus === 'PAUSED' ? props.unpauseGame : props.pauseGame}

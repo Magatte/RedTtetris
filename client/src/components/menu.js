@@ -43,7 +43,7 @@ const DisplaySpectre = (props) => {
             </div>
         )
     });
-    
+
     return(
         <div>
             {displayAllSpectres}
@@ -76,12 +76,12 @@ const Menu = (props) => {
                     {props.pauseTitle}
                 </AwesomeButton>
             </div>
-            
+
             <div className='home-button'>
                 <AwesomeButton
                     type="primary"
                     size="medium"
-                    action={() => props.goToHome}
+                    action={() => props.goToHome()}
                 >
                     HOME
                 </AwesomeButton>
