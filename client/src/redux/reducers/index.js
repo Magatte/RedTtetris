@@ -208,7 +208,6 @@ const games = (state = {rooms: []}, action) => {
                 if(roomIndex > -1){
 
                     state.rooms[roomIndex]['spectres'] = [...action.allSpectres]
-                    //return {...state;
 
                     return state
 
