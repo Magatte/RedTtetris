@@ -56,15 +56,16 @@ const Board = (props) => {
     };
 
     return (
-        <div className="game-board">
+        <div>
+            <h2>
+                Hello {user.login} 
+                {user.status && <p>You're the {user.status} of this game</p>}
+            </h2>
             <div className='status'>{props.status}</div>
-            <div className='status'>
-                <h1>Salut {user.login} {user.status
-                    ? <p>tu es le  {user.status} de cette partie</p>:null}
-                </h1>
-            </div>
-            <div>
-                {createBoard()}
+            <div className="game-board">
+                <div>
+                    {createBoard()}
+                </div>
             </div>
         </div>
     );

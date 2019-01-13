@@ -87,20 +87,16 @@ const Menu = (props) => {
                 </AwesomeButton>
             </div>
 
-            {
-                props.gameStatus === 'PLAYING'
-                ?   <PreviewNextTetriminos
-                        piecesStock={props.user.piecesStock}
-                    />
-                : null
+            { 
+                props.gameStatus === 'PLAYING' 
+                && <PreviewNextTetriminos piecesStock={props.user.piecesStock}/> 
             }
             {
-                props.gameData && props.gameData.spectres
-                    ?   <DisplaySpectre
-                            spectres={props.gameData.spectres}
-                            userName={props.user.name}
-                        />
-                    : null
+                props.gameData && props.gameData.spectres 
+                && <DisplaySpectre
+                        spectres={props.gameData.spectres}
+                        userName={props.user.name}
+                />
             }
 
         </div>
