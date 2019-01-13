@@ -165,7 +165,7 @@ const user = (state = userInitaleState, action) =>{
 
 const games = (state = {rooms: []}, action) => {
     switch(action.type) {
-        case actions.GET_GAMES_LIST:{
+        case actions.GET_GAMES_LIST: {
             return {rooms:action.games ? action.games:[]}
         }
         case actions.GET_PLAYER_STATUS:{
@@ -193,7 +193,7 @@ const games = (state = {rooms: []}, action) => {
             }
             return state
         }
-        case actions.NEW_PIECES_FROM_SOCKET:{
+        case actions.NEW_PIECES_FROM_SOCKET: {
             const roomIndex = state.rooms.findIndex( room => room.name === action.room)
 
             if ( roomIndex ) {
@@ -208,7 +208,6 @@ const games = (state = {rooms: []}, action) => {
                 if(roomIndex > -1){
 
                     state.rooms[roomIndex]['spectres'] = [...action.allSpectres]
-                    //return {...state;
 
                     return state
 
