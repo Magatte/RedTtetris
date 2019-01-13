@@ -15,6 +15,8 @@ export const ROTATE_TETRIMINOS = 'ROTATE_TETRIMINOS';
 export const HARD_DROP = 'HARD_DROP';
 export const NEW_TETRIMINOS = 'NEW_TETRIMINOS';
 export const LAST_MOVE = 'LAST_MOVE';
+export const GET_GAMES_LIST = 'GET_GAME_LIST';
+export const GET_PLAYER_STATUS = 'GET_PLAYER_STATUS';
 
 export const newTetriminos = (currentTetriminos, nextTetriminos) => {
     const { shapeTypes } = gameConstants;

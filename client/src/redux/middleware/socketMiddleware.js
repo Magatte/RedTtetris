@@ -2,9 +2,8 @@ import { GET_GAMES_LIST, GET_PLAYER_STATUS } from "../actions";
 
 
 export default function socketMiddleware(socket) {
-    if (!socket) {
+    if (!socket)
         socket.emit('connection', 'hello je suis connecte')
-    }
     //console.log('SOCKET', socket)
     socket.on('start', (data) => {
         console.log('dans start', data)

@@ -34,7 +34,7 @@ export const loadGame = () => {
                 default:
                     ;
             }
-        }
+        };
         setInterval(() => {
             dropTetriminos(dispatch, getState);
         }, 500);
