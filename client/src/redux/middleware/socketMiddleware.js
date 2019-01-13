@@ -1,4 +1,4 @@
-import { 
+import {
     DATA_FROM_SOCKET,
     START_GAME,
     PAUSE_GAME,
@@ -9,7 +9,7 @@ import {
     SEND_SPECTRE,
     RECEIVE_NEW_SPECTRE,
     GET_GAMES_LIST,
-    GET_PLAYER_STATUS 
+    GET_PLAYER_STATUS
 } from "../actions";
 
 export default function socketMiddleware(socket) {
@@ -43,6 +43,8 @@ export default function socketMiddleware(socket) {
                     type,
                     room
                 }
+                console.log('gameStatus', data)
+                console.log('gameStatus action', action)
                 socket.emit('gameStatus', data);
                 break;
             }
