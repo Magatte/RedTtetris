@@ -6,16 +6,15 @@ import  gameConstants  from '../redux/constants/gameConstants'
 const { shapeTypes } = gameConstants;
 
 const PreviewNextTetriminos = (props) => {
-    if(props.piecesStock === undefined) return null
+    if(props.piecesStock === undefined)
+        return null
 
     return (
         <div>
             {
-                props.piecesStock.map(( tetriNumber, index ) =>{
-                    if(index < 3){
-
+                props.piecesStock.map(( tetriNumber, index ) => {
+                    if(index < 3)
                         return <p key={index}>{ shapeTypes[tetriNumber] }</p>
-                    }
                     return null
                 })
             }
@@ -24,11 +23,11 @@ const PreviewNextTetriminos = (props) => {
 }
 
 const DisplaySpectre = (props) => {
-    if(props.spectres.length === -1)
+    if (props.spectres.length === -1)
         return null
 
     const displayAllSpectres = props.spectres.map((data, key) => {
-        return(
+        return (
             <div key={key} style={{ marginLeft:'40%', marginTop:'5%'}}>
                 {data.name}<br/>
                 <div style={{display:'flex', flexDirection:'row', alignItems:'flex-end', justifyContent:'flex-start', height:'100px', width:'100px', border:'1px solid red'}}>
@@ -44,7 +43,7 @@ const DisplaySpectre = (props) => {
         )
     });
 
-    return(
+    return (
         <div>
             {displayAllSpectres}
         </div>
