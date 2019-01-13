@@ -15,8 +15,14 @@ export const ROTATE_TETRIMINOS = 'ROTATE_TETRIMINOS';
 export const HARD_DROP = 'HARD_DROP';
 export const NEW_TETRIMINOS = 'NEW_TETRIMINOS';
 export const LAST_MOVE = 'LAST_MOVE';
+export const DATA_FROM_SOCKET = 'DATA_FROM_SOCKET';
+export const SEND_LOGIN_ROOM = 'SEND_LOGIN_ROOM';
+export const MANAGE_PIECES_STOCK = 'MANAGE_PIECES_STOCK';
+export const NEW_PIECES_FROM_SOCKET = 'NEW_PIECES_FROM_SOCKET';
 export const GET_GAMES_LIST = 'GET_GAME_LIST';
 export const GET_PLAYER_STATUS = 'GET_PLAYER_STATUS';
+export const SEND_SPECTRE = 'SEND_SPECTRE';
+export const RECEIVE_NEW_SPECTRE = 'RECEIVE_NEW_SPECTRE';
 
 export const newTetriminos = (currentTetriminos, nextTetriminos) => {
     const { shapeTypes } = gameConstants;
