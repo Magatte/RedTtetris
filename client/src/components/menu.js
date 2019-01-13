@@ -55,9 +55,8 @@ const Menu = (props) => {
 
     return (
         <div className='start'>
-            {props.user.status === 'master' 
-            
-                ? <div className='menu-button'>
+            {props.user.status === 'master' &&
+                <div className='menu-button'>
                     <AwesomeButton
                         type="primary"
                         size="medium"
@@ -66,7 +65,6 @@ const Menu = (props) => {
                         START
                     </AwesomeButton>
                 </div>
-                : null
             }
 
             <div className='menu-button'>
@@ -79,7 +77,15 @@ const Menu = (props) => {
                 </AwesomeButton>
             </div>
             
-            <button onClick={props.goToHome}>HOME</button>
+            <div className='home-button'>
+                <AwesomeButton
+                    type="primary"
+                    size="medium"
+                    action={() => props.goToHome}
+                >
+                    HOME
+                </AwesomeButton>
+            </div>
 
             {
                 props.gameStatus === 'PLAYING'

@@ -90,6 +90,7 @@ const Game = (props) => {
                         user={props.user}
                         gameStatus={props.gameStatus}
                         gameData={gameData}
+                        // goToHome={() => }
                     />
                 </div>
                 <ol> {/* TODO */} </ol>
