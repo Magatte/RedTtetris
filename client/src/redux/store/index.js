@@ -7,7 +7,7 @@ const middlewares = applyMiddleware(thunkMiddleware, socketMiddleware);
 
 const store = createStore(
     gameReducers,
-    compose(middlewares, window.devToolsExtension && window.devToolsExtension())
+    compose(middlewares, window.devToolsExtension && window.__REDUX_DEVTOOLS_EXTENSION__())
 );
 
 export default store;
