@@ -170,6 +170,7 @@ const games = (state = {rooms: []}, action) => {
         }
         case actions.GET_PLAYER_STATUS:{
             if(action.data){
+                console.log('GET_PLAYER_STATUS', action)
                 if(!state.rooms.find(room => room.name === action.data.room)){
                     const data =  {
                         name: action.data.name,

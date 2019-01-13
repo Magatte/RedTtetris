@@ -53,6 +53,7 @@ const DisplaySpectre = (props) => {
 
 const Menu = (props) => {
 
+    console.log('props', props)
     return (
         <div className='start'>
             {props.user.status === 'master' &&
@@ -60,7 +61,7 @@ const Menu = (props) => {
                     <AwesomeButton
                         type="primary"
                         size="medium"
-                        action={() => props.loadGame && props.loadGame()}
+                        action={() => props.loadGame && props.loadGame(props.user.room, props.user.piecesStock)}
                     >
                         START
                     </AwesomeButton>

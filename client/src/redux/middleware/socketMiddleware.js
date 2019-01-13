@@ -90,6 +90,7 @@ export default function socketMiddleware(socket) {
             case GET_PLAYER_STATUS: {
                 socket.on('playerStatus', (data) => {
 
+                    console.log('playerStatus', data)
                     action = {...action, data};
 
                     return next(action);
