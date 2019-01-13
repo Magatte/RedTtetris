@@ -62,7 +62,7 @@ export default function socketMiddleware(socket) {
             case MANAGE_PIECES_STOCK: {
 
                 if (action.piecesStock.length === 5) {
-
+                    
                     socket.emit('resquestShape', action.room);
                     socket.on('getNewPieces', (newCreatedPieces, room) => {
                         const action = {

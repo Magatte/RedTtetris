@@ -59,7 +59,7 @@ const Menu = (props) => {
                     <AwesomeButton
                         type="primary"
                         size="medium"
-                        action={() => props.loadGame && props.loadGame()}
+                        action={() => props.sendStart && props.sendStart(props.user.room)}
                     >
                         START
                     </AwesomeButton>

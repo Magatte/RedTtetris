@@ -5,7 +5,7 @@ import { bindActionCreators, compose } from 'redux';
 import { AwesomeButton } from 'react-awesome-button';
 import 'react-awesome-button/dist/themes/theme-bojack.css';
 import Board from './board.js';
-import { loadGame, restart, getGhost } from '../utils/gamePlay.js';
+import { sendStart, loadGame, restart, getGhost } from '../utils/gamePlay.js';
 import { pauseGame, unpauseGame, gameOver, stopGame, getPlayerStatus } from '../redux/actions';
 import gameConstants from '../redux/constants/gameConstants';
 import Menu from './menu.js';
@@ -86,7 +86,7 @@ const Game = (props) => {
                     <Menu
                         goToHome={()=>{history.push('/')} }
                         pauseTitle={props.gameStatus === 'PAUSED' ? 'UNPAUSE' : 'PAUSE'}
-                        loadGame={props.gameStatus === 'IDLE' && props.loadGame }
+                        sendStart={props.gameStatus === 'IDLE' && props.sendStart }
                         pauseGame={props.gameStatus === 'PAUSED' ? props.unpauseGame : props.pauseGame}
                         user={props.user}
                         gameStatus={props.gameStatus}
@@ -116,6 +116,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        sendStart: bindActionCreators(sendStart, dispatch),
         loadGame: bindActionCreators(loadGame, dispatch),
         pauseGame: bindActionCreators(pauseGame, dispatch),
         unpauseGame: bindActionCreators(unpauseGame, dispatch),

@@ -10,6 +10,12 @@ const { shapeTypes, newLine } = gameConstants;
 
 /** REDUX THUNK ACTION CREATORS  START */
 
+export const sendStart = (room) => {
+    return (dispatch) => {
+        dispatch(startGame(room));
+    }
+}
+
 export const loadGame = (room, piecesStock) => {
 
     return (dispatch, getState) => {
