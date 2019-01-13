@@ -4,7 +4,7 @@ import thunkMiddleware from 'redux-thunk';
 import io from 'socket.io-client';
 import socketMiddleware from '../middleware/socketMiddleware';
 
-export const socket = io.connect('http//localhost:8000');
+export const socket = io.connect('localhost:8000');
 
 const middlewares = applyMiddleware(thunkMiddleware, socketMiddleware(socket));
 
