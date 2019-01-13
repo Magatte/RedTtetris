@@ -165,54 +165,47 @@ const user = (state = userInitaleState, action) =>{
 
 const games = (state = {rooms: []}, action) => {
     switch(action.type) {
-        case actions.GET_GAMES_LIST:{
+        case actions.GET_GAMES_LIST:
             return {rooms:action.games ? action.games:[]}
-        }
-        case actions.GET_PLAYER_STATUS:{
+        case actions.GET_PLAYER_STATUS:
             if(action.data){
-                if(!state.rooms.find(room => room.name === action.data.room)){
+                if(!state.rooms.find(room => room.name === action.data.room)) {
                     const data =  {
                         name: action.data.name,
                         piecesStock: action.data.newPieces,
                         spectres:[action.data.spectres]
                     }
                     // faire un find index puis remplacer les datas existantes par celle qui arrivent
-                    return { rooms:[...state.rooms,data]}
-
+                    return { rooms:[...state.rooms,data]};
                 }
+                return state;
             }
-            return state
-        }
-        case actions.MANAGE_PIECES_STOCK:{
+        case actions.MANAGE_PIECES_STOCK: {
             const roomIndex = state.rooms.findIndex( room => room.name === action.room)
-            if(roomIndex){
+            if(roomIndex) {
                 state.rooms[roomIndex].piecesStock.shift()
             }
-            if(action.newPieces && roomIndex){
+            if(action.newPieces && roomIndex) {
                 state.rooms[roomIndex].piecesStock = [...state.rooms[roomIndex].piecesStock, ...action.newPieces]
             }
-            return state
+            return state;
         }
-        case actions.NEW_PIECES_FROM_SOCKET:{
+        case actions.NEW_PIECES_FROM_SOCKET: {
             const roomIndex = state.rooms.findIndex( room => room.name === action.room)
 
             if ( roomIndex ) {
                 state.rooms[roomIndex].piecesStock = [...state.rooms[roomIndex].piecesStock, ...action.newCreatedPieces]
             }
-            return state
+            return state;
         }
-        case actions.RECEIVE_NEW_SPECTRE:{
-
-            if(action.room){
+        case actions.RECEIVE_NEW_SPECTRE: {
+            if(action.room) {
                 const roomIndex = state.rooms.findIndex(room => room.name === action.room)
                 if(roomIndex > -1){
 
                     state.rooms[roomIndex]['spectres'] = [...action.allSpectres]
                     //return {...state;
-
                     return state
-
-
                 }
             }
             return state
