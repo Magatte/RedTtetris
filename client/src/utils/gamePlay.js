@@ -9,6 +9,8 @@ const { shapeTypes, newLine } = gameConstants;
 const deleteSound = new Audio('../sounds/delete.mp3');
 
 
+/** REDUX THUNK ACTION CREATORS  START */
+
 export const loadGame = () => {
     console.log('About to start the game...');
     return (dispatch, getState) => {
@@ -113,6 +115,9 @@ export const moveTetriminos = (direction) => (
         }
     }
 );
+
+/** REDUX THUNK ACTION CREATORS END */
+
 
 export const rotateTetriminos = (cx, cy, x, y) => {
     const radians = (Math.PI / 180) * 90,
