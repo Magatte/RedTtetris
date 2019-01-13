@@ -165,10 +165,10 @@ const user = (state = userInitaleState, action) =>{
 
 const games = (state = {rooms: []}, action) => {
     switch(action.type) {
-        case 'GET_GAMES_LIST':{
+        case actions.GET_GAMES_LIST:{
             return {rooms:action.games ? action.games:[]}
         }
-        case 'GET_PLAYER_STATUS':{
+        case actions.GET_PLAYER_STATUS:{
             if(action.data){
                 if(!state.rooms.find(room => room.name === action.data.room)){
                     const data =  {
@@ -183,7 +183,7 @@ const games = (state = {rooms: []}, action) => {
             }
             return state
         }
-        case 'MANAGE_PIECES_STOCK':{
+        case actions.MANAGE_PIECES_STOCK:{
             const roomIndex = state.rooms.findIndex( room => room.name === action.room)
             if(roomIndex){
                 state.rooms[roomIndex].piecesStock.shift()
@@ -193,7 +193,7 @@ const games = (state = {rooms: []}, action) => {
             }
             return state
         }
-        case 'NEW_PIECES_FROM_SOCKET':{
+        case actions.NEW_PIECES_FROM_SOCKET:{
             const roomIndex = state.rooms.findIndex( room => room.name === action.room)
 
             if ( roomIndex ) {
@@ -201,7 +201,7 @@ const games = (state = {rooms: []}, action) => {
             }
             return state
         }
-        case 'RECEIVE_NEW_SPECTRE':{
+        case actions.RECEIVE_NEW_SPECTRE:{
 
             if(action.room){
                 const roomIndex = state.rooms.findIndex(room => room.name === action.room)
@@ -224,7 +224,7 @@ const games = (state = {rooms: []}, action) => {
 
 const socket = (state = {status:""}, action) => {
     switch (action.type) {
-        case 'DATA_FROM_SOCKET':
+        case actions.DATA_FROM_SOCKET:
             return {...state, status:action.data}
         default:
             return state;
