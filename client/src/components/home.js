@@ -8,13 +8,12 @@ import {getGamesList, sendLoginRoom} from "../redux/actions";
 
 
 const methods = {
-    componentDidMount(props) {
+    componentDidMount(props){
         props.getGamesList()
     },
     componentWillReceiveProps(nextProps){
 
-        console.log('NEXTPROPS ds componentWillReceiveProps', nextProps)
-
+        //console.log('NEXTPROPS ds componentWillReceiveProps', nextProps)
     }
 
 };
@@ -62,9 +61,11 @@ const Form = (props) =>{
 }
 
 const Games = (props) =>{
+
     const list = props.gamesList.map((game, key)=>{
         return <ul key={key}>{game.name}</ul>
     })
+
     return(
         <div>
             <h1>Liste des rooms disponibles</h1>

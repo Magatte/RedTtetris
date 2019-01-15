@@ -6,6 +6,7 @@ import  gameConstants  from '../redux/constants/gameConstants'
 const { shapeTypes } = gameConstants;
 
 const PreviewNextTetriminos = (props) => {
+
     if(props.piecesStock === undefined) return null
 
     return (
@@ -24,6 +25,7 @@ const PreviewNextTetriminos = (props) => {
 }
 
 const DisplaySpectre = (props) => {
+
     if(props.spectres.length === -1)
         return null
 
@@ -60,7 +62,7 @@ const Menu = (props) => {
                     <AwesomeButton
                         type="primary"
                         size="medium"
-                        action={() => props.loadGame && props.loadGame()}
+                        action={() => props.launchGame && props.launchGame(props.user.room)}
                     >
                         START
                     </AwesomeButton>

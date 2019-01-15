@@ -23,7 +23,15 @@ export const GET_GAMES_LIST = 'GET_GAME_LIST';
 export const GET_PLAYER_STATUS = 'GET_PLAYER_STATUS';
 export const SEND_SPECTRE = 'SEND_SPECTRE';
 export const RECEIVE_NEW_SPECTRE = 'RECEIVE_NEW_SPECTRE';
+export const SEND_START_GAME = 'SEND_START_GAME'
 
+export const sendStartGame = (room) =>{
+    console.log('dans SEND_START_GAME ', room)
+    return {
+        type:SEND_START_GAME,
+        room
+    }
+}
 
 export const managePiecesStock =(room,piecesStock) => {
     return {
@@ -70,7 +78,7 @@ export const startGame = (room, curRandNb, nextRandNb) => {
 };
 
 export const getPlayerStatus = () =>{
-    return{
+    return {
         type:GET_PLAYER_STATUS
     }
 }
