@@ -61,7 +61,7 @@ const Menu = (props) => {
                     <AwesomeButton
                         type="primary"
                         size="medium"
-                        action={() => props.loadGame && props.loadGame(props.user.room, props.user.piecesStock)}
+                        action={() => props.launchGame && props.launchGame(props.user.room)}
                     >
                         START
                     </AwesomeButton>

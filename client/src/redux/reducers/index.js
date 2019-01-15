@@ -177,9 +177,9 @@ const games = (state = {rooms: []}, action) => {
                         piecesStock: action.data.newPieces,
                         spectres:[action.data.spectres]
                     }
+                    console.log('data', data)
                     // faire un find index puis remplacer les datas existantes par celle qui arrivent
-                    return { rooms:[...state.rooms,data]}
-
+                    return {...state,  rooms:[...state.rooms,data]}
                 }
             }
             return state

@@ -50,7 +50,7 @@ io.on('connection', function (socket) {
             var gameData = games.getGameData(room);
             var newPieces = gameData.getPiece();
             gameData.addSpectre(login, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-            var allSpectres = gameData.getAllSpectres;
+            var allSpectres = gameData.getAllSpectres();
             socket.emit('playerStatus', {
                 name: room,
                 status: 'follower',

@@ -1,5 +1,16 @@
 import _ from 'lodash';
-import { startGame, stopGame, newTetriminos, rotate, moveDown, moveLeft, moveRight, lastMove, hardDrop } from '../redux/actions/index';
+import {
+    startGame,
+    stopGame,
+    newTetriminos,
+    rotate,
+    moveDown,
+    moveLeft,
+    moveRight,
+    lastMove,
+    hardDrop,
+    sendStartGame
+} from '../redux/actions/index';
 import gameConstants from '../redux/constants/gameConstants';
 import { managePiecesStock } from "../redux/actions";
 import { sendSpectre } from "../redux/actions/index";
@@ -9,7 +20,11 @@ const deleteSound = new Audio('../sounds/delete.mp3');
 
 
 /** REDUX THUNK ACTION CREATORS  START */
-
+export const launchGame = (room) => {
+    return (dispatch) => {
+        dispatch(sendStartGame(room));
+    }
+}
 export const loadGame = (room, piecesStock) => {
 
     return (dispatch, getState) => {

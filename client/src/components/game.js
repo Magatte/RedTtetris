@@ -5,8 +5,19 @@ import { bindActionCreators, compose } from 'redux';
 import { AwesomeButton } from 'react-awesome-button';
 import 'react-awesome-button/dist/themes/theme-bojack.css';
 import Board from './board.js';
-import { loadGame, restart, getGhost } from '../utils/gamePlay.js';
-import { pauseGame, unpauseGame, gameOver, stopGame, getPlayerStatus } from '../redux/actions';
+import {
+    loadGame,
+    restart,
+    getGhost,
+    launchGame
+} from '../utils/gamePlay.js';
+import {
+    pauseGame,
+    unpauseGame,
+    gameOver,
+    stopGame,
+    getPlayerStatus,
+} from '../redux/actions';
 import gameConstants from '../redux/constants/gameConstants';
 import Menu from './menu.js';
 import history from '../history'
@@ -91,7 +102,7 @@ const Game = (props) => {
                         user={props.user}
                         gameStatus={props.gameStatus}
                         gameData={gameData}
-                        // goToHome={() => }
+                        launchGame={props.launchGame}
                     />
                 </div>
                 <ol> {/* TODO */} </ol>
@@ -103,26 +114,27 @@ const Game = (props) => {
 const mapStateToProps = state => {
 
     return {
-        gameStatus: state.gameStatus,
-        activeTetriminos: state.activeTetriminos,
-        currentTetriminos: state.currentTetriminos,
-        currentColor: state.currentTetriminos.color,
-        nextTetriminos: state.nextTetriminos,
-        user: state.user,
-        status: state.socket.status,
-        rooms: state.games.rooms,
+        gameStatus        : state.gameStatus,
+        activeTetriminos  : state.activeTetriminos,
+        currentTetriminos : state.currentTetriminos,
+        currentColor      : state.currentTetriminos.color,
+        nextTetriminos    : state.nextTetriminos,
+        user              : state.user,
+        status            : state.socket.status,
+        rooms             : state.games.rooms,
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        loadGame: bindActionCreators(loadGame, dispatch),
-        pauseGame: bindActionCreators(pauseGame, dispatch),
-        unpauseGame: bindActionCreators(unpauseGame, dispatch),
-        gameOver: bindActionCreators(gameOver, dispatch),
-        stopGame: bindActionCreators(stopGame, dispatch),
-        restart: bindActionCreators(restart, dispatch),
-        getPlayerStatus: bindActionCreators(getPlayerStatus, dispatch)
+        launchGame      : bindActionCreators(launchGame, dispatch),
+        loadGame        : bindActionCreators(loadGame, dispatch),
+        pauseGame       : bindActionCreators(pauseGame, dispatch),
+        unpauseGame     : bindActionCreators(unpauseGame, dispatch),
+        gameOver        : bindActionCreators(gameOver, dispatch),
+        stopGame        : bindActionCreators(stopGame, dispatch),
+        restart         : bindActionCreators(restart, dispatch),
+        getPlayerStatus : bindActionCreators(getPlayerStatus, dispatch)
     }
 };
 

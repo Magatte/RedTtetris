@@ -38,7 +38,7 @@ io.on('connection', function(socket){
             const gameData = games.getGameData(room)
             const newPieces = gameData.getPiece()
             gameData.addSpectre(login,[0,0,0,0,0,0,0,0,0,0])
-            const allSpectres = gameData.getAllSpectres
+            const allSpectres = gameData.getAllSpectres()
             socket.emit('playerStatus', {
                 name:room,
                 status:'follower',
