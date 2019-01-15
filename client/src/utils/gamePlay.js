@@ -16,7 +16,7 @@ import { managePiecesStock } from "../redux/actions";
 import { sendSpectre } from "../redux/actions/index";
 
 const { shapeTypes, newLine } = gameConstants;
-const deleteSound = new Audio('../sounds/delete.mp3');
+// const deleteSound = new Audio('../sounds/delete.mp3');
 
 
 /** REDUX THUNK ACTION CREATORS  START */
@@ -25,6 +25,7 @@ export const launchGame = (room) => {
         dispatch(sendStartGame(room));
     }
 }
+
 export const loadGame = (room, piecesStock) => {
 
     return (dispatch, getState) => {
@@ -198,7 +199,7 @@ export const deleteLine = (grid) => {
         if (isLineDone(row) === true) {
             grid.splice(i, 1);
             grid.unshift([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-            deleteSound.play();
+            // deleteSound.play();
         }
         return row;
     });

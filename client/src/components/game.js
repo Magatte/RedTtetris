@@ -97,7 +97,7 @@ const Game = (props) => {
                     <Menu
                         goToHome={()=>{history.push('/')} }
                         pauseTitle={props.gameStatus === 'PAUSED' ? 'UNPAUSE' : 'PAUSE'}
-                        loadGame={props.gameStatus === 'IDLE' && props.loadGame }
+                        sendStart={props.gameStatus === 'IDLE' && props.sendStart }
                         pauseGame={props.gameStatus === 'PAUSED' ? props.unpauseGame : props.pauseGame}
                         user={props.user}
                         gameStatus={props.gameStatus}
