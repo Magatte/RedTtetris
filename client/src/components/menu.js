@@ -2,19 +2,56 @@ import React from 'react';
 import { AwesomeButton } from 'react-awesome-button';
 import 'react-awesome-button/dist/themes/theme-bojack.css';
 import  gameConstants  from '../redux/constants/gameConstants'
-
-const { shapeTypes } = gameConstants;
+import storesConstants from '../redux/constants/storesConstans';
+import Square from './square.js';
+const { shapeTypes, colors } = gameConstants;
+const { miniTetriminos } = storesConstants;
 
 const PreviewNextTetriminos = (props) => {
     if(props.piecesStock === undefined)
         return null
 
+    const renderSquare = (squares, x, y, key) => {
+        return (
+            <Square
+                key={key}
+                color={colors[squares[x][y]]}
+                value={squares[x][y]}
+            />
+        );
+    }
+
+    const createBoard = (squares) => {
+        const board = squares.map((row, j) => {
+            let rowKey = j;
+            return (
+                <div className='menu-board-row' key={rowKey}>
+                    {row.map((curr, i) => {
+                        let squareKey = rowKey * 4 + i;
+                        return renderSquare(squares, j, i, squareKey);
+                    })}
+                </div>
+            );
+        });
+        return board;
+    };
+
     return (
         <div>
             {
                 props.piecesStock.map(( tetriNumber, index ) => {
-                    if(index < 3)
-                        return <p key={index}>{ shapeTypes[tetriNumber] }</p>
+                    if(index < 3) {
+                        let name = shapeTypes[tetriNumber];
+                        let squares = miniTetriminos[name].shape;
+                        return (
+                            <div className='menu-board'>
+                                <div>
+                                    { createBoard(squares) }
+                                </div>
+                            </div>
+                        );
+                        // return <p key={index}>{ name }</p>
+                    }
                     return null
                 })
             }
@@ -30,7 +67,7 @@ const DisplaySpectre = (props) => {
         return (
             <div key={key} style={{ marginLeft:'auto', marginRight: 'auto', width: '100px', marginTop:'5%'}}>
                 {data.name}<br/>
-                <div style={{display:'flex', flexDirection:'row', alignItems:'flex-end', justifyContent:'flex-start', height:'100px', width:'100px', border:'1px solid red'}}>
+                <div style={{display:'flex', flexDirection:'row', alignItems:'flex-end', justifyContent:'flex-start', height:'120px', width:'100px', border:'1px solid red'}}>
                     {data.spectre.map((col, key) =>{
                         const height = (col/20) * 100
                         return(

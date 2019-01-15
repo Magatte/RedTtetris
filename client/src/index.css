@@ -85,7 +85,7 @@ ol, ul {
     flex-direction: row;
 }
 
-.square {
+.game-board .square {
     display: flex;
     background: #fff;
     float: left;
@@ -98,6 +98,28 @@ ol, ul {
     padding: 0;
     text-align: center;
     width: 32px;
+    box-sizing: border-box;
+}
+
+.menu-board {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.menu-board .square {
+    display: flex;
+    background: #fff;
+    float: left;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 24px;
+    height: 24px;
+    margin-right: -1px;
+    margin-top: -1px;
+    padding: 0;
+    text-align: center;
+    width: 24px;
     box-sizing: border-box;
 }
 
