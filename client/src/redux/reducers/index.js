@@ -152,7 +152,7 @@ const user = (state = userInitaleState, action) =>{
         }
         case actions.GET_PLAYER_STATUS:{
             if( action.data){
-                return{...state, status:action.data.status, piecesStock:action.data.newPieces}
+                return {...state, status:action.data.status, piecesStock:action.data.newPieces}
 
             }
             return state
@@ -170,16 +170,14 @@ const games = (state = {rooms: []}, action) => {
         }
         case actions.GET_PLAYER_STATUS:{
             if(action.data){
-                console.log('GET_PLAYER_STATUS', action)
                 if(!state.rooms.find(room => room.name === action.data.room)){
                     const data =  {
                         name: action.data.name,
                         piecesStock: action.data.newPieces,
-                        spectres:[action.data.spectres]
+                        spectres:[...action.data.spectres]
                     }
-                    console.log('data', data)
                     // faire un find index puis remplacer les datas existantes par celle qui arrivent
-                    return {...state,  rooms:[...state.rooms,data]}
+                    return {...state, rooms:[...state.rooms,data]}
                 }
             }
             return state
