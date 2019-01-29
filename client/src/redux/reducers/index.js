@@ -183,20 +183,24 @@ const games = (state = {rooms: []}, action) => {
             }
             return state;
         case actions.MANAGE_PIECES_STOCK: {
-            const roomIndex = state.rooms.findIndex( room => room.name === action.room)
-            if(roomIndex) {
-                state.rooms[roomIndex].piecesStock.shift()
-            }
-            if(action.newPieces && roomIndex) {
-                state.rooms[roomIndex].piecesStock = [...state.rooms[roomIndex].piecesStock, ...action.newPieces]
-            }
+            const roomIndex = state.rooms.findIndex(room => room.name === action.room)
+            // if(roomIndex) {
+            //     state.rooms[roomIndex].piecesStock.shift()
+            // }
+            // if(action.newPiece && roomIndex) {
+            //     state.rooms[roomIndex].piecesStock = [...state.rooms[roomIndex].piecesStock, ...action.newPiece]
+            // }
             return state;
         }
         case actions.NEW_PIECES_FROM_SOCKET: {
-            const roomIndex = state.rooms.findIndex( room => room.name === action.room)
-
+            const roomIndex = state.rooms.findIndex(room => room.name === action.room)
+            let chunk = state.rooms[roomIndex].piecesStock.slice(Math.max(state.rooms[roomIndex].piecesStock.length - 3, 0));
+            if (chunk.every(e => action.newPieces.includes(e)))
+                return state;
             if ( roomIndex ) {
-                state.rooms[roomIndex].piecesStock = [...state.rooms[roomIndex].piecesStock, ...action.newCreatedPieces]
+                for (let i = 0; i < 3; i++) {
+                    state.rooms[roomIndex].piecesStock.push(action.newPieces[i]);
+                }
             }
             return state;
         }

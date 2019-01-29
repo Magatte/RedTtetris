@@ -13,10 +13,11 @@ import {
 } from "../actions";
 
 export default function socketMiddleware(socket) {
-    return ({dispatch}) => next => (action) => {
+    return ({ dispatch }) => next => (action) => {
 
-        if(!socket){
-            socket.emit('connection', 'hello je suis connecte')
+        if (!socket) {
+            socket.emit('connection', 'hello je suis connecte');
+            return;
         }
 
         socket.on('start', (data) => {
@@ -36,7 +37,7 @@ export default function socketMiddleware(socket) {
             room
         } = action;
 
-        switch(type) {
+        switch (type) {
             case UNPAUSE_GAME:
             case PAUSE_GAME: {
 
@@ -52,24 +53,26 @@ export default function socketMiddleware(socket) {
             }
             case MANAGE_PIECES_STOCK: {
 
-                if (action.piecesStock.length === 5) {
-                    
-                    socket.emit('resquestShape', action.room);
-                    socket.on('getNewPieces', (newCreatedPieces, room) => {
+
+                if (action.piecesStock.length < 5) {
+                    // When a user pieces stock is under 6 he sends a request to the server to get new pieces
+                    socket.on('getNewPieces', (newPieces, room) => {
+                        console.log('NEW PIECES', newPieces);
                         const action = {
                             type: NEW_PIECES_FROM_SOCKET,
-                            newCreatedPieces,
+                            newPieces: newPieces,
                             room
                         }
                         return next(action);
                     });
+                    socket.emit('resquestShape', action.room);
                 }
                 break;
             }
             case GET_GAMES_LIST: {
                 socket.on('GamesList', (data) => {
 
-                    action = {...action, games:data};
+                    action = { ...action, games: data };
 
                     return next(action);
 
@@ -80,7 +83,7 @@ export default function socketMiddleware(socket) {
                 socket.on('playerStatus', (data) => {
 
                     console.log('playerStatus', data)
-                    action = {...action, data};
+                    action = { ...action, data };
 
                     return next(action);
 
@@ -89,7 +92,7 @@ export default function socketMiddleware(socket) {
             }
             case SEND_SPECTRE: {
 
-                socket.emit('sendSpectre',action.spectre, action.room, action.login)
+                socket.emit('sendSpectre', action.spectre, action.room, action.login)
                 socket.on('receiveSpectres', (room, allSpectres) => {
                     const action = {
                         type: RECEIVE_NEW_SPECTRE,
@@ -100,7 +103,7 @@ export default function socketMiddleware(socket) {
                 });
                 break;
             }
-            case SEND_START_GAME : {
+            case SEND_START_GAME: {
                 const data = {
                     type,
                     room

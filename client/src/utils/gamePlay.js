@@ -103,7 +103,7 @@ export const moveTetriminos = (direction) => (
         if (edge.xb === false && state.lastMove) {
             const currentRoom = state.games.rooms.find(room => room.name === state.user.room)
             const nextRandNb = currentRoom.piecesStock[0]
-            //const nextRandNb = currentRoom.piecesStock[1]
+            currentRoom.piecesStock.shift();
             deleteLine(activeTetriminos.newGrid);
             const spectre = getSpectre(activeTetriminos.newGrid)
             dispatch(sendSpectre(spectre, user.room, user.login))

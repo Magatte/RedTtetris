@@ -5,8 +5,11 @@ import Game from "./controllers/Game";
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var monitorio = require('monitor.io');
 
 
+io.use(monitorio({ port: 8001 }));
+// monitor.io started on port 8001
 app.get('/', function(req, res){
     res.sendFile(__dirname + '../client/public/index.html');
 });
@@ -17,7 +20,7 @@ games.addGame(gameTest)
 games.addGame(gameTest2)
 let gamesList = games.getNameList()
 
-io.on('connection', function(socket){
+io.on('connection', (socket) => {
     console.log('a user connected', socket.id);
     socket.emit('start', 'Un utilisateur est connecté')
 
@@ -48,7 +51,7 @@ io.on('connection', function(socket){
                 spectres:allSpectres
             })
 
-        }else{
+        } else {
 
             let createGame = new Game(room, login)
             createGame.addPlayer(login)
@@ -75,19 +78,23 @@ io.on('connection', function(socket){
         }
     })
 
-    socket.on('gameStatus', (data) =>{
+    socket.on('gameStatus', (data) => {
 
         io.to(data.room).emit('status','START_GAME')
     })
 
-    socket.on('resquestShape', (room) =>{
+    socket.on('resquestShape', (room) => {
 
-        const roomData = games.getGameData(room)
-        roomData.createNewPieces(7)
-        const newCreatedPieces = roomData.getPiece()
-        io.to(room).emit('getNewPieces', newCreatedPieces, room )
-
+        // const roomData = games.getGameData(room)
+        // roomData.createNewPieces(1)
+        // const newCreatedPieces = roomData.getPiece()
+        const newPieces = [];
+        for (let i = 0; i < 3; i++)
+            newPieces.push(Math.floor(Math.random() * (7 - 0)) + 0);
+        console.log('NEW PIECES', newPieces);
+        io.to(room).emit('getNewPieces', newPieces, room )
     })
+
     socket.on('sendSpectre', (spectre,room, login) =>{
 
         const gameExist = gamesList.find(element =>element.name === room)
@@ -104,5 +111,5 @@ io.on('connection', function(socket){
 });
 
 http.listen(8000, function(){
-    console.log('listening on *:3000');
+    console.log('listening on *:8000');
 });

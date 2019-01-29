@@ -17,7 +17,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var monitorio = require('monitor.io');
 
+io.use(monitorio({ port: 8001 }));
+// monitor.io started on port 8001
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '../client/public/index.html');
 });
@@ -92,11 +95,16 @@ io.on('connection', function (socket) {
 
     socket.on('resquestShape', function (room) {
 
-        var roomData = games.getGameData(room);
-        roomData.createNewPieces(7);
-        var newCreatedPieces = roomData.getPiece();
-        io.to(room).emit('getNewPieces', newCreatedPieces, room);
+        // const roomData = games.getGameData(room)
+        // roomData.createNewPieces(1)
+        // const newCreatedPieces = roomData.getPiece()
+        var newPieces = [];
+        for (var i = 0; i < 3; i++) {
+            newPieces.push(Math.floor(Math.random() * (7 - 0)) + 0);
+        }console.log('NEW PIECES', newPieces);
+        io.to(room).emit('getNewPieces', newPieces, room);
     });
+
     socket.on('sendSpectre', function (spectre, room, login) {
 
         var gameExist = gamesList.find(function (element) {
@@ -114,5 +122,5 @@ io.on('connection', function (socket) {
 });
 
 http.listen(8000, function () {
-    console.log('listening on *:3000');
+    console.log('listening on *:8000');
 });

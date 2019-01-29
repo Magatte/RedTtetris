@@ -59,6 +59,7 @@ export const newTetriminos = (currentTetriminos, nextTetriminos, nextRandNb) => 
         type: NEW_TETRIMINOS,
         currentTetriminos,
         nextTetriminos,
+        nextRandNb,
         nextShape
     };
 };

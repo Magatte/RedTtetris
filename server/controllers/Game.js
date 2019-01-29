@@ -59,7 +59,7 @@ export default class Game{
         return this.name
     }
     createNewPieces(nb){
-        this.pieces = this.pieces.splice(0, 0)
+        // this.pieces = this.pieces.splice(0, 0)
         for( let i = 0 ; i < nb ; i++){
             this.pieces.push(Math.floor(Math.random() * (7 - 0)) + 0)
         }

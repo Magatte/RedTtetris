@@ -35,7 +35,7 @@ const PreviewNextTetriminos = (props) => {
         });
         return board;
     };
-
+    
     return (
         <div>
             {
@@ -52,7 +52,6 @@ const PreviewNextTetriminos = (props) => {
                         );
                         // return <p key={index}>{ name }</p>
                     }
-                    return null
                 })
             }
         </div>
