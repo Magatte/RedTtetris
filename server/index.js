@@ -3,12 +3,12 @@ import Games from"./controllers/Games" ;
 import Game from "./controllers/Game";
 
 var app = require('express')();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
 var monitorio = require('monitor.io');
 
 
-io.use(monitorio({ port: 8001 }));
+io.use(monitorio({ port: 9000 }));
 // monitor.io started on port 8001
 app.get('/', function(req, res){
     res.sendFile(__dirname + '../client/public/index.html');
@@ -22,22 +22,24 @@ let gamesList = games.getNameList()
 
 io.on('connection', (socket) => {
     console.log('a user connected', socket.id);
+    socket.monitor('timeConnected', new Date(Date.now()).toLocaleString());
     socket.emit('start', 'Un utilisateur est connecté')
 
     socket.emit('GamesList', gamesList)
 
-    socket.emit('newPlayer', (data)=>{
+    socket.emit('newPlayer', (data) => {
         console.log('newPlayer', data)
 
     })
-    socket.on('userData', (login, room) =>{
+    socket.on('userData', (login, room) => {
 
+        socket.monitor('userData', JSON.stringify({login: login, room: room}));
         gamesList = games.getNameList()
         //console.log('gameees', games)
         socket.join(room)
-        const gameExist = gamesList.find(element =>element.name === room)
-        if(gameExist){
-
+        const gameExist = gamesList.find(element => element.name === room)
+        if (gameExist) {
+            
             const gameData = games.getGameData(room)
             const newPieces = gameData.getPiece()
             gameData.addSpectre(login,[0,0,0,0,0,0,0,0,0,0])
@@ -110,6 +112,6 @@ io.on('connection', (socket) => {
     })
 });
 
-http.listen(8000, function(){
+server.listen(8000, function(){
     console.log('listening on *:8000');
 });
