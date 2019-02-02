@@ -184,11 +184,11 @@ const games = (state = {rooms: []}, action) => {
             return state;
         case actions.MANAGE_PIECES_STOCK: {
             const roomIndex = state.rooms.findIndex(room => room.name === action.room)
-            // if(roomIndex) {
-            //     state.rooms[roomIndex].piecesStock.shift()
-            // }
-            // if(action.newPiece && roomIndex) {
-            //     state.rooms[roomIndex].piecesStock = [...state.rooms[roomIndex].piecesStock, ...action.newPiece]
+            if(roomIndex) {
+                state.rooms[roomIndex].piecesStock.shift()
+            }
+            // if(action.newPieces && roomIndex) {
+            //     state.rooms[roomIndex].piecesStock = state.rooms[roomIndex].piecesStock.push(...action.newPieces);
             // }
             return state;
         }
@@ -198,9 +198,7 @@ const games = (state = {rooms: []}, action) => {
             if (chunk.every(e => action.newPieces.includes(e)))
                 return state;
             if ( roomIndex ) {
-                for (let i = 0; i < 3; i++) {
-                    state.rooms[roomIndex].piecesStock.push(action.newPieces[i]);
-                }
+                state.rooms[roomIndex].piecesStock.push(...action.newPieces);
             }
             return state;
         }

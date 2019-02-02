@@ -92,18 +92,20 @@ io.on('connection', function (socket) {
 
     socket.on('gameStatus', function (data) {
 
+        socket.monitor('gameStatus', JSON.stringify(data));
         io.to(data.room).emit('status', 'START_GAME');
     });
 
     socket.on('resquestShape', function (room) {
 
+        socket.monitor('requestingRoom', room);
         // const roomData = games.getGameData(room)
         // roomData.createNewPieces(1)
         // const newCreatedPieces = roomData.getPiece()
         var newPieces = [];
         for (var i = 0; i < 3; i++) {
             newPieces.push(Math.floor(Math.random() * (7 - 0)) + 0);
-        }console.log('NEW PIECES', newPieces);
+        }socket.monitor('newPieces', newPieces);
         io.to(room).emit('getNewPieces', newPieces, room);
     });
 

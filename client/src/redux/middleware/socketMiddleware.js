@@ -12,6 +12,7 @@ import {
     GET_PLAYER_STATUS, SEND_START_GAME
 } from "../actions";
 
+
 export default function socketMiddleware(socket) {
     return ({ dispatch }) => next => (action) => {
 
@@ -52,19 +53,17 @@ export default function socketMiddleware(socket) {
                 break;
             }
             case MANAGE_PIECES_STOCK: {
-
-
+                // When a user pieces stock is under 6 he sends a request to the server to get new pieces
+                socket.on('getNewPieces', (newPieces, room) => {
+                    console.log('NEW PIECES', newPieces);
+                    const action = {
+                        type: NEW_PIECES_FROM_SOCKET,
+                        newPieces: newPieces,
+                        room
+                    }
+                    return next(action);
+                });
                 if (action.piecesStock.length < 5) {
-                    // When a user pieces stock is under 6 he sends a request to the server to get new pieces
-                    socket.on('getNewPieces', (newPieces, room) => {
-                        console.log('NEW PIECES', newPieces);
-                        const action = {
-                            type: NEW_PIECES_FROM_SOCKET,
-                            newPieces: newPieces,
-                            room
-                        }
-                        return next(action);
-                    });
                     socket.emit('resquestShape', action.room);
                 }
                 break;

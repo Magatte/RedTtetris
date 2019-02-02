@@ -81,25 +81,27 @@ io.on('connection', (socket) => {
     })
 
     socket.on('gameStatus', (data) => {
-
+        
+        socket.monitor('gameStatus', JSON.stringify(data));
         io.to(data.room).emit('status','START_GAME')
     })
 
     socket.on('resquestShape', (room) => {
 
+        socket.monitor('requestingRoom', room);
         // const roomData = games.getGameData(room)
         // roomData.createNewPieces(1)
         // const newCreatedPieces = roomData.getPiece()
         const newPieces = [];
         for (let i = 0; i < 3; i++)
-            newPieces.push(Math.floor(Math.random() * (7 - 0)) + 0);
-        console.log('NEW PIECES', newPieces);
+        newPieces.push(Math.floor(Math.random() * (7 - 0)) + 0);
+        socket.monitor('newPieces', newPieces);
         io.to(room).emit('getNewPieces', newPieces, room )
     })
 
-    socket.on('sendSpectre', (spectre,room, login) =>{
+    socket.on('sendSpectre', (spectre,room, login) => {
 
-        const gameExist = gamesList.find(element =>element.name === room)
+        const gameExist = gamesList.find(element => element.name === room)
 
         if(gameExist){
             const gameData = games.getGameData(room)

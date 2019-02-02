@@ -33,7 +33,7 @@ export const sendStartGame = (room) =>{
     }
 }
 
-export const managePiecesStock =(room,piecesStock) => {
+export const managePiecesStock =(room, piecesStock) => {
     return {
         type:MANAGE_PIECES_STOCK,
         room,
