@@ -25,6 +25,21 @@ export const SEND_SPECTRE = 'SEND_SPECTRE';
 export const RECEIVE_NEW_SPECTRE = 'RECEIVE_NEW_SPECTRE';
 export const SEND_START_GAME = 'SEND_START_GAME'
 
+
+export const startGame = (room, curRandNb, nextRandNb) => {
+
+    const { shapeTypes } = gameConstants;
+    const currentShape = shapeTypes[curRandNb];
+    const nextShape = shapeTypes[nextRandNb];
+
+    return {
+        type: START_GAME,
+        currentShape,
+        nextShape,
+        room
+    }
+};
+
 export const sendStartGame = (room) =>{
     console.log('dans SEND_START_GAME ', room)
     return {
@@ -62,20 +77,6 @@ export const newTetriminos = (currentTetriminos, nextTetriminos, nextRandNb) => 
         nextRandNb,
         nextShape
     };
-};
-
-export const startGame = (room, curRandNb, nextRandNb) => {
-
-    const { shapeTypes } = gameConstants;
-    const currentShape = shapeTypes[curRandNb];
-    const nextShape = shapeTypes[nextRandNb];
-
-    return {
-        type: START_GAME,
-        currentShape,
-        nextShape,
-        room
-    }
 };
 
 export const getPlayerStatus = () =>{

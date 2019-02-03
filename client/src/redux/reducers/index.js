@@ -165,6 +165,13 @@ const user = (state = userInitaleState, action) =>{
 
 const games = (state = {rooms: []}, action) => {
     switch(action.type) {
+        case actions.START_GAME: {
+            const roomIndex = state.rooms.findIndex(room => room.name === action.room);
+            if(roomIndex) {
+                state.rooms[roomIndex].piecesStock.shift();
+            }
+            return state;
+        }
         case actions.GET_GAMES_LIST: {
             return {rooms: action.games ? action.games : []};
         }

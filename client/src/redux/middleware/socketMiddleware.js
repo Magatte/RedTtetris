@@ -14,7 +14,7 @@ import {
 
 
 export default function socketMiddleware(socket) {
-    return ({ dispatch }) => next => (action) => {
+    return ({ dispatch, getState }) => next => (action) => {
 
         if (!socket) {
             socket.emit('connection', 'hello je suis connecte');
