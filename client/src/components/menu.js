@@ -1,14 +1,14 @@
 import React from 'react';
 import { AwesomeButton } from 'react-awesome-button';
 import 'react-awesome-button/dist/themes/theme-bojack.css';
-import  gameConstants  from '../redux/constants/gameConstants'
+import gameConstants from '../redux/constants/gameConstants'
 import storesConstants from '../redux/constants/storesConstans';
 import Square from './square.js';
 const { shapeTypes, colors } = gameConstants;
 const { miniTetriminos } = storesConstants;
 
 const PreviewNextTetriminos = (props) => {
-    if(props.piecesStock === undefined)
+    if (props.piecesStock === undefined)
         return null
 
     const renderSquare = (squares, x, y, key) => {
@@ -35,23 +35,22 @@ const PreviewNextTetriminos = (props) => {
         });
         return board;
     };
-    
+
     return (
         <div>
             {
-                props.piecesStock.map(( tetriNumber, index ) => {
-                    if(index < 3) {
-                        let name = shapeTypes[tetriNumber];
-                        let squares = miniTetriminos[name].shape;
-                        return (
-                            <div className='menu-board'>
-                                <div>
-                                    { createBoard(squares) }
-                                </div>
+                props.piecesStock.map((tetriNumber, index) => {
+                    let name = shapeTypes[tetriNumber];
+                    let squares = miniTetriminos[name].shape;
+                    return (
+                        index < 3
+                        &&
+                        <div className='menu-board'>
+                            <div>
+                                {createBoard(squares)}
                             </div>
-                        );
-                        // return <p key={index}>{ name }</p>
-                    }
+                        </div>
+                    );
                 })
             }
         </div>
@@ -64,13 +63,13 @@ const DisplaySpectre = (props) => {
 
     const displayAllSpectres = props.spectres.map((data, key) => {
         return (
-            <div key={key} style={{ marginLeft:'auto', marginRight: 'auto', width: '100px', marginTop:'5%'}}>
-                {data.name}<br/>
-                <div style={{display:'flex', flexDirection:'row', alignItems:'flex-end', justifyContent:'flex-start', height:'120px', width:'100px', border:'1px solid red'}}>
-                    {data.spectre.map((col, key) =>{
-                        const height = (col/20) * 100
-                        return(
-                            <div key={key} style={{backgroundColor:'red', width:'10px', height: height +'%'}}></div>
+            <div key={key} style={{ marginLeft: 'auto', marginRight: 'auto', width: '100px', marginTop: '5%' }}>
+                {data.name}<br />
+                <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'flex-start', height: '120px', width: '100px', border: '1px solid red' }}>
+                    {data.spectre.map((col, key) => {
+                        const height = (col / 20) * 100
+                        return (
+                            <div key={key} style={{ backgroundColor: 'red', width: '10px', height: height + '%' }}></div>
                         )
                     })
                     }
@@ -122,15 +121,15 @@ const Menu = (props) => {
                 </AwesomeButton>
             </div>
 
-            { 
-                props.gameStatus === 'PLAYING' 
-                && <PreviewNextTetriminos piecesStock={props.user.piecesStock}/> 
+            {
+                props.gameStatus === 'PLAYING'
+                && <PreviewNextTetriminos piecesStock={props.user.piecesStock} />
             }
             {
-                props.gameData && props.gameData.spectres 
+                props.gameData && props.gameData.spectres
                 && <DisplaySpectre
-                        spectres={props.gameData.spectres}
-                        userName={props.user.name}
+                    spectres={props.gameData.spectres}
+                    userName={props.user.name}
                 />
             }
 

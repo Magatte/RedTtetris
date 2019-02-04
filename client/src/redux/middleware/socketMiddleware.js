@@ -1,6 +1,5 @@
 import {
     DATA_FROM_SOCKET,
-    START_GAME,
     PAUSE_GAME,
     UNPAUSE_GAME,
     SEND_LOGIN_ROOM,
@@ -107,8 +106,8 @@ export default function socketMiddleware(socket) {
                     type,
                     room
                 }
-
-                socket.emit('gameStatus', data)
+                socket.emit('gameStatus', data);
+                break ;
             }
             default:
         }
