@@ -40,7 +40,6 @@ export default function socketMiddleware(socket) {
         switch (type) {
             case UNPAUSE_GAME:
             case PAUSE_GAME: {
-
                 const data = {
                     type,
                 }
@@ -90,7 +89,7 @@ export default function socketMiddleware(socket) {
             }
             case SEND_SPECTRE: {
 
-                socket.emit('sendSpectre', action.spectre, action.room, action.login)
+                socket.emit('sendSpectre', action.spectre, action.room, action.login);
                 socket.on('receiveSpectres', (room, allSpectres) => {
                     const action = {
                         type: RECEIVE_NEW_SPECTRE,
