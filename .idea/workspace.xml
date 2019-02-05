@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="76abe086-b592-457c-8181-c030c628cfd4" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/home.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/home.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/redux/middleware/socketMiddleware.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/redux/middleware/socketMiddleware.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/dist/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/dist/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/index.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/client/node_modules/" />
@@ -25,22 +20,24 @@
     <session id="-1313225583">
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="js" value="54" />
+          <entry key="js" value="56" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="JavaScript" value="54" />
+          <entry key="JavaScript" value="56" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="js" value="1343" />
+          <entry key="js" value="1350" />
+          <entry key="txt" value="77" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JavaScript" value="1343" />
+          <entry key="JavaScript" value="1350" />
+          <entry key="PLAIN_TEXT" value="77" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.lifecycle.project">
@@ -54,7 +51,7 @@
       <usages-collector id="statistics.vcs.git.usages">
         <counts>
           <entry key="git.branch.checkout.local" value="1" />
-          <entry key="git.checkout.as.new.branch" value="2" />
+          <entry key="git.checkout.as.new.branch" value="3" />
         </counts>
       </usages-collector>
     </session>
@@ -93,15 +90,6 @@
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/client/src/redux/store/index.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="15">
-                  <caret line="1" column="14" selection-start-line="1" selection-start-column="14" selection-end-line="1" selection-end-column="14" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/client/src/redux/index.js">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="195">
@@ -122,10 +110,15 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/server/dist/index.js">
+              <provider selected="true" editor-type-id="text-editor" />
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/client/src/components/home.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="15">
+                <state relative-caret-position="60">
                   <caret line="4" selection-start-line="4" selection-end-line="4" />
                 </state>
               </provider>
@@ -149,11 +142,11 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="false">
+          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/server/index.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="109">
-                  <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
+                <state relative-caret-position="169">
+                  <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
                   <folding>
                     <element signature="e#0#42#0" expanded="true" />
                   </folding>
@@ -198,8 +191,8 @@
         <option value="$PROJECT_DIR$/client/src/utils/gamePlay.js" />
         <option value="$PROJECT_DIR$/client/src/components/menu.js" />
         <option value="$PROJECT_DIR$/client/src/redux/middleware/socketMiddleware.js" />
-        <option value="$PROJECT_DIR$/server/index.js" />
         <option value="$PROJECT_DIR$/client/src/components/home.js" />
+        <option value="$PROJECT_DIR$/server/index.js" />
       </list>
     </option>
   </component>
@@ -394,14 +387,14 @@
       <workItem from="1546326013734" duration="598000" />
       <workItem from="1547373933107" duration="2238000" />
       <workItem from="1549046019607" duration="520000" />
-      <workItem from="1549376078017" duration="2789000" />
+      <workItem from="1549376078017" duration="3543000" />
     </task>
-    <task id="LOCAL-00001" summary="fix:exchange between server and client is ok">
-      <created>1547386288333</created>
+    <task id="LOCAL-00001" summary="fix: gameList update when we click on Home button">
+      <created>1549383294815</created>
       <option name="number" value="00001" />
       <option name="presentableId" value="LOCAL-00001" />
       <option name="project" value="LOCAL" />
-      <updated>1547386288333</updated>
+      <updated>1549383294815</updated>
     </task>
     <task id="LOCAL-00002" summary="fix:exchange between server and client is ok">
       <created>1547386853288</created>
@@ -431,10 +424,11 @@
       <option name="project" value="LOCAL" />
       <updated>1547375205103</updated>
     </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="10436000" />
+    <option name="totallyTimeSpent" value="11190000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="825" extended-state="0" />
@@ -485,6 +479,10 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="fix: gameList update when we click on Home button" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: gameList update when we click on Home button" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -559,6 +557,20 @@
     <entry file="file://$PROJECT_DIR$/client/src/components/square.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/redux/middleware/socketMiddleware.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="516">
+          <caret line="69" column="30" selection-start-line="69" selection-end-line="70" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/components/home.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" selection-start-line="4" selection-end-line="4" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/client/src/components/menu.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-147">
@@ -569,27 +581,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/redux/middleware/socketMiddleware.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="516">
-          <caret line="69" column="30" selection-start-line="69" selection-end-line="70" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/server/dist/index.js">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/server/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="109">
-          <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
+        <state relative-caret-position="169">
+          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
           <folding>
             <element signature="e#0#42#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/components/home.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="4" selection-start-line="4" selection-end-line="4" />
         </state>
       </provider>
     </entry>

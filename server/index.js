@@ -10,7 +10,6 @@ var io = require('socket.io')(http);
 app.get('/', function(req, res){
     res.sendFile(__dirname + '../client/public/index.html');
 });
-
 let games = new Games()
 let gameTest = new Game('test','me')
 let gameTest2 = new Game('test2','you')
