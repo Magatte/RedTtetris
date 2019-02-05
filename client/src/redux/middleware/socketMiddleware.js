@@ -67,6 +67,7 @@ export default function socketMiddleware(socket) {
                 break;
             }
             case GET_GAMES_LIST: {
+                socket.emit('getGamesList')
                 socket.on('GamesList', (data) => {
 
                     action = {...action, games:data};

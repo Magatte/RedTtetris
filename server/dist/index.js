@@ -32,11 +32,15 @@ io.on('connection', function (socket) {
     console.log('a user connected', socket.id);
     socket.emit('start', 'Un utilisateur est connecté');
 
-    socket.emit('GamesList', gamesList);
+    socket.on('getGamesList', function () {
+        gamesList = games.getNameList();
+        socket.emit('GamesList', gamesList);
+    });
 
     socket.emit('newPlayer', function (data) {
         console.log('newPlayer', data);
     });
+
     socket.on('userData', function (login, room) {
 
         gamesList = games.getNameList();

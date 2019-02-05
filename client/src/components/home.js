@@ -2,7 +2,6 @@ import React from "react"
 import { connect } from 'react-redux';
 import lifecycle from "react-pure-lifecycle";
 import {bindActionCreators} from "redux";
-//import { sendLoginRoom, getGamesList} from "../redux/actions";
 import history from "../history";
 import {getGamesList, sendLoginRoom} from "../redux/actions";
 
@@ -10,12 +9,7 @@ import {getGamesList, sendLoginRoom} from "../redux/actions";
 const methods = {
     componentDidMount(props){
         props.getGamesList()
-    },
-    componentWillReceiveProps(nextProps){
-
-        //console.log('NEXTPROPS ds componentWillReceiveProps', nextProps)
     }
-
 };
 
 const Form = (props) =>{
@@ -28,7 +22,8 @@ const Form = (props) =>{
 
             history.push(url)
         }
-    }
+    };
+
     return(
         <div>
             Pour entrer dans la matrice de tetris entré un login est un nom de Room
@@ -58,13 +53,13 @@ const Form = (props) =>{
 
         </div>
     )
-}
+};
 
 const Games = (props) =>{
 
     const list = props.gamesList.map((game, key)=>{
         return <ul key={key}>{game.name}</ul>
-    })
+    });
 
     return(
         <div>
@@ -73,9 +68,10 @@ const Games = (props) =>{
             <li>{list}</li>
         </div>
     )
-}
+};
 
 const Home =(props)=> {
+
     return(
         <div style={{   display: "flex",
             flexDirection: "row"}}>
@@ -83,7 +79,7 @@ const Home =(props)=> {
             <Games gamesList={props.gamesList}/>
         </div>
     )
-}
+};
 
 const mapStateToProps = state => {
 
