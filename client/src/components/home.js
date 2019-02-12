@@ -22,7 +22,7 @@ const Form = (props) => {
     const onSubmit = (event) => {
         event.preventDefault();
         if (event.target[0].value && event.target[1].value) {
-            const url = '/'+event.target[1].value + '[' + event.target[0].value + ']';
+            const url = '/' + event.target[1].value + '[' + event.target[0].value + ']';
             props.sendLoginRoom(event.target[0].value, event.target[1].value);
             history.push(url);
         }

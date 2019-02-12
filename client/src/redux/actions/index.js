@@ -48,21 +48,24 @@ export const sendStartGame = (room) =>{
     }
 }
 
-export const managePiecesStock =(room, piecesStock) => {
+export const sendLoginRoom = (login, room) => {
     return {
-        type:MANAGE_PIECES_STOCK,
-        room,
-        piecesStock
+        type: SEND_LOGIN_ROOM,
+        login,
+        room
     }
 }
 
-export const sendSpectre = (spectre, room, login) =>{
+export const getPlayerStatus = () =>{
+    return {
+        type:GET_PLAYER_STATUS
+    }
+}
+
+export const getGamesList = (l) => {
 
     return {
-        type: SEND_SPECTRE,
-        spectre,
-        room,
-        login
+        type: GET_GAMES_LIST,
     }
 }
 
@@ -79,25 +82,21 @@ export const newTetriminos = (currentTetriminos, nextTetriminos, nextRandNb) => 
     };
 };
 
-export const getPlayerStatus = () =>{
+export const managePiecesStock =(room, piecesStock) => {
     return {
-        type:GET_PLAYER_STATUS
+        type:MANAGE_PIECES_STOCK,
+        room,
+        piecesStock
     }
 }
 
-export const sendLoginRoom = (login, room) => {
-    return {
-        type: SEND_LOGIN_ROOM,
-        login,
-        room
-
-    }
-}
-
-export const getGamesList = (l) => {
+export const sendSpectre = (spectre, room, login) =>{
 
     return {
-        type: GET_GAMES_LIST,
+        type: SEND_SPECTRE,
+        spectre,
+        room,
+        login
     }
 }
 
