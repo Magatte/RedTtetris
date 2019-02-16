@@ -29,8 +29,8 @@ io.on('connection', (socket) => {
 
     socket.emit('newPlayer', (data) => {
         console.log('newPlayer', data)
-
     })
+
     socket.on('userData', (login, room) => {
 
         socket.monitor('userData', JSON.stringify({login: login, room: room}));
@@ -76,7 +76,6 @@ io.on('connection', (socket) => {
                     spectre:[0,0,0,0,0,0,0,0,0,0]
                 }]
             })
-
         }
     })
 
@@ -93,27 +92,33 @@ io.on('connection', (socket) => {
         // roomData.createNewPieces(1)
         // const newCreatedPieces = roomData.getPiece()
         const newPieces = [];
-        for (let i = 0; i < 3; i++)
         newPieces.push(Math.floor(Math.random() * (7 - 0)) + 0);
         socket.monitor('newPieces', newPieces);
-        io.to(room).emit('getNewPieces', newPieces, room )
+        io.to(room).emit('getNewPieces', newPieces, room)
     })
 
-    socket.on('sendSpectre', (spectre,room, login) => {
-
+    socket.on('sendSpectre', (spectre, room, login) => {
         const gameExist = gamesList.find(element => element.name === room)
 
-        if(gameExist){
+        if (gameExist) {
             const gameData = games.getGameData(room)
             gameData.addSpectre(login, spectre)
             const allSpectre = gameData.getAllSpectres()
 
-            io.to(room).emit('receiveSpectres', room,allSpectre )
-
+            io.to(room).emit('receiveSpectres', room, allSpectre)
         }
     })
+
+    socket.on('sendFreezeLine', (room, login) => {
+        socket.monitor('sendFreezeLine', JSON.stringify({room, login}));
+        const gameExist = gamesList.find(element => element.name === room);
+        if (gameExist) {
+            io.to(room).emit('freezeLine', 'FREEZE');
+        }
+    })
+
 });
 
-server.listen(8000, function(){
+server.listen(8000, function() {
     console.log('listening on *:8000');
 });

@@ -1,14 +1,17 @@
 import {
     DATA_FROM_SOCKET,
+    SEND_START_GAME,
     PAUSE_GAME,
     UNPAUSE_GAME,
     SEND_LOGIN_ROOM,
     MANAGE_PIECES_STOCK,
     NEW_PIECES_FROM_SOCKET,
+    GET_GAMES_LIST,
+    GET_PLAYER_STATUS,
     SEND_SPECTRE,
     RECEIVE_NEW_SPECTRE,
-    GET_GAMES_LIST,
-    GET_PLAYER_STATUS, SEND_START_GAME
+    SEND_FREEZE_LINE,
+    FREEZE_LINE
 } from "../actions";
 
 
@@ -32,23 +35,39 @@ export default function socketMiddleware(socket) {
             return next(action);
         });
 
+        socket.on('freezeLine', data => {
+            console.log('DATA', data);
+            const action = {
+                type: FREEZE_LINE
+            }
+            return next(action);
+        });
+
         const {
             type,
             room
         } = action;
 
         switch (type) {
-            case UNPAUSE_GAME:
+            case SEND_START_GAME: {
+                const data = {
+                    type,
+                    room
+                }
+                socket.emit('gameStatus', data);
+                break ;
+            }
             case PAUSE_GAME: {
                 const data = {
                     type,
                 }
                 socket.emit('gameStatus', data);
-                break;
+                break ;
             }
+            case UNPAUSE_GAME:
             case SEND_LOGIN_ROOM: {
                 socket.emit('userData', action.login, action.room)
-                break;
+                break ;
             }
             case MANAGE_PIECES_STOCK: {
                 // When a user pieces stock is under 6 he sends a request to the server to get new pieces
@@ -64,31 +83,26 @@ export default function socketMiddleware(socket) {
                 if (action.piecesStock.length < 5) {
                     socket.emit('resquestShape', action.room);
                 }
-                break;
+                break ;
             }
             case GET_GAMES_LIST: {
                 socket.on('GamesList', (data) => {
-
                     action = { ...action, games: data };
-
                     return next(action);
-
                 });
-                break;
+                break ;
             }
             case GET_PLAYER_STATUS: {
                 socket.on('playerStatus', (data) => {
-
                     console.log('playerStatus', data)
                     action = { ...action, data };
 
                     return next(action);
 
                 });
-                break;
+                break ;
             }
             case SEND_SPECTRE: {
-
                 socket.emit('sendSpectre', action.spectre, action.room, action.login);
                 socket.on('receiveSpectres', (room, allSpectres) => {
                     const action = {
@@ -98,14 +112,10 @@ export default function socketMiddleware(socket) {
                     }
                     return next(action);
                 });
-                break;
+                break ;
             }
-            case SEND_START_GAME: {
-                const data = {
-                    type,
-                    room
-                }
-                socket.emit('gameStatus', data);
+            case SEND_FREEZE_LINE: {
+                socket.emit('sendFreezeLine', action.room, action.login);
                 break ;
             }
             default:

@@ -41,6 +41,7 @@ io.on('connection', function (socket) {
     socket.emit('newPlayer', function (data) {
         console.log('newPlayer', data);
     });
+
     socket.on('userData', function (login, room) {
 
         socket.monitor('userData', JSON.stringify({ login: login, room: room }));
@@ -103,14 +104,12 @@ io.on('connection', function (socket) {
         // roomData.createNewPieces(1)
         // const newCreatedPieces = roomData.getPiece()
         var newPieces = [];
-        for (var i = 0; i < 3; i++) {
-            newPieces.push(Math.floor(Math.random() * (7 - 0)) + 0);
-        }socket.monitor('newPieces', newPieces);
+        newPieces.push(Math.floor(Math.random() * (7 - 0)) + 0);
+        socket.monitor('newPieces', newPieces);
         io.to(room).emit('getNewPieces', newPieces, room);
     });
 
     socket.on('sendSpectre', function (spectre, room, login) {
-
         var gameExist = gamesList.find(function (element) {
             return element.name === room;
         });
@@ -121,6 +120,16 @@ io.on('connection', function (socket) {
             var allSpectre = gameData.getAllSpectres();
 
             io.to(room).emit('receiveSpectres', room, allSpectre);
+        }
+    });
+
+    socket.on('sendFreezeLine', function (room, login) {
+        socket.monitor('sendFreezeLine', JSON.stringify({ room: room, login: login }));
+        var gameExist = gamesList.find(function (element) {
+            return element.name === room;
+        });
+        if (gameExist) {
+            io.to(room).emit('freezeLine', 'FREEZE');
         }
     });
 });

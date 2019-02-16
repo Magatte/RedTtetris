@@ -35,7 +35,7 @@ const methods = {
             prevProps.gameOver();
 
         if(prevProps.status === 'START_GAME' && prevProps.status !== prevState.status)
-            prevProps.loadGame(prevProps.user.room, gamePieces.piecesStock)
+            prevProps.loadGame(prevProps.user.room);
     }
 };
 

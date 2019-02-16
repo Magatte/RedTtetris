@@ -7,9 +7,10 @@ import {
     moveDown,
     moveLeft,
     moveRight,
-    lastMove,
+    setLastMove,
     hardDrop,
-    sendStartGame
+    sendStartGame,
+    sendFreezeLine
 } from '../redux/actions/index';
 import gameConstants from '../redux/constants/gameConstants';
 import { managePiecesStock } from "../redux/actions";
@@ -24,13 +25,12 @@ export const launchGame = (room) => {
     return (dispatch) => {
         dispatch(sendStartGame(room));
     }
-}
+};
 
-export const loadGame = (room, piecesStock) => {
-
+export const loadGame = (room) => {
     return (dispatch, getState) => {
-        const state = getState()
-        const currentRoom = state.games.rooms.find(room => room.name === state.user.room)
+        const { games, user } = getState()
+        const currentRoom = games.rooms.find(room => room.name === user.room)
         const curRandNb = currentRoom.piecesStock[0]
         const nextRandNb = currentRoom.piecesStock[1]
         dispatch(startGame(room, curRandNb, nextRandNb));
@@ -92,29 +92,28 @@ export const getNewGrid = (grid, currentTetriminos) => {
 
 export const moveTetriminos = (direction) => (
     (dispatch, getState) => {
-        const { gameStatus, activeTetriminos, currentTetriminos, nextTetriminos, user } = getState();
-        let state = getState();
+        const { gameStatus, activeTetriminos, currentTetriminos, nextTetriminos, lastMove, games, user } = getState();
         let edge = {};
 
         if (gameStatus === 'PAUSED' || gameStatus === 'GAME_OVER')
             return;
 
-        edge = checkCollision(activeTetriminos.newGrid, currentTetriminos.pos)
-        if (edge.xb === false && state.lastMove) {
+        edge = checkCollision(activeTetriminos.newGrid, currentTetriminos.pos);
+        if (edge.xb === false && lastMove) {
             // currentRoom.piecesStock.shift();
-            const currentRoom = state.games.rooms.find(room => room.name === state.user.room)
-            deleteLine(activeTetriminos.newGrid);
-            const spectre = getSpectre(activeTetriminos.newGrid)
-            dispatch(sendSpectre(spectre, user.room, user.login))
-            dispatch(managePiecesStock(state.user.room, currentRoom.piecesStock))
-            const nextRandNb = currentRoom.piecesStock[0]
+            const currentRoom = games.rooms.find(room => room.name === user.room);
+            deleteLine(dispatch, currentRoom.name, user.login, activeTetriminos.newGrid);
+            const spectre = getSpectre(activeTetriminos.newGrid);
+            dispatch(sendSpectre(spectre, user.room, user.login));
+            dispatch(managePiecesStock(user.room, currentRoom.piecesStock));
+            const nextRandNb = currentRoom.piecesStock[0];
             return dispatch(newTetriminos(currentTetriminos, nextTetriminos, nextRandNb));
         }
 
         switch (direction) {
             case 'down':
                 if (edge.xb === false)
-                    dispatch(lastMove());
+                    dispatch(setLastMove());
                 else if (edge.xb === true)
                     dispatch(moveDown());
                 break;
@@ -194,11 +193,12 @@ export const isLineDone = (gridLine) => {
     return true;
 }
 
-export const deleteLine = (grid) => {
+export const deleteLine = (dispatch, room, login, grid) => {
     grid = grid.map((row, i) => {
         if (isLineDone(row) === true) {
             grid.splice(i, 1);
             grid.unshift([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+            dispatch(sendFreezeLine(room, login));
             // deleteSound.play();
         }
         return row;
@@ -238,7 +238,6 @@ const getPositionInLine = ( line ) => {
 
 const getSpectre = ( game ) => {
     return game.reduce(( acc, cur, i ) => {
-
         const poses = getPositionInLine(cur, i)
 
         if ( poses.length > 0 ) {
@@ -249,9 +248,7 @@ const getSpectre = ( game ) => {
                 return element;
             })
         }
-
         return acc;
-
     }, [0,0,0,0,0,0,0,0,0,0]);
 
 }
