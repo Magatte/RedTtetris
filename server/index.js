@@ -113,7 +113,7 @@ io.on('connection', (socket) => {
         socket.monitor('sendFreezeLine', JSON.stringify({room, login}));
         const gameExist = gamesList.find(element => element.name === room);
         if (gameExist) {
-            io.to(room).emit('freezeLine', 'FREEZE');
+            io.to(room).emit('freezeLine', 'FREEZE', room);
         }
     })
 

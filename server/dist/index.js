@@ -129,7 +129,7 @@ io.on('connection', function (socket) {
             return element.name === room;
         });
         if (gameExist) {
-            io.to(room).emit('freezeLine', 'FREEZE');
+            io.to(room).emit('freezeLine', 'FREEZE', room);
         }
     });
 });

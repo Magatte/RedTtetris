@@ -44,6 +44,11 @@ const activeTetriminos = (state = { newGrid: initialGrid }, action) => {
             }
             newGrid = isPlace ? getNewGrid(state.newGrid, action.nextTetriminos) : state.newGrid;
             return { ...state, newGrid: newGrid, isPlace: isPlace };
+        case actions.FREEZE_LINE: {
+            let newGrid = state.newGrid.push([9,9,9,9,9,9,9,9,9,9]);
+            newGrid.splice(19, 1);
+            return {...state, newGrid: newGrid};
+        }
         case actions.GAME_OVER:
             return state;
         default:
