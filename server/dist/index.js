@@ -24,23 +24,28 @@ app.get('/', function (req, res) {
 var games = new _Games2.default();
 var gameTest = new _Game2.default('test', 'me');
 var gameTest2 = new _Game2.default('test2', 'you');
+var gamesList = games.getNameList();
+
 games.addGame(gameTest);
 games.addGame(gameTest2);
-var gamesList = games.getNameList();
 
 io.on('connection', function (socket) {
     console.log('a user connected', socket.id);
     socket.emit('start', 'Un utilisateur est connecté');
 
-    socket.emit('GamesList', gamesList);
+    socket.on('getGamesList', function () {
+        gamesList = games.getNameList();
+        socket.emit('GamesList', gamesList);
+    });
 
     socket.emit('newPlayer', function (data) {
         console.log('newPlayer', data);
     });
+
     socket.on('userData', function (login, room) {
 
         gamesList = games.getNameList();
-        //console.log('gameees', games)
+
         socket.join(room);
         var gameExist = gamesList.find(function (element) {
             return element.name === room;
@@ -97,6 +102,7 @@ io.on('connection', function (socket) {
         var newCreatedPieces = roomData.getPiece();
         io.to(room).emit('getNewPieces', newCreatedPieces, room);
     });
+
     socket.on('sendSpectre', function (spectre, room, login) {
 
         var gameExist = gamesList.find(function (element) {
@@ -104,8 +110,11 @@ io.on('connection', function (socket) {
         });
 
         if (gameExist) {
+
             var gameData = games.getGameData(room);
+
             gameData.addSpectre(login, spectre);
+
             var allSpectre = gameData.getAllSpectres();
 
             io.to(room).emit('receiveSpectres', room, allSpectre);

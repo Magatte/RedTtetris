@@ -13,24 +13,28 @@ app.get('/', function(req, res){
 let games = new Games()
 let gameTest = new Game('test','me')
 let gameTest2 = new Game('test2','you')
+let gamesList = games.getNameList()
+
 games.addGame(gameTest)
 games.addGame(gameTest2)
-let gamesList = games.getNameList()
 
 io.on('connection', function(socket){
     console.log('a user connected', socket.id);
     socket.emit('start', 'Un utilisateur est connecté')
 
-    socket.emit('GamesList', gamesList)
+    socket.on('getGamesList',()=>{
+        gamesList = games.getNameList()
+        socket.emit('GamesList', gamesList)
+    });
 
     socket.emit('newPlayer', (data)=>{
         console.log('newPlayer', data)
+    });
 
-    })
     socket.on('userData', (login, room) =>{
 
         gamesList = games.getNameList()
-        //console.log('gameees', games)
+
         socket.join(room)
         const gameExist = gamesList.find(element =>element.name === room)
         if(gameExist){
@@ -73,12 +77,12 @@ io.on('connection', function(socket){
             })
 
         }
-    })
+    });
 
     socket.on('gameStatus', (data) =>{
 
         io.to(data.room).emit('status','START_GAME')
-    })
+    });
 
     socket.on('resquestShape', (room) =>{
 
@@ -87,18 +91,21 @@ io.on('connection', function(socket){
         const newCreatedPieces = roomData.getPiece()
         io.to(room).emit('getNewPieces', newCreatedPieces, room )
 
-    })
+    });
+
     socket.on('sendSpectre', (spectre,room, login) =>{
 
         const gameExist = gamesList.find(element =>element.name === room)
 
         if(gameExist){
+
             const gameData = games.getGameData(room)
+
             gameData.addSpectre(login, spectre)
+
             const allSpectre = gameData.getAllSpectres()
 
             io.to(room).emit('receiveSpectres', room,allSpectre )
-
         }
     })
 });

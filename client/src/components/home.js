@@ -1,20 +1,15 @@
-import React from 'react';
+import React from "react"
 import { connect } from 'react-redux';
-import lifecycle from 'react-pure-lifecycle';
-import {bindActionCreators} from 'redux';
-import history from '../history';
-import {getGamesList, sendLoginRoom} from '../redux/actions';
+import lifecycle from "react-pure-lifecycle";
+import {bindActionCreators} from "redux";
+import history from "../history";
+import {getGamesList, sendLoginRoom} from "../redux/actions";
 
 
 const methods = {
     componentDidMount(props){
         props.getGamesList()
-    },
-    componentWillReceiveProps(nextProps){
-
-        //console.log('NEXTPROPS ds componentWillReceiveProps', nextProps)
     }
-
 };
 
 const Form = (props) => {
