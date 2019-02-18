@@ -21,7 +21,7 @@ io.on('connection', function(socket){
     console.log('a user connected', socket.id);
     socket.emit('start', 'Un utilisateur est connecté')
 
-    socket.emit('GamesList', gamesList)
+    socket.emit('GamesList', games.getNameList())
 
     socket.emit('newPlayer', (data)=>{
         console.log('newPlayer', data)
@@ -56,9 +56,12 @@ io.on('connection', function(socket){
             createGame.setStatus('ready')
             createGame.addSpectre(login,[0,0,0,0,0,0,0,0,0,0])
 
+            console.log('creategame', createGame)
             const nvxPlayer = new Player(login, createGame)
 
             games.addGame(createGame)
+            console.log('creategame', games)
+
             const newPieces = createGame.getPiece()
             gamesList = games.getNameList()
             socket.emit('playerStatus', {
@@ -77,7 +80,15 @@ io.on('connection', function(socket){
 
     socket.on('gameStatus', (data) =>{
 
-        io.to(data.room).emit('status','START_GAME')
+        console.log('gameStataus', data)
+        games.udpdateData(data.room, 'status', data.status, data.login)
+
+        io.to(data.room).emit('status',data.status)
+        if(data.status === 'STOP_GAME'){
+            console.log('Stop game')
+            socket.emit('GamesList', games.getNameList())
+        }
+
     })
 
     socket.on('resquestShape', (room) =>{

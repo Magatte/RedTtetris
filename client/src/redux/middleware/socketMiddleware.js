@@ -9,7 +9,9 @@ import {
     SEND_SPECTRE,
     RECEIVE_NEW_SPECTRE,
     GET_GAMES_LIST,
-    GET_PLAYER_STATUS, SEND_START_GAME
+    GET_PLAYER_STATUS,
+    SEND_START_GAME,
+    GAME_OVER, STOP_GAME
 } from "../actions";
 
 export default function socketMiddleware(socket) {
@@ -33,9 +35,11 @@ export default function socketMiddleware(socket) {
 
         const {
             type,
-            room
+            room,
+            user
         } = action;
 
+        console.log('MIDDLEWARE', action)
         switch(type) {
             case UNPAUSE_GAME:
             case PAUSE_GAME: {
@@ -100,9 +104,27 @@ export default function socketMiddleware(socket) {
                 });
                 break;
             }
+            case GAME_OVER : {
+                const data = {
+                    status:'GAME_OVER',
+                    room
+                }
+
+                socket.emit('gameStatus', data)
+            }
+            case STOP_GAME :{
+                const data = {
+                    status: 'STOP_GAME',
+                    room: user.room,
+                    login: user.login
+
+                }
+
+                socket.emit('gameStatus', data)
+            }
             case SEND_START_GAME : {
                 const data = {
-                    type,
+                    status:'START_GAME',
                     room
                 }
 

@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -16,34 +16,68 @@ var Games = function () {
     }
 
     _createClass(Games, [{
-        key: "getAllDataList",
+        key: 'getAllDataList',
         value: function getAllDataList() {
             return this.list;
         }
     }, {
-        key: "getGameData",
+        key: 'getGameData',
         value: function getGameData(name) {
             return this.list.find(function (game) {
                 return game.getName() === name;
             });
         }
     }, {
-        key: "getNameList",
+        key: 'getNameList',
         value: function getNameList() {
             return this.list.map(function (game) {
                 return {
                     name: game.getName(),
-                    piecesStock: game.getPiece()
+                    piecesStock: game.getPiece(),
+                    status: game.getStatus()
                 };
             });
         }
     }, {
-        key: "addGame",
+        key: 'destroyGame',
+        value: function destroyGame(name) {
+            var index = this.list.findIndex(function (game) {
+                return game.getName() === name;
+            });
+            this.list.splice(index, 1);
+        }
+    }, {
+        key: 'udpdateData',
+        value: function udpdateData(name, dataName, data) {
+            var login = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+
+            var index = this.list.findIndex(function (game) {
+                return game.getName() === name;
+            });
+
+            if (index !== -1) {
+                switch (dataName) {
+                    case 'status':
+                        this.list[index].setStatus(data);
+                    default:
+                        break;
+                }
+                if (this.list[index].getStatus() === 3) {
+                    this.list[index].deleteUser(login);
+                }
+                if (!this.list[index].getPlayersNb()) {
+
+                    this.destroyGame(name);
+                }
+            }
+        }
+    }, {
+        key: 'addGame',
         value: function addGame(name) {
             this.list.push(name);
         }
     }, {
-        key: "removeGame",
+        key: 'removeGame',
         value: function removeGame(name) {
             var index = this.list.findIndex(function (game) {
                 return game.getName() === name;

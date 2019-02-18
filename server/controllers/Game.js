@@ -1,3 +1,9 @@
+const getRandomInt = (max) =>{
+    return Math.floor(Math.random() * Math.floor(max));
+}
+
+console.log(getRandomInt(9));
+
 export default class Game{
     constructor(name,master){
         this.name = name;
@@ -8,8 +14,10 @@ export default class Game{
         this.status= 0
     }
     setStatus(status){
+        console.log('STATTUS', status)
         switch (status) {
             case "ready":
+            case "GAME_OVER":
                 this.status = 0
                 break
             case "START_GAME":
@@ -18,14 +26,14 @@ export default class Game{
             case "paused":
                 this.status = 2
                 break
-            case "finish":
+            case "STOP_GAME":
                 this.status = 3
                 break
             default:
                 break
 
         }
-
+        console.log('status end', this.status)
     }
 
     addSpectre( playerName, spectre ) {
@@ -58,6 +66,33 @@ export default class Game{
     getName(){
         return this.name
     }
+    getStatus(){
+        return this.status
+    }
+
+    getPlayersNb(){
+        return this.players.length
+    }
+    setNewMaster(login){
+
+        if( login === this.master ){
+            if ( this.players.length === 0 ){
+                this.master = null
+            } else {
+                this.master = this.players[getRandomInt(this.players.length)]
+            }
+        }
+    }
+
+    deleteUser(login){
+        const index = this.players.findIndex( p => p === login)
+
+        if( index !== -1 ){
+            this.players.splice(index, 1)
+            this.setNewMaster(login)
+        }
+    }
+
     createNewPieces(nb){
         this.pieces = this.pieces.splice(0, 0)
         for( let i = 0 ; i < nb ; i++){
@@ -75,12 +110,14 @@ export default class Game{
     removePiece(index, nb = 1){
         this.pieces.slice(index, nb)
     }
+
     getGameInfo(){
         return{
-            name:this.name,
-            master:this.master,
-            players:this.players,
-            pieces:this.pieces
+            name    : this.name,
+            master  : this.master,
+            players : this.players,
+            pieces  : this.pieces,
+            status  : this.status
         }
     }
 
