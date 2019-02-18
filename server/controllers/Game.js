@@ -1,21 +1,23 @@
-const getRandomInt = (max) =>{
+const getRandomInt = ( max ) =>{
     return Math.floor(Math.random() * Math.floor(max));
 }
 
 console.log(getRandomInt(9));
 
-export default class Game{
+export default class Game {
+
     constructor(name,master){
         this.name = name;
         this.master = master;
         this.players = [];
         this.pieces =[];
         this.spectres = []
-        this.status= 0
+        this.status = 0
     }
-    setStatus(status){
-        console.log('STATTUS', status)
-        switch (status) {
+
+    setStatus( status ){
+
+        switch ( status ) {
             case "ready":
             case "GAME_OVER":
                 this.status = 0
@@ -33,7 +35,6 @@ export default class Game{
                 break
 
         }
-        console.log('status end', this.status)
     }
 
     addSpectre( playerName, spectre ) {
@@ -52,28 +53,38 @@ export default class Game{
     }
 
     getAllSpectres(){
+
         return this.spectres
     }
 
     addPlayer(player){
+
         this.players.push(player)
+
         return this.players
     }
+
     setTetriminos(){
+
         this.tetriminos.push()
     }
 
     getName(){
+
         return this.name
     }
+
     getStatus(){
+
         return this.status
     }
 
     getPlayersNb(){
+
         return this.players.length
     }
-    setNewMaster(login){
+
+    setNewMaster( login ){
 
         if( login === this.master ){
             if ( this.players.length === 0 ){
@@ -84,7 +95,7 @@ export default class Game{
         }
     }
 
-    deleteUser(login){
+    deleteUser( login ){
         const index = this.players.findIndex( p => p === login)
 
         if( index !== -1 ){
@@ -93,25 +104,32 @@ export default class Game{
         }
     }
 
-    createNewPieces(nb){
+    createNewPieces( nb ){
         this.pieces = this.pieces.splice(0, 0)
+
         for( let i = 0 ; i < nb ; i++){
+
             this.pieces.push(Math.floor(Math.random() * (7 - 0)) + 0)
         }
     }
+
     getPiece(){
+
         return this.pieces
     }
 
-    addNewPiece(piece){
+    addNewPiece( piece ){
+
         this.pieces.push(piece)
     }
 
-    removePiece(index, nb = 1){
+    removePiece( index, nb = 1 ){
+
         this.pieces.slice(index, nb)
     }
 
     getGameInfo(){
+
         return{
             name    : this.name,
             master  : this.master,
