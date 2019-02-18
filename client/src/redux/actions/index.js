@@ -99,9 +99,11 @@ export const getGamesList = (l) => {
     }
 }
 
-export const stopGame = () => {
+export const stopGame = (user) => {
+    console.log('user', user)
     return {
-        type: STOP_GAME
+        type: STOP_GAME,
+        user
     }
 };
 
@@ -123,9 +125,10 @@ export const unpauseGame = () => {
     }
 };
 
-export const gameOver = () => {
+export const gameOver = (room) => {
     return {
-        type: GAME_OVER
+        type: GAME_OVER,
+        room
     }
 };
 

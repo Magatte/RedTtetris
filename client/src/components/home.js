@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import lifecycle from "react-pure-lifecycle";
 import {bindActionCreators} from "redux";
 import history from "../history";
-import {getGamesList, sendLoginRoom} from "../redux/actions";
-
+import {getGamesList, sendLoginRoom, STOP_GAME} from "../redux/actions";
 
 const methods = {
     componentDidMount(props){
@@ -55,7 +54,8 @@ const Form = (props) => {
 const Games = (props) =>{
 
     const list = props.gamesList.map((game, key)=>{
-        return <ul key={key}>{game.name}</ul>
+
+        return <ul key={key}>{game.name} <span>{game.status === 0 ? 'EN ATTENTE': 'EN COURS'}</span></ul>
     })
 
     return(

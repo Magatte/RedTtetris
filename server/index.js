@@ -13,24 +13,20 @@ app.get('/', function(req, res){
 let games = new Games()
 let gameTest = new Game('test','me')
 let gameTest2 = new Game('test2','you')
-let gamesList = games.getNameList()
-
 games.addGame(gameTest)
 games.addGame(gameTest2)
+let gamesList = games.getNameList()
 
 io.on('connection', function(socket){
     console.log('a user connected', socket.id);
     socket.emit('start', 'Un utilisateur est connecté')
 
-    socket.on('getGamesList',()=>{
-        gamesList = games.getNameList()
-        socket.emit('GamesList', gamesList)
-    });
+    socket.emit('GamesList', games.getNameList())
 
     socket.emit('newPlayer', (data)=>{
         console.log('newPlayer', data)
-    });
 
+    })
     socket.on('userData', (login, room) =>{
 
         gamesList = games.getNameList()
@@ -63,8 +59,11 @@ io.on('connection', function(socket){
             const nvxPlayer = new Player(login, createGame)
 
             games.addGame(createGame)
+
             const newPieces = createGame.getPiece()
+
             gamesList = games.getNameList()
+
             socket.emit('playerStatus', {
                 name:room,
                 status:'master',
@@ -81,8 +80,16 @@ io.on('connection', function(socket){
 
     socket.on('gameStatus', (data) =>{
 
-        io.to(data.room).emit('status','START_GAME')
-    });
+        games.udpdateData(data.room, 'status', data.status, data.login)
+
+        io.to(data.room).emit('status',data.status)
+
+        if(data.status === 'STOP_GAME'){
+
+            socket.emit('GamesList', games.getNameList())
+        }
+
+    })
 
     socket.on('resquestShape', (room) =>{
 

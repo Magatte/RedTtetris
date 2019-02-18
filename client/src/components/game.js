@@ -16,7 +16,7 @@ import {
     unpauseGame,
     gameOver,
     stopGame,
-    getPlayerStatus,
+    getPlayerStatus, STOP_GAME,
 } from '../redux/actions';
 import gameConstants from '../redux/constants/gameConstants';
 import Menu from './menu.js';
@@ -29,13 +29,18 @@ const methods = {
         props.getPlayerStatus()
     },
     componentDidUpdate(prevProps, prevState) {
+        console.log('prevProps', prevProps)
+        console.log('prevState', prevState)
         const gamePieces = prevProps.rooms.find(room => room.name === prevProps.user.room);
 
         if (!prevProps.activeTetriminos.isPlace && prevProps.gameStatus === 'PLAYING')
-            prevProps.gameOver();
+            prevProps.gameOver(prevProps.user.room);
 
-        if(prevProps.status === 'START_GAME' && prevProps.status !== prevState.status)
+        if (prevProps.status === 'START_GAME' && prevProps.status !== prevState.status)
             prevProps.loadGame(prevProps.user.room, gamePieces.piecesStock)
+
+        if (prevProps.status === STOP_GAME)
+            history.push('/')
     }
 };
 
@@ -43,6 +48,9 @@ const methods = {
 // left snake bug
 // latency for ghost
 const Game = (props) => {
+
+    if( !props.user.login )
+        history.push('/')
 
     let square = null;
 
@@ -73,7 +81,7 @@ const Game = (props) => {
                             className='restart'
                             type='primary'
                             size='medium'
-                            action={() => props.stopGame()}
+                            action={() => props.stopGame(props.user)}
                         >
                             QUIT
                         </AwesomeButton>
@@ -99,6 +107,7 @@ const Game = (props) => {
                         pauseTitle={props.gameStatus === 'PAUSED' ? 'UNPAUSE' : 'PAUSE'}
                         sendStart={props.gameStatus === 'IDLE' && props.sendStart }
                         pauseGame={props.gameStatus === 'PAUSED' ? props.unpauseGame : props.pauseGame}
+                        stopGame={props.stopGame}
                         user={props.user}
                         gameStatus={props.gameStatus}
                         gameData={gameData}

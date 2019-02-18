@@ -24,28 +24,23 @@ app.get('/', function (req, res) {
 var games = new _Games2.default();
 var gameTest = new _Game2.default('test', 'me');
 var gameTest2 = new _Game2.default('test2', 'you');
-var gamesList = games.getNameList();
-
 games.addGame(gameTest);
 games.addGame(gameTest2);
+var gamesList = games.getNameList();
 
 io.on('connection', function (socket) {
     console.log('a user connected', socket.id);
     socket.emit('start', 'Un utilisateur est connecté');
 
-    socket.on('getGamesList', function () {
-        gamesList = games.getNameList();
-        socket.emit('GamesList', gamesList);
-    });
+    socket.emit('GamesList', games.getNameList());
 
     socket.emit('newPlayer', function (data) {
         console.log('newPlayer', data);
     });
-
     socket.on('userData', function (login, room) {
 
         gamesList = games.getNameList();
-
+        //console.log('gameees', games)
         socket.join(room);
         var gameExist = gamesList.find(function (element) {
             return element.name === room;
@@ -72,9 +67,12 @@ io.on('connection', function (socket) {
             createGame.setStatus('ready');
             createGame.addSpectre(login, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
 
+            console.log('creategame', createGame);
             var nvxPlayer = new _Player2.default(login, createGame);
 
             games.addGame(createGame);
+            console.log('creategame', games);
+
             var _newPieces = createGame.getPiece();
             gamesList = games.getNameList();
             socket.emit('playerStatus', {
@@ -92,7 +90,14 @@ io.on('connection', function (socket) {
 
     socket.on('gameStatus', function (data) {
 
-        io.to(data.room).emit('status', 'START_GAME');
+        console.log('gameStataus', data);
+        games.udpdateData(data.room, 'status', data.status, data.login);
+
+        io.to(data.room).emit('status', data.status);
+        if (data.status === 'STOP_GAME') {
+            console.log('Stop game');
+            socket.emit('GamesList', games.getNameList());
+        }
     });
 
     socket.on('resquestShape', function (room) {
@@ -102,7 +107,6 @@ io.on('connection', function (socket) {
         var newCreatedPieces = roomData.getPiece();
         io.to(room).emit('getNewPieces', newCreatedPieces, room);
     });
-
     socket.on('sendSpectre', function (spectre, room, login) {
 
         var gameExist = gamesList.find(function (element) {
@@ -110,11 +114,8 @@ io.on('connection', function (socket) {
         });
 
         if (gameExist) {
-
             var gameData = games.getGameData(room);
-
             gameData.addSpectre(login, spectre);
-
             var allSpectre = gameData.getAllSpectres();
 
             io.to(room).emit('receiveSpectres', room, allSpectre);
