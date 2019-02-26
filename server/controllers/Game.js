@@ -131,11 +131,12 @@ export default class Game {
     getGameInfo(){
 
         return{
-            name    : this.name,
-            master  : this.master,
-            players : this.players,
-            pieces  : this.pieces,
-            status  : this.status
+            name:this.name,
+            master:this.master,
+            players:this.players,
+            pieces:this.pieces,
+            spectres:this.spectres,
+            status:this.status
         }
     }
 
