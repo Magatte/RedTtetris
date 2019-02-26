@@ -1,4 +1,4 @@
-export default class Game{
+export default class Game {
     constructor(name,master){
         this.name = name;
         this.master = master;
@@ -80,7 +80,9 @@ export default class Game{
             name:this.name,
             master:this.master,
             players:this.players,
-            pieces:this.pieces
+            pieces:this.pieces,
+            spectres:this.spectres,
+            status:this.status
         }
     }
 
