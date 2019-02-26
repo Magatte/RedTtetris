@@ -51,7 +51,7 @@ describe('test Game controllers', ()=>{
         });
         it('should set status to 3', ()=>{
 
-            instance.setStatus('finish')
+            instance.setStatus('STOP_GAME')
             const testSetStatus = instance.getGameInfo()
 
             expect(testSetStatus).to.deep.equal({
@@ -82,11 +82,4 @@ describe('test Game controllers', ()=>{
             expect(playerName).to.equal('Graziella')
         });
     })
-    describe('add Pieces', ()=>{
-        it('should return player name', ()=>{
-            instance.
-            expect(playerName).to.equal('Graziella')
-        });
-    })
-
 });

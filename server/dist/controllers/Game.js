@@ -27,9 +27,21 @@ var Game = function () {
     }
 
     _createClass(Game, [{
+        key: "addPlayer",
+        value: function addPlayer(login) {
+            var master = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
+            if (master) {
+                this.createNewPieces(7);
+                this.setStatus('ready');
+            }
+
+            this.addSpectre(login, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+        }
+    }, {
         key: "setStatus",
         value: function setStatus(status) {
-            console.log('STATTUS', status);
+
             switch (status) {
                 case "ready":
                 case "GAME_OVER":
@@ -48,7 +60,6 @@ var Game = function () {
                     break;
 
             }
-            console.log('status end', this.status);
         }
     }, {
         key: "addSpectre",
@@ -71,32 +82,37 @@ var Game = function () {
     }, {
         key: "getAllSpectres",
         value: function getAllSpectres() {
+
             return this.spectres;
         }
-    }, {
-        key: "addPlayer",
-        value: function addPlayer(player) {
-            this.players.push(player);
-            return this.players;
-        }
+
+        /*  addPlayer(player){
+               this.players.push(player)
+               return this.players
+          }*/
+
     }, {
         key: "setTetriminos",
         value: function setTetriminos() {
+
             this.tetriminos.push();
         }
     }, {
         key: "getName",
         value: function getName() {
+
             return this.name;
         }
     }, {
         key: "getStatus",
         value: function getStatus() {
+
             return this.status;
         }
     }, {
         key: "getPlayersNb",
         value: function getPlayersNb() {
+
             return this.players.length;
         }
     }, {
@@ -127,18 +143,22 @@ var Game = function () {
         key: "createNewPieces",
         value: function createNewPieces(nb) {
             this.pieces = this.pieces.splice(0, 0);
+
             for (var i = 0; i < nb; i++) {
+
                 this.pieces.push(Math.floor(Math.random() * (7 - 0)) + 0);
             }
         }
     }, {
         key: "getPiece",
         value: function getPiece() {
+
             return this.pieces;
         }
     }, {
         key: "addNewPiece",
         value: function addNewPiece(piece) {
+
             this.pieces.push(piece);
         }
     }, {
@@ -146,17 +166,36 @@ var Game = function () {
         value: function removePiece(index) {
             var nb = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
 
+
             this.pieces.slice(index, nb);
         }
     }, {
         key: "getGameInfo",
         value: function getGameInfo() {
+
             return {
                 name: this.name,
                 master: this.master,
                 players: this.players,
                 pieces: this.pieces,
+                spectres: this.spectres,
                 status: this.status
+            };
+        }
+    }, {
+        key: "getDefaultGame",
+        value: function getDefaultGame(status) {
+            var login = this.players.length === 1 ? this.players[0] : '';
+
+            return {
+                name: this.name,
+                status: status,
+                login: login,
+                newPieces: this.getPiece(),
+                spectres: [{
+                    name: login,
+                    spectre: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                }]
             };
         }
     }]);

@@ -165,6 +165,7 @@ const user = (state = userInitaleState, action) =>{
 
 const games = (state = {rooms: []}, action) => {
     switch(action.type) {
+        case actions.STOP_GAME:
         case actions.GET_GAMES_LIST:{
             return {rooms:action.games ? action.games:[]}
         }

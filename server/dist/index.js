@@ -66,15 +66,13 @@ io.on('connection', function (socket) {
             createGame.createNewPieces(7);
             createGame.setStatus('ready');
             createGame.addSpectre(login, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+            var _newPieces = createGame.getPiece();
 
-            console.log('creategame', createGame);
-            var nvxPlayer = new _Player2.default(login, createGame);
+            //const nvxPlayer = new Player(login, createGame)
 
             games.addGame(createGame);
-            console.log('creategame', games);
-
-            var _newPieces = createGame.getPiece();
             gamesList = games.getNameList();
+
             socket.emit('playerStatus', {
                 name: room,
                 status: 'master',
@@ -85,19 +83,26 @@ io.on('connection', function (socket) {
                     spectre: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
                 }]
             });
+            /**const gameDataToSend = createGame.getDefault('master')
+            socket.emit('playerStatus', gameDataToSend)**/
         }
     });
 
     socket.on('gameStatus', function (data) {
 
-        console.log('gameStataus', data);
+        console.log('gameStatus beFORE', games.getNameList());
         games.udpdateData(data.room, 'status', data.status, data.login);
 
         io.to(data.room).emit('status', data.status);
-        if (data.status === 'STOP_GAME') {
-            console.log('Stop game');
-            socket.emit('GamesList', games.getNameList());
-        }
+
+        var newGamesList = games.getNameList();
+        console.log('newGamesList', newGamesList);
+
+        /*if(data.status === 'STOP_GAME'){
+             console.log('dans STOP GAme',games.getNameList() )
+             socket.emit('GamesList', newGamesList)
+        }*/
+        socket.emit('GamesList', newGamesList);
     });
 
     socket.on('resquestShape', function (room) {

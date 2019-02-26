@@ -15,6 +15,15 @@ export default class Game {
         this.status = 0
     }
 
+    addPlayer(login, master = false){
+        if(master){
+            this.createNewPieces(7)
+            this.setStatus('ready')
+        }
+
+        this.addSpectre(login, [0,0,0,0,0,0,0,0,0,0])
+    }
+
     setStatus( status ){
 
         switch ( status ) {
@@ -57,12 +66,12 @@ export default class Game {
         return this.spectres
     }
 
-    addPlayer(player){
+  /*  addPlayer(player){
 
         this.players.push(player)
 
         return this.players
-    }
+    }*/
 
     setTetriminos(){
 
@@ -137,6 +146,21 @@ export default class Game {
             pieces:this.pieces,
             spectres:this.spectres,
             status:this.status
+        }
+    }
+
+    getDefaultGame(status){
+        const login = this.players.length === 1 ? this.players[0] : ''
+
+        return {
+            name: this.name,
+            status: status,
+            login: login,
+            newPieces: this.getPiece(),
+            spectres: [{
+                name: login,
+                spectre: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            }]
         }
     }
 

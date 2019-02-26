@@ -18,11 +18,13 @@ var Games = function () {
     _createClass(Games, [{
         key: 'getAllDataList',
         value: function getAllDataList() {
+
             return this.list;
         }
     }, {
         key: 'getGameData',
         value: function getGameData(name) {
+
             return this.list.find(function (game) {
                 return game.getName() === name;
             });
@@ -30,6 +32,7 @@ var Games = function () {
     }, {
         key: 'getNameList',
         value: function getNameList() {
+
             return this.list.map(function (game) {
                 return {
                     name: game.getName(),
@@ -41,9 +44,11 @@ var Games = function () {
     }, {
         key: 'destroyGame',
         value: function destroyGame(name) {
+
             var index = this.list.findIndex(function (game) {
                 return game.getName() === name;
             });
+
             this.list.splice(index, 1);
         }
     }, {
@@ -51,11 +56,13 @@ var Games = function () {
         value: function udpdateData(name, dataName, data) {
             var login = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
 
+
             var index = this.list.findIndex(function (game) {
                 return game.getName() === name;
             });
 
             if (index !== -1) {
+
                 switch (dataName) {
                     case 'status':
                         this.list[index].setStatus(data);
@@ -63,6 +70,7 @@ var Games = function () {
                         break;
                 }
                 if (this.list[index].getStatus() === 3) {
+
                     this.list[index].deleteUser(login);
                 }
                 if (!this.list[index].getPlayersNb()) {
@@ -74,14 +82,17 @@ var Games = function () {
     }, {
         key: 'addGame',
         value: function addGame(name) {
+
             this.list.push(name);
         }
     }, {
         key: 'removeGame',
         value: function removeGame(name) {
+
             var index = this.list.findIndex(function (game) {
                 return game.getName() === name;
             });
+
             this.list.slice(index, 1);
         }
     }]);
