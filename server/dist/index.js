@@ -104,8 +104,9 @@ io.on('connection', function (socket) {
         // roomData.createNewPieces(1)
         // const newCreatedPieces = roomData.getPiece()
         var newPieces = [];
-        newPieces.push(Math.floor(Math.random() * (7 - 0)) + 0);
-        socket.monitor('newPieces', newPieces);
+        for (var i = 0; i < 3; i++) {
+            newPieces.push(Math.floor(Math.random() * (7 - 0)) + 0);
+        }socket.monitor('newPieces', newPieces);
         io.to(room).emit('getNewPieces', newPieces, room);
     });
 
@@ -129,7 +130,18 @@ io.on('connection', function (socket) {
             return element.name === room;
         });
         if (gameExist) {
-            io.to(room).emit('freezeLine', 'FREEZE', room);
+            io.to(room).emit('freezeLine', room, 'FREEZE');
+        }
+    });
+
+    socket.on('stopGame', function (room, login) {
+        var gameExist = gamesList.find(function (element) {
+            return element.name === room;
+        });
+        if (gameExist) {
+            var gameData = games.getGameData(room);
+            games.removeGame(room);
+            console.log('GAME DATA', gameData);
         }
     });
 });

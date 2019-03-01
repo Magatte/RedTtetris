@@ -3,6 +3,7 @@ import {
     SEND_START_GAME,
     PAUSE_GAME,
     UNPAUSE_GAME,
+    STOP_GAME,
     SEND_LOGIN_ROOM,
     MANAGE_PIECES_STOCK,
     NEW_PIECES_FROM_SOCKET,
@@ -32,16 +33,17 @@ export default function socketMiddleware(socket) {
                 type: DATA_FROM_SOCKET,
                 data
             }
+            console.log('DATA FROM SOCKET');
             return next(action);
         });
 
-        socket.on('freezeLine', data => {
-            console.log('DATA', data);
-            const action = {
-                type: FREEZE_LINE
-            }
-            return next(action);
-        });
+        // socket.on('freezeLine', data => {
+        //     const action = {
+        //         type: FREEZE_LINE
+        //     }
+        //     console.log('I WANT TO FREEZE');
+        //     return next(action);
+        // });
 
         const {
             type,
@@ -72,7 +74,6 @@ export default function socketMiddleware(socket) {
             case MANAGE_PIECES_STOCK: {
                 // When a user pieces stock is under 6 he sends a request to the server to get new pieces
                 socket.on('getNewPieces', (newPieces, room) => {
-                    console.log('NEW PIECES', newPieces);
                     const action = {
                         type: NEW_PIECES_FROM_SOCKET,
                         newPieces: newPieces,
@@ -116,6 +117,10 @@ export default function socketMiddleware(socket) {
             }
             case SEND_FREEZE_LINE: {
                 socket.emit('sendFreezeLine', action.room, action.login);
+                break ;
+            }
+            case STOP_GAME: {
+                socket.emit('stopGame', action.room, action.login);
                 break ;
             }
             default:

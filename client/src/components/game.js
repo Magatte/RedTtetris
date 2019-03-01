@@ -20,7 +20,7 @@ import {
 } from '../redux/actions';
 import gameConstants from '../redux/constants/gameConstants';
 import Menu from './menu.js';
-import history from '../history'
+import history from '../history';
 const { initialGrid } = gameConstants;
 
 
@@ -29,7 +29,7 @@ const methods = {
         props.getPlayerStatus()
     },
     componentDidUpdate(prevProps, prevState) {
-        const gamePieces = prevProps.rooms.find(room => room.name === prevProps.user.room);
+        // const gamePieces = prevProps.rooms.find(room => room.name === prevProps.user.room);
 
         if (!prevProps.activeTetriminos.isPlace && prevProps.gameStatus === 'PLAYING')
             prevProps.gameOver();
@@ -42,6 +42,33 @@ const methods = {
 // BUGS
 // left snake bug
 // latency for ghost
+
+const gameOverlay = (user, restart, stopGame) => {
+    return (
+        <div className='game-overlay'>
+            <p> GAME OVER </p>
+            <p id='overlay-buttons'>
+                <AwesomeButton
+                    className='restart'
+                    type='primary'
+                    size='medium'
+                    action={() => restart()}
+                >
+                    RESTART
+                </AwesomeButton>
+                <AwesomeButton
+                    className='restart'
+                    type='primary'
+                    size='medium'
+                    action={() => stopGame(user.room, user.name)}
+                >
+                    QUIT
+                </AwesomeButton>
+            </p>
+        </div>
+    );
+}
+
 const Game = (props) => {
 
     let square = null;
@@ -56,30 +83,7 @@ const Game = (props) => {
 
     return (
         <div id='game'>
-            {
-                props.gameStatus === 'GAME_OVER' &&
-                <div className='game-overlay'>
-                    <p> GAME OVER </p>
-                    <p id='overlay-buttons'>
-                        <AwesomeButton
-                            className='restart'
-                            type='primary'
-                            size='medium'
-                            action={() => props.restart()}
-                        >
-                            RESTART
-                        </AwesomeButton>
-                        <AwesomeButton
-                            className='restart'
-                            type='primary'
-                            size='medium'
-                            action={() => props.stopGame()}
-                        >
-                            QUIT
-                        </AwesomeButton>
-                    </p>
-                </div>
-            }
+            { props.gameStatus === 'GAME_OVER' && gameOverlay(props.user, props.restart, props.stopGame) }
             <Board
                 squares={square}
                 name={props.currentTetriminos.name}

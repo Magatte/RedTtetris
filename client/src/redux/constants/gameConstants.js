@@ -212,5 +212,5 @@ export default {
     },
     initialGrid,
     newLine,
-    colors: ['white', 'red', '#00BCD4', 'green', 'orange', 'yellow', 'purple', 'brown', '#A74ACC']
+    colors: ['white', 'red', '#00BCD4', 'green', 'orange', 'yellow', 'purple', 'brown', '#A74ACC', 'grey']
 };

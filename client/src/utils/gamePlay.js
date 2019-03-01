@@ -72,8 +72,8 @@ export const dropTetriminos = (dispatch, getState) => {
 
 export const restart = () => {
     return (dispatch) => {
-        dispatch(stopGame());
-        dispatch(loadGame());
+        // dispatch(stopGame());
+        // dispatch(loadGame());
     }
 };
 

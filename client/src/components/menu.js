@@ -41,13 +41,13 @@ const PreviewNextTetriminos = (props) => {
             {
                 props.piecesStock.map((tetriNumber, index) => {
                     let name = shapeTypes[tetriNumber];
-                    let squares = miniTetriminos[name].shape;
+                    let miniTetri = miniTetriminos[name].shape;
                     return (
                         index < 3
                         &&
-                        <div className='menu-board'>
+                        <div className='menu-board' key={index}>
                             <div>
-                                {createBoard(squares)}
+                                {createBoard(miniTetri)}
                             </div>
                         </div>
                     );
