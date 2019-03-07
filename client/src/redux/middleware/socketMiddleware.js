@@ -24,7 +24,7 @@ export default function socketMiddleware(socket) {
                 type: FREEZE_LINE
             }
             console.log('I WANT TO FREEZE');
-            return dispatch (action);
+            dispatch (action);
         });
 
         return next => (action) => {

@@ -187,7 +187,7 @@ export const cling = (lineToDelete) => {
 
 export const isLineDone = (gridLine) => {
     for (let i = 0; i < 10; i++) {
-        if (gridLine[i] === 0)
+        if (gridLine[i] === 0 || gridLine[i] === 9)
             return false;
     }
     return true;

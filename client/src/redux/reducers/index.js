@@ -46,8 +46,8 @@ const activeTetriminos = (state = { newGrid: initialGrid }, action) => {
             return { ...state, newGrid: newGrid, isPlace: isPlace };
         case actions.FREEZE_LINE: {
             let newGrid = _.cloneDeep(state.newGrid);
+            newGrid.splice(2, 1);
             newGrid.push([9,9,9,9,9,9,9,9,9,9]);
-            newGrid.splice(0, 1);
             return {...state, newGrid: newGrid};
         }
         case actions.GAME_OVER:
