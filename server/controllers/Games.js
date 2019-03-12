@@ -34,7 +34,7 @@ export default class Games{
 
     }
 
-    udpdateData( name, dataName, data, login = null ){
+    udpdateData( name, dataName, data, login = null, id = null ){
 
         const index = this.list.findIndex(game => game.getName() === name)
 
@@ -48,7 +48,10 @@ export default class Games{
             }
             if(this.list[index].getStatus() === 3){
 
-                this.list[index].deleteUser(login)
+                if(id)
+                    this.list[index].deleteUser(id)
+                else
+                    this.list[index].deleteUser(login)
             }
             if(!this.list[index].getPlayersNb()){
 
