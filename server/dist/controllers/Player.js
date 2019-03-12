@@ -19,6 +19,7 @@ var Player = function () {
     _createClass(Player, [{
         key: "addRoom",
         value: function addRoom(room) {
+
             return this.rooms.push(room);
         }
     }, {

@@ -87,6 +87,7 @@ const DisplaySpectre = (props) => {
 
 const Menu = (props) => {
 
+    console.log('props', props)
     return (
         <div className='start'>
             {props.user.status === 'master' &&
@@ -108,6 +109,17 @@ const Menu = (props) => {
                     action={() => props.pauseGame()}
                 >
                     {props.pauseTitle}
+                </AwesomeButton>
+            </div>
+
+            <div className='menu-button'>
+                <AwesomeButton
+                    className='restart'
+                    type='primary'
+                    size='medium'
+                    action={() => props.stopGame(props.user)}
+                >
+                    QUIT
                 </AwesomeButton>
             </div>
 

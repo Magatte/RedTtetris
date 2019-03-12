@@ -48,11 +48,11 @@ export const sendStartGame = (room) => {
     }
 };
 
-export const stopGame = (room, login) => {
+export const stopGame = (user) => {
+    console.log('user', user)
     return {
         type: STOP_GAME,
-        room,
-        login
+        user
     }
 };
 
@@ -68,9 +68,10 @@ export const unpauseGame = () => {
     }
 };
 
-export const gameOver = () => {
+export const gameOver = (room) => {
     return {
-        type: GAME_OVER
+        type: GAME_OVER,
+        room
     }
 };
 

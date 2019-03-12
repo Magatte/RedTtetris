@@ -36,7 +36,7 @@ io.on('connection', function (socket) {
     socket.monitor('timeConnected', new Date(Date.now()).toLocaleString());
     socket.emit('start', 'Un utilisateur est connecté');
 
-    socket.emit('GamesList', gamesList);
+    socket.emit('GamesList', games.getNameList());
 
     socket.emit('newPlayer', function (data) {
         console.log('newPlayer', data);
@@ -46,7 +46,7 @@ io.on('connection', function (socket) {
 
         socket.monitor('userData', JSON.stringify({ login: login, room: room }));
         gamesList = games.getNameList();
-        //console.log('gameees', games)
+
         socket.join(room);
         var gameExist = gamesList.find(function (element) {
             return element.name === room;
@@ -76,8 +76,11 @@ io.on('connection', function (socket) {
             var nvxPlayer = new _Player2.default(login, createGame);
 
             games.addGame(createGame);
+
             var _newPieces = createGame.getPiece();
+
             gamesList = games.getNameList();
+
             socket.emit('playerStatus', {
                 name: room,
                 status: 'master',
@@ -92,22 +95,27 @@ io.on('connection', function (socket) {
     });
 
     socket.on('gameStatus', function (data) {
-
         socket.monitor('gameStatus', JSON.stringify(data));
+        games.udpdateData(data.room, 'status', data.status, data.login);
         io.to(data.room).emit('status', 'START_GAME');
+        if (data.status === 'STOP_GAME') {
+            socket.emit('GamesList', games.getNameList());
+        }
     });
 
     socket.on('resquestShape', function (room) {
 
         socket.monitor('requestingRoom', room);
-        // const roomData = games.getGameData(room)
-        // roomData.createNewPieces(1)
-        // const newCreatedPieces = roomData.getPiece()
-        var newPieces = [];
-        for (var i = 0; i < 3; i++) {
-            newPieces.push(Math.floor(Math.random() * (7 - 0)) + 0);
-        }socket.monitor('newPieces', newPieces);
-        io.to(room).emit('getNewPieces', newPieces, room);
+        var roomData = games.getGameData(room);
+        roomData.createNewPieces(7);
+        var newCreatedPieces = roomData.getPiece();
+        io.to(room).emit('getNewPieces', newCreatedPieces, room);
+
+        // const newPieces = [];
+        // for (let i = 0; i < 3; i++)
+        //     newPieces.push(Math.floor(Math.random() * (7 - 0)) + 0);
+        // socket.monitor('newPieces', newPieces);
+        // io.to(room).emit('getNewPieces', newPieces, room)
     });
 
     socket.on('sendSpectre', function (spectre, room, login) {
@@ -117,7 +125,9 @@ io.on('connection', function (socket) {
 
         if (gameExist) {
             var gameData = games.getGameData(room);
+
             gameData.addSpectre(login, spectre);
+
             var allSpectre = gameData.getAllSpectres();
 
             io.to(room).emit('receiveSpectres', room, allSpectre);
@@ -134,16 +144,14 @@ io.on('connection', function (socket) {
         }
     });
 
-    socket.on('stopGame', function (room, login) {
-        var gameExist = gamesList.find(function (element) {
-            return element.name === room;
-        });
-        if (gameExist) {
-            var gameData = games.getGameData(room);
-            games.removeGame(room);
-            console.log('GAME DATA', gameData);
-        }
-    });
+    // socket.on('stopGame', (room, login) => {
+    //     const gameExist = gamesList.find(element => element.name === room);
+    //     if (gameExist) {
+    //         const gameData = games.getGameData(room);
+    //         games.removeGame(room);
+    //         console.log('GAME DATA', gameData);
+    //     }
+    // })
 });
 
 server.listen(8000, function () {

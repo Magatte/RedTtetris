@@ -25,7 +25,7 @@ io.on('connection', (socket) => {
     socket.monitor('timeConnected', new Date(Date.now()).toLocaleString());
     socket.emit('start', 'Un utilisateur est connecté')
 
-    socket.emit('GamesList', gamesList)
+    socket.emit('GamesList', games.getNameList())
 
     socket.emit('newPlayer', (data) => {
         console.log('newPlayer', data)
@@ -35,7 +35,7 @@ io.on('connection', (socket) => {
 
         socket.monitor('userData', JSON.stringify({login: login, room: room}));
         gamesList = games.getNameList()
-        //console.log('gameees', games)
+
         socket.join(room)
         const gameExist = gamesList.find(element => element.name === room)
         if (gameExist) {
@@ -64,8 +64,11 @@ io.on('connection', (socket) => {
             const nvxPlayer = new Player(login, createGame)
 
             games.addGame(createGame)
+
             const newPieces = createGame.getPiece()
+
             gamesList = games.getNameList()
+
             socket.emit('playerStatus', {
                 name:room,
                 status:'master',
@@ -77,25 +80,30 @@ io.on('connection', (socket) => {
                 }]
             })
         }
-    })
+    });
 
     socket.on('gameStatus', (data) => {
-        
         socket.monitor('gameStatus', JSON.stringify(data));
-        io.to(data.room).emit('status','START_GAME')
+        games.udpdateData(data.room, 'status', data.status, data.login);
+        io.to(data.room).emit('status','START_GAME');
+        if(data.status === 'STOP_GAME'){
+            socket.emit('GamesList', games.getNameList())
+        }
     })
 
     socket.on('resquestShape', (room) => {
 
         socket.monitor('requestingRoom', room);
-        // const roomData = games.getGameData(room)
-        // roomData.createNewPieces(1)
-        // const newCreatedPieces = roomData.getPiece()
-        const newPieces = [];
-        for (let i = 0; i < 3; i++)
-            newPieces.push(Math.floor(Math.random() * (7 - 0)) + 0);
-        socket.monitor('newPieces', newPieces);
-        io.to(room).emit('getNewPieces', newPieces, room)
+        const roomData = games.getGameData(room)
+        roomData.createNewPieces(7)
+        const newCreatedPieces = roomData.getPiece()
+        io.to(room).emit('getNewPieces', newCreatedPieces, room)
+
+        // const newPieces = [];
+        // for (let i = 0; i < 3; i++)
+        //     newPieces.push(Math.floor(Math.random() * (7 - 0)) + 0);
+        // socket.monitor('newPieces', newPieces);
+        // io.to(room).emit('getNewPieces', newPieces, room)
     })
 
     socket.on('sendSpectre', (spectre, room, login) => {
@@ -103,7 +111,9 @@ io.on('connection', (socket) => {
 
         if (gameExist) {
             const gameData = games.getGameData(room)
+
             gameData.addSpectre(login, spectre)
+
             const allSpectre = gameData.getAllSpectres()
 
             io.to(room).emit('receiveSpectres', room, allSpectre)
@@ -118,14 +128,14 @@ io.on('connection', (socket) => {
         }
     })
 
-    socket.on('stopGame', (room, login) => {
-        const gameExist = gamesList.find(element => element.name === room);
-        if (gameExist) {
-            const gameData = games.getGameData(room);
-            games.removeGame(room);
-            console.log('GAME DATA', gameData);
-        }
-    })
+    // socket.on('stopGame', (room, login) => {
+    //     const gameExist = gamesList.find(element => element.name === room);
+    //     if (gameExist) {
+    //         const gameData = games.getGameData(room);
+    //         games.removeGame(room);
+    //         console.log('GAME DATA', gameData);
+    //     }
+    // })
 });
 
 server.listen(8000, function() {

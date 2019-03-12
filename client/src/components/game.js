@@ -16,7 +16,7 @@ import {
     unpauseGame,
     gameOver,
     stopGame,
-    getPlayerStatus,
+    getPlayerStatus, STOP_GAME,
 } from '../redux/actions';
 import gameConstants from '../redux/constants/gameConstants';
 import Menu from './menu.js';
@@ -29,13 +29,16 @@ const methods = {
         props.getPlayerStatus()
     },
     componentDidUpdate(prevProps, prevState) {
-        // const gamePieces = prevProps.rooms.find(room => room.name === prevProps.user.room);
+        const gamePieces = prevProps.rooms.find(room => room.name === prevProps.user.room);
 
         if (!prevProps.activeTetriminos.isPlace && prevProps.gameStatus === 'PLAYING')
-            prevProps.gameOver();
+            prevProps.gameOver(prevProps.user.room);
 
-        if(prevProps.status === 'START_GAME' && prevProps.status !== prevState.status)
-            prevProps.loadGame(prevProps.user.room);
+        if (prevProps.status === 'START_GAME' && prevProps.status !== prevState.status)
+            prevProps.loadGame(prevProps.user.room, gamePieces.piecesStock)
+
+        if (prevProps.status === STOP_GAME)
+            history.push('/')
     }
 };
 
@@ -71,6 +74,9 @@ const gameOverlay = (user, restart, stopGame) => {
 
 const Game = (props) => {
 
+    if( !props.user.login )
+        history.push('/')
+
     let square = null;
 
     if (props.gameStatus === 'IDLE')
@@ -103,6 +109,7 @@ const Game = (props) => {
                         pauseTitle={props.gameStatus === 'PAUSED' ? 'UNPAUSE' : 'PAUSE'}
                         sendStart={props.gameStatus === 'IDLE' && props.sendStart }
                         pauseGame={props.gameStatus === 'PAUSED' ? props.unpauseGame : props.pauseGame}
+                        stopGame={props.stopGame}
                         user={props.user}
                         gameStatus={props.gameStatus}
                         gameData={gameData}
