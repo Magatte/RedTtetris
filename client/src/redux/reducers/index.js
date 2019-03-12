@@ -189,7 +189,6 @@ const games = (state = {rooms: []}, action) => {
                         piecesStock: action.data.newPieces,
                         spectres:[...action.data.spectres]
                     }
-                    // faire un find index puis remplacer les datas existantes par celle qui arrivent
                     return {...state, rooms:[...state.rooms,data]}
                 }
                 return state;
@@ -200,17 +199,10 @@ const games = (state = {rooms: []}, action) => {
             if(roomIndex) {
                 state.rooms[roomIndex].piecesStock.shift()
             }
-            // if(action.newPieces && roomIndex) {
-            //     state.rooms[roomIndex].piecesStock = state.rooms[roomIndex].piecesStock.push(...action.newPieces);
-            // }
             return state;
         }
         case actions.NEW_PIECES_FROM_SOCKET: {
             const roomIndex = state.rooms.findIndex(room => room.name === action.room)
-            // let chunk = state.rooms[roomIndex].piecesStock.slice(Math.max(state.rooms[roomIndex].piecesStock.length - 3, 0));
-            // if (chunk.every(e => action.newPieces.includes(e)))
-            //     return state;
-            console.log('Tell me if roomIndex', roomIndex);
             if ( roomIndex ) {
                 state.rooms[roomIndex].piecesStock.push(...action.newPieces);
             }
