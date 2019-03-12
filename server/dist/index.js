@@ -109,6 +109,7 @@ io.on('connection', function (socket) {
         var roomData = games.getGameData(room);
         roomData.createNewPieces(7);
         var newCreatedPieces = roomData.getPiece();
+        console.log("NEW PIECES", newCreatedPieces);
         io.to(room).emit('getNewPieces', newCreatedPieces, room);
 
         // const newPieces = [];

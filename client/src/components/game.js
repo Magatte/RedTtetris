@@ -26,18 +26,20 @@ const { initialGrid } = gameConstants;
 
 const methods = {
     componentDidMount(props) {
-        props.getPlayerStatus()
+        props.getPlayerStatus();
     },
     componentDidUpdate(prevProps, prevState) {
         const gamePieces = prevProps.rooms.find(room => room.name === prevProps.user.room);
 
-        if (!prevProps.activeTetriminos.isPlace && prevProps.gameStatus === 'PLAYING')
+        if (!prevProps.activeTetriminos.isPlace && prevProps.gameStatus === 'PLAYING') {
+            console.log('GAME OVER CALL');
             prevProps.gameOver(prevProps.user.room);
+        }
 
         if (prevProps.status === 'START_GAME' && prevProps.status !== prevState.status)
             prevProps.loadGame(prevProps.user.room, gamePieces.piecesStock)
 
-        if (prevProps.status === STOP_GAME)
+        if (prevProps.status === 'STOP_GAME')
             history.push('/')
     }
 };
@@ -63,7 +65,7 @@ const gameOverlay = (user, restart, stopGame) => {
                     className='restart'
                     type='primary'
                     size='medium'
-                    action={() => stopGame(user.room, user.name)}
+                    action={() => stopGame(user)}
                 >
                     QUIT
                 </AwesomeButton>

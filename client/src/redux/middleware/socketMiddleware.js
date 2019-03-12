@@ -110,19 +110,23 @@ export default function socketMiddleware(socket) {
                     break;
                 }
                 case GAME_OVER: {
+                    console.log('GAME OVER ACTION', action);
                     const data = {
                         status: 'GAME_OVER',
                         room
                     }
                     socket.emit('gameStatus', data);
+                    break;
                 }
                 case STOP_GAME: {
+                    console.log('STOP ACTION', action);
                     const data = {
                         status: 'STOP_GAME',
                         room: user.room,
                         login: user.login
                     }
-                    socket.emit('gameStatus', data)
+                    socket.emit('gameStatus', data);
+                    break;
                 }
                 case SEND_SPECTRE: {
                     const data = {};

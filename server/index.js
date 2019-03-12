@@ -94,9 +94,10 @@ io.on('connection', (socket) => {
     socket.on('resquestShape', (room) => {
 
         socket.monitor('requestingRoom', room);
-        const roomData = games.getGameData(room)
-        roomData.createNewPieces(7)
-        const newCreatedPieces = roomData.getPiece()
+        const roomData = games.getGameData(room);
+        roomData.createNewPieces(7);
+        const newCreatedPieces = roomData.getPiece();
+        console.log("NEW PIECES", newCreatedPieces);
         io.to(room).emit('getNewPieces', newCreatedPieces, room)
 
         // const newPieces = [];

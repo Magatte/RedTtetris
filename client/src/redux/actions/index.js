@@ -49,7 +49,6 @@ export const sendStartGame = (room) => {
 };
 
 export const stopGame = (user) => {
-    console.log('user', user)
     return {
         type: STOP_GAME,
         user
