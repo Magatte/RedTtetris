@@ -107,6 +107,7 @@ export const moveTetriminos = (direction) => (
             dispatch(sendSpectre(spectre, user.room, user.login));
             dispatch(managePiecesStock(user.room, currentRoom.piecesStock));
             const nextRandNb = currentRoom.piecesStock[0];
+            console.log('STOCK', currentRoom.piecesStock);
             return dispatch(newTetriminos(currentTetriminos, nextTetriminos, nextRandNb));
         }
 

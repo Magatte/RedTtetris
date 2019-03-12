@@ -207,9 +207,10 @@ const games = (state = {rooms: []}, action) => {
         }
         case actions.NEW_PIECES_FROM_SOCKET: {
             const roomIndex = state.rooms.findIndex(room => room.name === action.room)
-            let chunk = state.rooms[roomIndex].piecesStock.slice(Math.max(state.rooms[roomIndex].piecesStock.length - 3, 0));
-            if (chunk.every(e => action.newPieces.includes(e)))
-                return state;
+            // let chunk = state.rooms[roomIndex].piecesStock.slice(Math.max(state.rooms[roomIndex].piecesStock.length - 3, 0));
+            // if (chunk.every(e => action.newPieces.includes(e)))
+            //     return state;
+            console.log('Tell me if roomIndex', roomIndex);
             if ( roomIndex ) {
                 state.rooms[roomIndex].piecesStock.push(...action.newPieces);
             }

@@ -28,6 +28,16 @@ export default function socketMiddleware(socket) {
             console.log('I WANT TO FREEZE');
             dispatch(action);
         });
+        
+        socket.on('getNewPieces', (newPieces, room) => {
+            const action = {
+                type: NEW_PIECES_FROM_SOCKET,
+                newPieces: newPieces,
+                room
+            }
+            console.log('New Pieces From Socket', newPieces);
+            return dispatch(action);
+        });
 
         return next => (action) => {
 
@@ -45,7 +55,6 @@ export default function socketMiddleware(socket) {
                     type: DATA_FROM_SOCKET,
                     data
                 }
-                console.log('DATA FROM SOCKET');
                 return next(action);
             });
 
@@ -79,15 +88,8 @@ export default function socketMiddleware(socket) {
                 }
                 case MANAGE_PIECES_STOCK: {
                     // When a user pieces stock is under 6 he sends a request to the server to get new pieces
-                    socket.on('getNewPieces', (newPieces, room) => {
-                        const action = {
-                            type: NEW_PIECES_FROM_SOCKET,
-                            newPieces: newPieces,
-                            room
-                        }
-                        return next(action);
-                    });
-                    if (action.piecesStock.length < 5) {
+                    console.log('ACTION REQUEST SHAPE', action);
+                    if (action.piecesStock.length <= 5) {
                         socket.emit('resquestShape', action.room);
                     }
                     break;
@@ -102,7 +104,6 @@ export default function socketMiddleware(socket) {
                 }
                 case GET_PLAYER_STATUS: {
                     socket.on('playerStatus', (data) => {
-                        console.log('playerStatus', data)
                         action = { ...action, data };
                         return next(action);
 
@@ -110,7 +111,6 @@ export default function socketMiddleware(socket) {
                     break;
                 }
                 case GAME_OVER: {
-                    console.log('GAME OVER ACTION', action);
                     const data = {
                         status: 'GAME_OVER',
                         room
@@ -119,7 +119,6 @@ export default function socketMiddleware(socket) {
                     break;
                 }
                 case STOP_GAME: {
-                    console.log('STOP ACTION', action);
                     const data = {
                         status: 'STOP_GAME',
                         room: user.room,
