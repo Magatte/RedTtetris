@@ -61,6 +61,7 @@ const DisplaySpectre = (props) => {
     if (props.spectres.length === -1)
         return null
 
+    //console.log('spectres MENU', props.spectres)
     const displayAllSpectres = props.spectres.map((data, key) => {
         return (
             <div key={key} style={{ marginLeft: 'auto', marginRight: 'auto', width: '100px', marginTop: '5%' }}>
@@ -86,6 +87,19 @@ const DisplaySpectre = (props) => {
 }
 
 const Menu = (props) => {
+
+    //console.log('props before', props)
+    //console.log('props before gameData', props.gameData)
+    
+    if(props.gameData && props.gameData.spectres){
+        const spectres = [...props.gameData]
+        //console.log('props before gameData length', props.gameData.spectres.length)
+        //console.log('props before  gameData.spectres', props.gameData)
+        //console.log('props spectres', spectres)
+
+
+    }
+
     return (
         <div className='start'>
             {props.user.status === 'master' &&

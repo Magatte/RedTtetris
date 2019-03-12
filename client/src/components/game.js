@@ -29,7 +29,21 @@ const methods = {
         props.getPlayerStatus();
     },
     componentDidUpdate(prevProps, prevState) {
+        //console.log('PREVPROPS',prevProps)
+        //console.log('PREVSTATEj',prevState)
+
+        //const actualRoomName = prevProps.user.room
         const gamePieces = prevProps.rooms.find(room => room.name === prevProps.user.room);
+        /*const actualRoomData = prevProps.rooms.find(room => room.name === actualRoomName)
+        const oldRoomData = prevState.rooms.find(room => room.name === actualRoomName)
+
+        let actualRoomLength = 0
+        let oldRoomLenght = 0
+        if(actualRoomData)
+            actualRoomLength = actualRoomData.spectres.length
+        if(actualRoomData)
+            oldRoomLenght = actualRoomData.spectres.length
+        if(actualRoomLength !== oldRoomLenght)*/
 
         if (!prevProps.activeTetriminos.isPlace && prevProps.gameStatus === 'PLAYING') {
             console.log('GAME OVER CALL');
@@ -87,8 +101,7 @@ const Game = (props) => {
         square = props.activeTetriminos.newGrid;
         props.currentTetriminos.ghost = getGhost(props.currentTetriminos.pos, square);
     }
-    const gameData = props.rooms.find(room => room.name === props.user.room)
-
+    
     return (
         <div id='game'>
             { props.gameStatus === 'GAME_OVER' && gameOverlay(props.user, props.restart, props.stopGame) }
@@ -114,7 +127,7 @@ const Game = (props) => {
                         stopGame={props.stopGame}
                         user={props.user}
                         gameStatus={props.gameStatus}
-                        gameData={gameData}
+                        gameData={props.gameData}
                         launchGame={props.launchGame}
                     />
                 </div>
@@ -125,7 +138,7 @@ const Game = (props) => {
 }
 
 const mapStateToProps = state => {
-
+    const gameData = state.games.rooms.find(room => room.name === state.user.room)
     return {
         gameStatus        : state.gameStatus,
         activeTetriminos  : state.activeTetriminos,
@@ -135,6 +148,7 @@ const mapStateToProps = state => {
         user              : state.user,
         status            : state.socket.status,
         rooms             : state.games.rooms,
+        gameData
     }
 };
 

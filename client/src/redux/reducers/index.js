@@ -182,13 +182,27 @@ const games = (state = {rooms: []}, action) => {
             return {rooms: action.games ? action.games : []};
         }
         case actions.GET_PLAYER_STATUS:
-            if(action.data){
-                if(!state.rooms.find(room => room.name === action.data.room)) {
+
+
+
+            if(action.data && action.data.name){
+
+                const roomIndex = state.rooms.findIndex(room => room.name === action.data.name)
+                if(roomIndex > -1) {
+
+                    const newRooms = Object.assign([], state.rooms)
+                    newRooms[roomIndex].spectres = action.data.spectres
+                    //return {...state, rooms:state.rooms[roomIndex].spectres action.data.spectres }
+                    return {...state, rooms:[...newRooms]}
+                }else{
+
                     const data =  {
                         name: action.data.name,
                         piecesStock: action.data.newPieces,
                         spectres:[...action.data.spectres]
                     }
+
+                    // faire un find index puis remplacer les datas existantes par celle qui arrivent
                     return {...state, rooms:[...state.rooms,data]}
                 }
                 return state;
@@ -210,9 +224,9 @@ const games = (state = {rooms: []}, action) => {
         }
         case actions.RECEIVE_NEW_SPECTRE: {
             if(action.room) {
+
                 const roomIndex = state.rooms.findIndex(room => room.name === action.room)
                 if(roomIndex > -1){
-
                     state.rooms[roomIndex]['spectres'] = [...action.allSpectres]
                     return state
                 }

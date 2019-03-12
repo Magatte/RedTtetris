@@ -25,7 +25,15 @@ export default function socketMiddleware(socket) {
             const action = {
                 type: FREEZE_LINE
             }
-            console.log('I WANT TO FREEZE');
+            dispatch(action);
+        });
+
+        socket.on('receiveSpectres', (room, allSpectres) => {
+            const action = {
+                type: RECEIVE_NEW_SPECTRE,
+                room,
+                allSpectres
+            }
             dispatch(action);
         });
         
@@ -131,6 +139,7 @@ export default function socketMiddleware(socket) {
                     const data = {};
                     socket.emit('sendSpectre', action.spectre, action.room, action.login);
                     socket.on('receiveSpectres', (room, allSpectres) => {
+                    
                         const action = {
                             type: RECEIVE_NEW_SPECTRE,
                             room,

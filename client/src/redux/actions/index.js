@@ -41,7 +41,6 @@ export const startGame = (room, curRandNb, nextRandNb) => {
 };
 
 export const sendStartGame = (room) => {
-    console.log('dans SEND_START_GAME ', room)
     return {
         type: SEND_START_GAME,
         room
