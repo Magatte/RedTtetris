@@ -55,6 +55,7 @@ io.on('connection', function (socket) {
 
             var gameData = games.getGameData(room);
             var newPieces = gameData.getPiece();
+            gameData.addPlayer(login, socket.id);
             gameData.addSpectre(login, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
             var allSpectres = gameData.getAllSpectres();
             io.to(room).emit('receiveSpectres', room, allSpectres);
@@ -68,7 +69,7 @@ io.on('connection', function (socket) {
         } else {
 
             var createGame = new _Game2.default(room, login);
-            createGame.addPlayer(login);
+            createGame.addPlayer(login, socket.id);
             createGame.createNewPieces(7);
             createGame.setStatus('ready');
             createGame.addSpectre(login, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
@@ -111,12 +112,6 @@ io.on('connection', function (socket) {
         var newCreatedPieces = roomData.getPiece();
         console.log("NEW PIECES", newCreatedPieces);
         io.to(room).emit('getNewPieces', newCreatedPieces, room);
-
-        // const newPieces = [];
-        // for (let i = 0; i < 3; i++)
-        //     newPieces.push(Math.floor(Math.random() * (7 - 0)) + 0);
-        // socket.monitor('newPieces', newPieces);
-        // io.to(room).emit('getNewPieces', newPieces, room)
     });
 
     socket.on('sendSpectre', function (spectre, room, login) {
@@ -141,7 +136,12 @@ io.on('connection', function (socket) {
             return element.name === room;
         });
         if (gameExist) {
-            io.to(room).emit('freezeLine', room, 'FREEZE');
+            var gameData = games.getGameData(room);
+
+            var players = gameData.freezedPlayers(login);
+            players.forEach(function (player) {
+                io.to(player.id).emit('freezeLine', room);
+            });
         }
     });
 

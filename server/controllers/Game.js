@@ -57,9 +57,9 @@ export default class Game {
         return this.spectres
     }
 
-    addPlayer(player){
+    addPlayer(player, id){
 
-        this.players.push(player)
+        this.players.push({name:player, id})
 
         return this.players
     }
@@ -95,8 +95,8 @@ export default class Game {
         }
     }
 
-    deleteUser( login ){
-        const index = this.players.findIndex( p => p === login)
+    deleteUser( id ){
+        const index = this.players.findIndex( p => p.id === id)
 
         if( index !== -1 ){
             this.players.splice(index, 1)
@@ -125,6 +125,16 @@ export default class Game {
     removePiece( index, nb = 1 ){
 
         this.pieces.slice(index, nb)
+    }
+
+    freezedPlayers(login){
+        
+        return this.players.reduce((freezedPlayer, curPlayer) => {
+
+            if(curPlayer.name !== login)
+                freezedPlayer.push(curPlayer)
+            return freezedPlayer
+        }, [])
     }
 
     getGameInfo(){

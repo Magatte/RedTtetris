@@ -42,10 +42,12 @@ io.on('connection', (socket) => {
             
             const gameData = games.getGameData(room)
             const newPieces = gameData.getPiece()
+            gameData.addPlayer(login, socket.id)
             gameData.addSpectre(login,[0,0,0,0,0,0,0,0,0,0])
             const allSpectres = gameData.getAllSpectres()
             io.to(room).emit('receiveSpectres', room, allSpectres )
             socket.emit('playerStatus', {
+                id:socket.id,
                 name:room,
                 status:'follower',
                 login,
@@ -56,7 +58,7 @@ io.on('connection', (socket) => {
         } else {
 
             let createGame = new Game(room, login)
-            createGame.addPlayer(login)
+            createGame.addPlayer(login, socket.id)
             createGame.createNewPieces(7)
             createGame.setStatus('ready')
             createGame.addSpectre(login,[0,0,0,0,0,0,0,0,0,0])
@@ -70,6 +72,7 @@ io.on('connection', (socket) => {
             gamesList = games.getNameList()
 
             socket.emit('playerStatus', {
+                id:socket.id,
                 name:room,
                 status:'master',
                 login,
@@ -84,7 +87,7 @@ io.on('connection', (socket) => {
 
     socket.on('gameStatus', (data) => {
         socket.monitor('gameStatus', JSON.stringify(data));
-        games.udpdateData(data.room, 'status', data.status, data.login);
+        games.udpdateData(data.room, 'status', data.status, data.login, data.id);
         io.to(data.room).emit('status','START_GAME');
         if(data.status === 'STOP_GAME'){
             socket.emit('GamesList', games.getNameList())
@@ -100,11 +103,6 @@ io.on('connection', (socket) => {
         console.log("NEW PIECES", newCreatedPieces);
         io.to(room).emit('getNewPieces', newCreatedPieces, room)
 
-        // const newPieces = [];
-        // for (let i = 0; i < 3; i++)
-        //     newPieces.push(Math.floor(Math.random() * (7 - 0)) + 0);
-        // socket.monitor('newPieces', newPieces);
-        // io.to(room).emit('getNewPieces', newPieces, room)
     })
 
     socket.on('sendSpectre', (spectre, room, login) => {
@@ -125,7 +123,13 @@ io.on('connection', (socket) => {
         socket.monitor('sendFreezeLine', JSON.stringify({room, login}));
         const gameExist = gamesList.find(element => element.name === room);
         if (gameExist) {
-            io.to(room).emit('freezeLine', room, 'FREEZE');
+            const gameData = games.getGameData(room)
+
+            const players = gameData.freezedPlayers(login);
+            players.forEach((player) =>{
+                io.to(player.id).emit('freezeLine', room)
+            })
+            //io.to(room).emit('freezeLine', room, 'FREEZE');
         }
     })
 
