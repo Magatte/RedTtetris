@@ -35,7 +35,7 @@ var Game = function () {
                 this.createNewPieces(7);
                 this.setStatus('ready');
             }
-
+            this.players.push(login);
             this.addSpectre(login, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
         }
     }, {
@@ -181,6 +181,11 @@ var Game = function () {
                 spectres: this.spectres,
                 status: this.status
             };
+        }
+    }, {
+        key: "getPlayersNb",
+        value: function getPlayersNb() {
+            return this.players.length;
         }
     }, {
         key: "getDefaultGame",

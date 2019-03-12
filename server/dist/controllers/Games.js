@@ -69,10 +69,13 @@ var Games = function () {
                     default:
                         break;
                 }
+                console.log('list before', this.list[index].getPlayersNb());
+
                 if (this.list[index].getStatus() === 3) {
 
                     this.list[index].deleteUser(login);
                 }
+                console.log('list after', this.list[index].getPlayersNb());
                 if (!this.list[index].getPlayersNb()) {
 
                     this.destroyGame(name);

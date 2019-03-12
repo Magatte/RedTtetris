@@ -20,7 +20,7 @@ export default class Game {
             this.createNewPieces(7)
             this.setStatus('ready')
         }
-
+        this.players.push(login)
         this.addSpectre(login, [0,0,0,0,0,0,0,0,0,0])
     }
 
@@ -148,7 +148,9 @@ export default class Game {
             status:this.status
         }
     }
-
+    getPlayersNb(){
+        return this.players.length
+    }
     getDefaultGame(status){
         const login = this.players.length === 1 ? this.players[0] : ''
 

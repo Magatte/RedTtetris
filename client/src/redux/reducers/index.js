@@ -28,6 +28,9 @@ const gameStatus = (state = 'IDLE', action) => {
 
 const activeTetriminos = (state = { newGrid: initialGrid }, action) => {
     switch (action.type) {
+        case actions.STOP_GAME:
+            let resetGrid = Array(20).fill(0).map(() => Array(10).fill(0));
+            return { newGrid: resetGrid}
         case actions.START_GAME:
             let currentTetriminos = tetriminos[action.currentShape];
             currentTetriminos.name = action.currentShape;
@@ -151,7 +154,7 @@ const user = (state = userInitaleState, action) =>{
             return {login:login, room:room}
         }
         case actions.GET_PLAYER_STATUS:{
-            if( action.data){
+            if( action.data ){
                 return {...state, status:action.data.status, piecesStock:action.data.newPieces}
 
             }
@@ -171,7 +174,7 @@ const games = (state = {rooms: []}, action) => {
         }
         case actions.GET_PLAYER_STATUS:{
             if(action.data){
-                if(!state.rooms.find(room => room.name === action.data.room)){
+                if(!state.rooms.find(room => room.name === action.data.name)){
                     const data =  {
                         name: action.data.name,
                         piecesStock: action.data.newPieces,
@@ -225,6 +228,9 @@ const socket = (state = {status:""}, action) => {
     switch (action.type) {
         case actions.DATA_FROM_SOCKET:
             return {...state, status:action.data}
+        case actions.SEND_LOGIN_ROOM:{
+            return { ...state, status:""}
+        }
         default:
             return state;
     }

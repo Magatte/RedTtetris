@@ -2,7 +2,6 @@ import React from "react"
 import { connect } from 'react-redux';
 import lifecycle from "react-pure-lifecycle";
 import {bindActionCreators} from "redux";
-//import { sendLoginRoom, getGamesList} from "../redux/actions";
 import history from "../history";
 import {getGamesList, sendLoginRoom, STOP_GAME} from "../redux/actions";
 
@@ -10,7 +9,6 @@ const methods = {
     componentDidMount(props){
         props.getGamesList()
     }
-
 };
 
 const Form = (props) =>{
@@ -23,7 +21,8 @@ const Form = (props) =>{
 
             history.push(url)
         }
-    }
+    };
+
     return(
         <div>
             Pour entrer dans la matrice de tetris entré un login est un nom de Room
@@ -53,7 +52,7 @@ const Form = (props) =>{
 
         </div>
     )
-}
+};
 
 const Games = (props) =>{
 
@@ -69,7 +68,7 @@ const Games = (props) =>{
             <li>{list}</li>
         </div>
     )
-}
+};
 
 const Home =(props)=> {
     return(
@@ -79,7 +78,7 @@ const Home =(props)=> {
             <Games gamesList={props.gamesList}/>
         </div>
     )
-}
+};
 
 const mapStateToProps = state => {
 

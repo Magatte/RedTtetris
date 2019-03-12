@@ -32,6 +32,11 @@ export default function socketMiddleware(socket) {
             }
             return next(action);
         });
+        socket.on('GamesList', (data) => {
+            console.log('hello', data)
+            return next({type: "GET_GAME_LIST", games:data});
+
+        });
 
         const {
             type,
@@ -71,6 +76,7 @@ export default function socketMiddleware(socket) {
                 break;
             }
             case GET_GAMES_LIST: {
+                socket.emit('getGamesList')
                 socket.on('GamesList', (data) => {
 
                     action = {...action, games:data};
