@@ -45,8 +45,8 @@ const methods = {
             oldRoomLenght = actualRoomData.spectres.length
         if(actualRoomLength !== oldRoomLenght)*/
 
+        console.log('GHOST', prevProps.currentTetriminos.ghost);
         if (!prevProps.activeTetriminos.isPlace && prevProps.gameStatus === 'PLAYING') {
-            console.log('GAME OVER CALL');
             prevProps.gameOver(prevProps.user.room);
         }
 

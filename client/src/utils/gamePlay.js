@@ -58,7 +58,7 @@ export const loadGame = (room) => {
         };
         setInterval(() => {
             dropTetriminos(dispatch, getState);
-        }, 500);
+        }, 3000);
         window.addEventListener('keydown', handleMove);
     }
 };
@@ -141,8 +141,8 @@ export const moveTetriminos = (direction) => (
     }
 );
 
-/** REDUX THUNK ACTION CREATORS END */
 
+/** REDUX THUNK ACTION CREATORS END */
 
 export const rotateTetriminos = (cx, cy, x, y) => {
     const radians = (Math.PI / 180) * 90,
@@ -207,28 +207,30 @@ export const deleteLine = (dispatch, room, login, grid) => {
     return grid;
 }
 
-const isCollision = (arr, tmpPos) => {
+const isCollision = (arr, nextPos) => {
     let edge = {};
-    edge = checkCollision(arr, tmpPos);
+    
+    edge = checkCollision(arr, nextPos);
     if (edge.xb === false)
         return true;
     return false;
 }
 
 export const getGhost = (pos, arr) => {
-    let tmpPos = _.cloneDeep(pos);
+    let ghostPos = _.cloneDeep(pos);
+    
     for (let i = pos[0].x; i < 20; i++) {
-        if (isCollision(arr, tmpPos))
-            return tmpPos;
+        if (isCollision(arr, ghostPos))
+            return ghostPos;
         for (let i = 0; i < 4; i++)
-            tmpPos[i].x++
+            ghostPos[i].x++
     }
-    return tmpPos;
+    return ghostPos;
 }
 
 const getPositionInLine = ( line ) => {
     const savePos = []
-
+    
     for ( let a =  0 ; a < 10 ; a++) {
         if ( line[a] !== 0 && line[a] !== 8 ) {
             savePos.push(a)
@@ -251,5 +253,4 @@ const getSpectre = ( game ) => {
         }
         return acc;
     }, [0,0,0,0,0,0,0,0,0,0]);
-
 }

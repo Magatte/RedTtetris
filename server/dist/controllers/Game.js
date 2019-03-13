@@ -79,7 +79,6 @@ var Game = function () {
 
             this.players.push({ name: player, id: id });
 
-            console.log('player add', this.players);
             return this.players;
         }
     }, {
@@ -163,12 +162,8 @@ var Game = function () {
         key: "freezedPlayers",
         value: function freezedPlayers(login) {
 
-            console.log('player', this.players);
             return this.players.reduce(function (freezedPlayer, curPlayer) {
 
-                console.log('curPlayers', curPlayer);
-                console.log('freezedPlayer', freezedPlayer);
-                console.log('login', login);
                 if (curPlayer.name !== login) freezedPlayer.push(curPlayer);
                 return freezedPlayer;
             }, []);

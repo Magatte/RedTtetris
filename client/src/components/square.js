@@ -15,7 +15,7 @@ const Square = (props) => {
             className='square'
             style={tetriminoStyle}
         >
-            {/* {props.value} */}
+            {props.value}
         </div>
     );
 }

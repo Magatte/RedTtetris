@@ -60,6 +60,7 @@ io.on('connection', function (socket) {
             var allSpectres = gameData.getAllSpectres();
             io.to(room).emit('receiveSpectres', room, allSpectres);
             socket.emit('playerStatus', {
+                id: socket.id,
                 name: room,
                 status: 'follower',
                 login: login,
@@ -83,6 +84,7 @@ io.on('connection', function (socket) {
             gamesList = games.getNameList();
 
             socket.emit('playerStatus', {
+                id: socket.id,
                 name: room,
                 status: 'master',
                 login: login,
@@ -97,7 +99,7 @@ io.on('connection', function (socket) {
 
     socket.on('gameStatus', function (data) {
         socket.monitor('gameStatus', JSON.stringify(data));
-        games.udpdateData(data.room, 'status', data.status, data.login);
+        games.udpdateData(data.room, 'status', data.status, data.login, data.id);
         io.to(data.room).emit('status', 'START_GAME');
         if (data.status === 'STOP_GAME') {
             socket.emit('GamesList', games.getNameList());
@@ -142,6 +144,7 @@ io.on('connection', function (socket) {
             players.forEach(function (player) {
                 io.to(player.id).emit('freezeLine', room);
             });
+            //io.to(room).emit('freezeLine', room, 'FREEZE');
         }
     });
 

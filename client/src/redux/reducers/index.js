@@ -119,8 +119,14 @@ const currentTetriminos = (state = {}, action) => {
             if (name !== 'square') {
                 if (name === 'straight' && state.pos[0].x < 2)
                     return { ...state, pos: pos };
-                const cx = pos[2].x;
-                const cy = pos[2].y;
+                let cx, cy;    
+                if (name === 'rightSnake') {
+                    cx = pos[3].x;
+                    cy = pos[3].y;
+                } else {
+                    cx = pos[2].x;
+                    cy = pos[2].y;
+                }
 
                 state.oldPos = _.cloneDeep(state.pos);
                 state.pos = state.pos.map((c, i) => {

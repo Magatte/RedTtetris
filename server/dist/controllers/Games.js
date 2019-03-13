@@ -55,6 +55,7 @@ var Games = function () {
         key: 'udpdateData',
         value: function udpdateData(name, dataName, data) {
             var login = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+            var id = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : null;
 
 
             var index = this.list.findIndex(function (game) {
@@ -71,7 +72,7 @@ var Games = function () {
                 }
                 if (this.list[index].getStatus() === 3) {
 
-                    this.list[index].deleteUser(login);
+                    if (id) this.list[index].deleteUser(id);else this.list[index].deleteUser(login);
                 }
                 if (!this.list[index].getPlayersNb()) {
 
