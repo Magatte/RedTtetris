@@ -45,16 +45,15 @@ const methods = {
             oldRoomLenght = actualRoomData.spectres.length
         if(actualRoomLength !== oldRoomLenght)*/
 
-        console.log('GHOST', prevProps.currentTetriminos.ghost);
         if (!prevProps.activeTetriminos.isPlace && prevProps.gameStatus === 'PLAYING') {
             prevProps.gameOver(prevProps.user.room);
         }
-
+        
         if (prevProps.status === 'START_GAME' && prevProps.status !== prevState.status)
-            prevProps.loadGame(prevProps.user.room, gamePieces.piecesStock)
-
+        prevProps.loadGame(prevProps.user.room, gamePieces.piecesStock)
+        
         if (prevProps.status === 'STOP_GAME')
-            history.push('/')
+        history.push('/')
     }
 };
 
@@ -72,7 +71,7 @@ const gameOverlay = (user, restart, stopGame) => {
                     type='primary'
                     size='medium'
                     action={() => restart()}
-                >
+                    >
                     RESTART
                 </AwesomeButton>
                 <AwesomeButton
@@ -80,7 +79,7 @@ const gameOverlay = (user, restart, stopGame) => {
                     type='primary'
                     size='medium'
                     action={() => stopGame(user)}
-                >
+                    >
                     QUIT
                 </AwesomeButton>
             </p>
@@ -89,17 +88,18 @@ const gameOverlay = (user, restart, stopGame) => {
 }
 
 const Game = (props) => {
-
+    
     if( !props.user.login )
-        history.push('/')
-
+    history.push('/')
+    
     let square = null;
-
+    
     if (props.gameStatus === 'IDLE')
-        square = initialGrid;
+    square = initialGrid;
     else {
         square = props.activeTetriminos.newGrid;
         props.currentTetriminos.ghost = getGhost(props.currentTetriminos.pos, square);
+        console.log('GHOST', props.currentTetriminos.ghost);
     }
     
     return (
