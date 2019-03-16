@@ -58,7 +58,7 @@ export const loadGame = (room) => {
         };
         setInterval(() => {
             dropTetriminos(dispatch, getState);
-        }, 3000);
+        }, 500);
         window.addEventListener('keydown', handleMove);
     }
 };
