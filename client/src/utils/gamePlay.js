@@ -58,7 +58,7 @@ export const loadGame = (room) => {
         };
         setInterval(() => {
             dropTetriminos(dispatch, getState);
-        }, 500);
+        }, 3000);
         window.addEventListener('keydown', handleMove);
     }
 };
@@ -164,7 +164,7 @@ export const checkCollision = (arr, pos) => {
         // For each point of my tetriminos I check if the next square is out of bound or if it is occupied and not a point of the current tetriminos
         if (pos[i].x <= 0)
             edge.xt = false;
-        if (pos[i].x >= 19 || (arr[pos[i].x + 1][pos[i].y] !== 0 && arr[pos[i].x + 1][pos[i].y] !== 8 && !pos.some(element => { return JSON.stringify(element) === JSON.stringify(pointX) })))
+        if (pos[i].x >= 19 || (arr[pos[i].x + 1][pos[i].y] !== 0 && arr[pos[i].x + 1][pos[i].y] !==  arr[pos[i].x][pos[i].y] && arr[pos[i].x + 1][pos[i].y] !== 8 && !pos.some(element => { return JSON.stringify(element) === JSON.stringify(pointX) })))
             edge.xb = false;
         if (pos[i].y <= 0 || (arr[pos[i].x][pos[i].y - 1] !== 0 && !pos.some(element => { return JSON.stringify(element) === JSON.stringify(pointYl) })))
             edge.yl = false;
