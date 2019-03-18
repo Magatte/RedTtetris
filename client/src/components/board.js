@@ -16,10 +16,11 @@ const Board = (props) => {
         if (!pos || !oldPos)
             return ;
         for (let i = 0; i < 4; i++) {
-            arr[oldGhost[i].x][oldGhost[i].y] = 0;
             arr[oldPos[i].x][oldPos[i].y] = 0;
+            arr[oldGhost[i].x][oldGhost[i].y] = 0;
         }
         for (let i = 0; i < 4; i++) {
+            console.log('GHOST', ghost);
             arr[ghost[i].x][ghost[i].y] = 8;
             arr[pos[i].x][pos[i].y] = shapeTypes.indexOf(props.name) + 1;
         }

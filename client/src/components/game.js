@@ -99,7 +99,6 @@ const Game = (props) => {
     else {
         square = props.activeTetriminos.newGrid;
         props.currentTetriminos.ghost = getGhost(props.currentTetriminos.pos, square);
-        console.log('GHOST', props.currentTetriminos.ghost);
     }
     
     return (
