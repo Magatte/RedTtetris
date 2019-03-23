@@ -98,7 +98,12 @@ const Game = (props) => {
     square = initialGrid;
     else {
         square = props.activeTetriminos.newGrid;
-        props.currentTetriminos.ghost = getGhost(props.currentTetriminos.pos, square);
+        let oldPos = props.currentTetriminos.oldPos;
+        let pos = props.currentTetriminos.pos;
+        for (let i = 0; i < 4; i++) {
+            square[oldPos[i].x][oldPos[i].y] = 0;
+        }
+        props.currentTetriminos.ghost = getGhost(pos, square);
     }
     
     return (

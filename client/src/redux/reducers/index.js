@@ -61,7 +61,6 @@ const nextTetriminos = (state = {}, action) => {
     switch (action.type) {
         case actions.START_GAME:
         case actions.NEW_TETRIMINOS:
-            console.log('ACTION', action);
             return {
                 shape: tetriminos[action.nextShape].shape,
                 name: action.nextShape,

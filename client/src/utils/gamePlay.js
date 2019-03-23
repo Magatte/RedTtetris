@@ -58,7 +58,7 @@ export const loadGame = (room) => {
         };
         setInterval(() => {
             dropTetriminos(dispatch, getState);
-        }, 3000);
+        }, 500);
         window.addEventListener('keydown', handleMove);
     }
 };
@@ -100,14 +100,12 @@ export const moveTetriminos = (direction) => (
 
         edge = checkCollision(activeTetriminos.newGrid, currentTetriminos.pos);
         if (edge.xb === false && lastMove) {
-            // currentRoom.piecesStock.shift();
             const currentRoom = games.rooms.find(room => room.name === user.room);
             deleteLine(dispatch, currentRoom.name, user.login, activeTetriminos.newGrid);
             const spectre = getSpectre(activeTetriminos.newGrid);
             dispatch(sendSpectre(spectre, user.room, user.login));
             dispatch(managePiecesStock(user.room, currentRoom.piecesStock));
             const nextRandNb = currentRoom.piecesStock[0];
-            console.log('STOCK', currentRoom.piecesStock);
             return dispatch(newTetriminos(currentTetriminos, nextTetriminos, nextRandNb));
         }
 
@@ -155,6 +153,12 @@ export const rotateTetriminos = (cx, cy, x, y) => {
 
 export const checkCollision = (arr, pos) => {
     let edge = { xt: true, xb: true, yl: true, yr: true };
+    
+    const overlap = (pos, squareUnder) => {
+        return pos.some(element => {
+            return JSON.stringify(element) === JSON.stringify(squareUnder)
+        });
+    }
 
     for (let i = 0; i < 4; i++) {
         let pointX = { x: pos[i].x + 1, y: pos[i].y };
@@ -164,10 +168,8 @@ export const checkCollision = (arr, pos) => {
         // For each point of my tetriminos I check if the next square is out of bound or if it is occupied and not a point of the current tetriminos
         if (pos[i].x <= 0)
             edge.xt = false;
-        if (pos[i].x >= 19 || (arr[pos[i].x + 1][pos[i].y] !== 0 && /* sharred point */ arr[pos[i].x + 1][pos[i].y] !== 8 && !pos.some(element => { return JSON.stringify(element) === JSON.stringify(pointX) }))) {
-            // if (pos[i].x < 19 && arr[pos[i].x + 1][pos[i].y] !==  arr[pos[i].x][pos[i].y])
+        if (pos[i].x >= 19 || (arr[pos[i].x + 1][pos[i].y] !== 0 && arr[pos[i].x + 1][pos[i].y] !== 8 && !overlap(pos, pointX)))
             edge.xb = false;
-        }
         if (pos[i].y <= 0 || (arr[pos[i].x][pos[i].y - 1] !== 0 && !pos.some(element => { return JSON.stringify(element) === JSON.stringify(pointYl) })))
             edge.yl = false;
         if (pos[i].y >= 9 || (arr[pos[i].x][pos[i].y + 1] !== 0 && !pos.some(element => { return JSON.stringify(element) === JSON.stringify(pointYr) })))
@@ -221,21 +223,17 @@ const isCollision = (arr, pos) => {
 export const getGhost = (pos, arr) => {
     let ghostPos = _.cloneDeep(pos);
     
-    const findOne = (pos, ghostPos) => {
-        return pos.some(element => {
-            for (let i = 0; i < 4; i++) {
-                return JSON.stringify(element) === JSON.stringify(ghostPos[i]);
-            }
-        });
-    }
-
     for (let i = pos[0].x; i < 20; i++) {
-        if (isCollision(arr, ghostPos) && !findOne(pos, ghostPos)) // if there's a collision and the tetriminos and the ghost share no position
+        if (isCollision(arr, ghostPos)) // if there's a collision and the tetriminos and the ghost share no position
             return ghostPos;
+        // for (let i = 0; i < 4; i++) {
+        //     if (ghostPos[i].x + 1 > 19) {
+        //         return ghostPos;
+        //     }
+        // }
         for (let i = 0; i < 4; i++)
-            ghostPos[i].x++
+            ghostPos[i].x++;
     }
-    return ghostPos;
 }
 
 const getPositionInLine = ( line ) => {

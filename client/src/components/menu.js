@@ -88,16 +88,8 @@ const DisplaySpectre = (props) => {
 
 const Menu = (props) => {
 
-    //console.log('props before', props)
-    //console.log('props before gameData', props.gameData)
-    
-    if(props.gameData && props.gameData.spectres){
-        const spectres = [...props.gameData]
-        //console.log('props before gameData length', props.gameData.spectres.length)
-        //console.log('props before  gameData.spectres', props.gameData)
-        //console.log('props spectres', spectres)
-
-
+    if(props.gameData && props.gameData.spectres) {
+        const spectres = [...props.gameData];
     }
 
     return (
@@ -139,7 +131,10 @@ const Menu = (props) => {
                 <AwesomeButton
                     type="primary"
                     size="medium"
-                    action={() => props.goToHome()}
+                    action={() => {
+                        props.stopGame(props.user);
+                        return props.goToHome();
+                    }}
                 >
                     HOME
                 </AwesomeButton>

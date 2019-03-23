@@ -1,6 +1,7 @@
 import React from 'react';
 import Square from './square.js';
 import gameConstants from '../redux/constants/gameConstants.js';
+import { getGhost } from '../utils/gamePlay';
 const { shapeTypes, colors } = gameConstants;
 
 const Board = (props) => {
@@ -15,12 +16,10 @@ const Board = (props) => {
 
         if (!pos || !oldPos)
             return ;
-        for (let i = 0; i < 4; i++) {
-            arr[oldPos[i].x][oldPos[i].y] = 0;
+        for (let i = 0; i < 4; i++)
             arr[oldGhost[i].x][oldGhost[i].y] = 0;
-        }
+        ghost = getGhost(pos, arr);
         for (let i = 0; i < 4; i++) {
-            console.log('GHOST', ghost);
             arr[ghost[i].x][ghost[i].y] = 8;
             arr[pos[i].x][pos[i].y] = shapeTypes.indexOf(props.name) + 1;
         }
