@@ -1,8 +1,8 @@
-export const userInitaleState = {
+export const userInitalState = {
     room:"",
     login:"",
     status:"",
-    score:""
+    score: 0
 }
 
 export default {

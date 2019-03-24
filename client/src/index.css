@@ -4,7 +4,7 @@
 }
   
 body {
-    font: 14px "Century Gothic", Futura, sans-serif;
+    font: 14px "Joystix", Futura, sans-serif;
     margin: 20px;
 }
   
@@ -57,11 +57,7 @@ ol, ul {
     font-family: Joystix;
 }
 
-#menu {
-    margin-top: 15px;
-}
-
-#spectres {
+#menu #spectres {
     margin-top: 15px;
 }
 
@@ -110,6 +106,17 @@ ol, ul {
     display: flex;
     flex-direction: row;
     justify-content: center;
+}
+
+#score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 35px;
+}
+
+#score h3 {
+    margin: 5px;
 }
 
 .menu-board .square {

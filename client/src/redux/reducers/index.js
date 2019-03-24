@@ -3,7 +3,7 @@ import _ from 'lodash';
 import gameConstants from '../constants/gameConstants';
 import * as actions from '../actions/index';
 import { rotateTetriminos, getNewGrid } from '../../utils/gamePlay';
-import {userInitaleState} from "../constants/storesConstans";
+import {userInitalState} from "../constants/storesConstans";
 
 const { tetriminos, initialGrid } = gameConstants;
 
@@ -77,9 +77,6 @@ const nextTetriminos = (state = {}, action) => {
 
 const currentTetriminos = (state = {}, action) => {
     let { ghost, pos, oldPos, name } = state
-
-    state.offsetX = state.offsetX && state.offsetX < 19 ? state.offsetX : 0;
-    state.offsetY = state.offsetY && state.offsetY < 9 && state.offsetY >= 0 ? state.offsetY : (state.offsetY >= 9 ? 8 : 0);
 
     switch (action.type) {
         case actions.START_GAME:
@@ -155,18 +152,22 @@ const lastMove = (state = false, action) => {
     }
 }
 
-const user = (state = userInitaleState, action) =>{
+const user = (state = userInitalState, action) => {
     switch(action.type) {
-        case actions.SEND_LOGIN_ROOM:{
-            const {login, room} = action
-            return {login:login, room:room}
+        case actions.SEND_LOGIN_ROOM: {
+            const { login, room } = action;
+            return { ...state, login:login, room:room };
         }
         case actions.GET_PLAYER_STATUS:{
-            if( action.data){
-                return {...state, status:action.data.status, piecesStock:action.data.newPieces}
+            if ( action.data) {
+                return { ...state, status:action.data.status, piecesStock:action.data.newPieces };
 
             }
-            return state
+            return state;
+        }
+        case actions.SCORE_POINTS: {
+            let score = state.score + 100;
+            return { ...state, score: score };
         }
         default:
             return state;

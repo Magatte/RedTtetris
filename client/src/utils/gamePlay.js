@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import {
     startGame,
-    stopGame,
     newTetriminos,
     rotate,
     moveDown,
@@ -10,7 +9,8 @@ import {
     setLastMove,
     hardDrop,
     sendStartGame,
-    sendFreezeLine
+    sendFreezeLine,
+    scorePoints
 } from '../redux/actions/index';
 import gameConstants from '../redux/constants/gameConstants';
 import { managePiecesStock } from "../redux/actions";
@@ -108,33 +108,33 @@ export const moveTetriminos = (direction) => (
             const nextRandNb = currentRoom.piecesStock[0];
             return dispatch(newTetriminos(currentTetriminos, nextTetriminos, nextRandNb));
         }
-
+        
         switch (direction) {
             case 'down':
-                if (edge.xb === false)
-                    dispatch(setLastMove());
-                else if (edge.xb === true)
-                    dispatch(moveDown());
-                break;
+            if (edge.xb === false)
+            dispatch(setLastMove());
+            else if (edge.xb === true)
+            dispatch(moveDown());
+            break;
             case 'right':
-                if (edge.yr === true)
-                    dispatch(moveRight());
-                break;
+            if (edge.yr === true)
+            dispatch(moveRight());
+            break;
             case 'left':
-                if (edge.yl === true)
-                    dispatch(moveLeft());
-                break;
+            if (edge.yl === true)
+            dispatch(moveLeft());
+            break;
             case 'rotate':
-                if (currentTetriminos.name === 'square')
-                    return;
-                if (edge.xt && edge.xb && edge.yl && edge.yr)
-                    dispatch(rotate());
-                break;
+            if (currentTetriminos.name === 'square')
+            return;
+            if (edge.xt && edge.xb && edge.yl && edge.yr)
+            dispatch(rotate());
+            break;
             case 'drop':
-                dispatch(hardDrop());
-                break;
+            dispatch(hardDrop());
+            break;
             default:
-                return;
+            return;
         }
     }
 );
@@ -144,10 +144,10 @@ export const moveTetriminos = (direction) => (
 
 export const rotateTetriminos = (cx, cy, x, y) => {
     const radians = (Math.PI / 180) * 90,
-        cos = Math.cos(radians),
-        sin = Math.sin(radians),
-        nx = Math.round((cos * (x - cx)) + (sin * (y - cy)) + cx),
-        ny = Math.round((cos * (y - cy)) - (sin * (x - cx)) + cy);
+    cos = Math.cos(radians),
+    sin = Math.sin(radians),
+    nx = Math.round((cos * (x - cx)) + (sin * (y - cy)) + cx),
+    ny = Math.round((cos * (y - cy)) - (sin * (x - cx)) + cy);
     return [nx, ny];
 }
 
@@ -159,21 +159,21 @@ export const checkCollision = (arr, pos) => {
             return JSON.stringify(element) === JSON.stringify(squareUnder)
         });
     }
-
+    
     for (let i = 0; i < 4; i++) {
         let pointX = { x: pos[i].x + 1, y: pos[i].y };
         let pointYl = { x: pos[i].x, y: pos[i].y - 1 };
         let pointYr = { x: pos[i].x, y: pos[i].y + 1 };
-
+        
         // For each point of my tetriminos I check if the next square is out of bound or if it is occupied and not a point of the current tetriminos
         if (pos[i].x <= 0)
-            edge.xt = false;
+        edge.xt = false;
         if (pos[i].x >= 19 || (arr[pos[i].x + 1][pos[i].y] !== 0 && arr[pos[i].x + 1][pos[i].y] !== 8 && !overlap(pos, pointX)))
-            edge.xb = false;
+        edge.xb = false;
         if (pos[i].y <= 0 || (arr[pos[i].x][pos[i].y - 1] !== 0 && !pos.some(element => { return JSON.stringify(element) === JSON.stringify(pointYl) })))
-            edge.yl = false;
+        edge.yl = false;
         if (pos[i].y >= 9 || (arr[pos[i].x][pos[i].y + 1] !== 0 && !pos.some(element => { return JSON.stringify(element) === JSON.stringify(pointYr) })))
-            edge.yr = false;
+        edge.yr = false;
     }
     return edge;
 }
@@ -183,9 +183,9 @@ export const cling = (lineToDelete) => {
     console.log(line);
     for (let i = 0; i < 1000; i++) {
         if (i % 2 === 0)
-            lineToDelete = newLine;
+        lineToDelete = newLine;
         else
-            lineToDelete = line;
+        lineToDelete = line;
     }
     return line;
 }
@@ -193,7 +193,7 @@ export const cling = (lineToDelete) => {
 export const isLineDone = (gridLine) => {
     for (let i = 0; i < 10; i++) {
         if (gridLine[i] === 0 || gridLine[i] === 9)
-            return false;
+        return false;
     }
     return true;
 }
@@ -203,6 +203,7 @@ export const deleteLine = (dispatch, room, login, grid) => {
         if (isLineDone(row) === true) {
             grid.splice(i, 1);
             grid.unshift([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+            dispatch(scorePoints());
             dispatch(sendFreezeLine(room, login));
             // deleteSound.play();
         }

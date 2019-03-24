@@ -57,6 +57,15 @@ const PreviewNextTetriminos = (props) => {
     );
 }
 
+const UserScore = (props) => {
+    return (
+        <div id= 'score' >
+            <h3> Score </h3>
+            <h3> { props.score } </h3>
+        </div>
+    );
+}
+
 const Menu = (props) => {
 
     if(props.gameData && props.gameData.spectres) {
@@ -90,17 +99,6 @@ const Menu = (props) => {
 
             <div className='menu-button'>
                 <AwesomeButton
-                    className='restart'
-                    type='primary'
-                    size='medium'
-                    action={() => props.stopGame(props.user)}
-                >
-                    QUIT
-                </AwesomeButton>
-            </div>
-
-            <div className='home-button'>
-                <AwesomeButton
                     type="primary"
                     size="medium"
                     action={() => {
@@ -108,13 +106,18 @@ const Menu = (props) => {
                         return props.goToHome();
                     }}
                 >
-                    HOME
+                    QUIT
                 </AwesomeButton>
             </div>
 
             {
-                props.gameStatus === 'PLAYING'
+                props.gameStatus !== 'IDLE'
                 && <PreviewNextTetriminos piecesStock={props.user.piecesStock} />
+            }
+
+            {
+                props.gameStatus !== 'IDLE'
+                && <UserScore score={props.user.score} />
             }
             
         </div>

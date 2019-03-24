@@ -24,6 +24,7 @@ export const NEW_PIECES_FROM_SOCKET = 'NEW_PIECES_FROM_SOCKET';
 export const SEND_SPECTRE = 'SEND_SPECTRE';
 export const RECEIVE_NEW_SPECTRE = 'RECEIVE_NEW_SPECTRE';
 export const DATA_FROM_SOCKET = 'DATA_FROM_SOCKET';
+export const SCORE_POINTS = 'SCORE_POINTS';
 
 
 export const startGame = (room, curRandNb, nextRandNb) => {
@@ -178,5 +179,11 @@ export const sendSpectre = (spectre, room, login) => {
         spectre,
         room,
         login
+    }
+};
+
+export const scorePoints = () => {
+    return {
+        type: SCORE_POINTS
     }
 };
