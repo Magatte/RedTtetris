@@ -57,35 +57,6 @@ const PreviewNextTetriminos = (props) => {
     );
 }
 
-const DisplaySpectre = (props) => {
-    if (props.spectres.length === -1)
-        return null
-
-    //console.log('spectres MENU', props.spectres)
-    const displayAllSpectres = props.spectres.map((data, key) => {
-        return (
-            <div key={key} style={{ marginLeft: 'auto', marginRight: 'auto', width: '100px', marginTop: '5%' }}>
-                {data.name}<br />
-                <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'flex-start', height: '120px', width: '100px', border: '1px solid red' }}>
-                    {data.spectre.map((col, key) => {
-                        const height = (col / 20) * 100
-                        return (
-                            <div key={key} style={{ backgroundColor: 'red', width: '10px', height: height + '%' }}></div>
-                        )
-                    })
-                    }
-                </div>
-            </div>
-        )
-    });
-
-    return (
-        <div>
-            {displayAllSpectres}
-        </div>
-    );
-}
-
 const Menu = (props) => {
 
     if(props.gameData && props.gameData.spectres) {
@@ -94,6 +65,7 @@ const Menu = (props) => {
 
     return (
         <div className='start'>
+
             {props.user.status === 'master' &&
                 <div className='menu-button'>
                     <AwesomeButton
@@ -144,14 +116,7 @@ const Menu = (props) => {
                 props.gameStatus === 'PLAYING'
                 && <PreviewNextTetriminos piecesStock={props.user.piecesStock} />
             }
-            {
-                props.gameData && props.gameData.spectres
-                && <DisplaySpectre
-                    spectres={props.gameData.spectres}
-                    userName={props.user.name}
-                />
-            }
-
+            
         </div>
     );
 }

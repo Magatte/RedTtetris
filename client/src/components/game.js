@@ -16,10 +16,11 @@ import {
     unpauseGame,
     gameOver,
     stopGame,
-    getPlayerStatus, STOP_GAME,
+    getPlayerStatus,
 } from '../redux/actions';
 import gameConstants from '../redux/constants/gameConstants';
 import Menu from './menu.js';
+import Spectres from './spectres.js';
 import history from '../history';
 const { initialGrid } = gameConstants;
 
@@ -109,6 +110,14 @@ const Game = (props) => {
     return (
         <div id='game'>
             { props.gameStatus === 'GAME_OVER' && gameOverlay(props.user, props.restart, props.stopGame) }
+            <div className='game-info'>
+                <div id='spectres'>
+                    <Spectres
+                        user={props.user}
+                        gameData={props.gameData}
+                    />
+                </div>
+            </div>
             <Board
                 squares={square}
                 name={props.currentTetriminos.name}
@@ -121,7 +130,7 @@ const Game = (props) => {
                 isPlace={props.activeTetriminos.isPlace}
                 user={props.user}
             />
-            <div id='game-info'>
+            <div className='game-info'>
                 <div id='menu'>
                     <Menu
                         goToHome={()=>{history.push('/')} }
@@ -135,7 +144,6 @@ const Game = (props) => {
                         launchGame={props.launchGame}
                     />
                 </div>
-                <ol> {/* TODO */} </ol>
             </div>
         </div>
     );
