@@ -19,12 +19,13 @@ export default class Games{
         })
     }
 
-    addGame(name){
-        this.list.push(name)
+    addGame(game){
+        this.list.push(game)
     }
 
     removeGame(name){
         const index = this.list.findIndex(game => game.getName() === name)
-        this.list.slice(index, 1)
+        if(index > -1)
+            this.list.splice(index, 1)
     }
 }
