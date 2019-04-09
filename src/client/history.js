@@ -1,0 +1,6 @@
+import { createHashHistory } from 'history';
+
+export default createHashHistory({
+    basename: '',
+    hashType: 'noslash'
+});
