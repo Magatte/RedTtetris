@@ -30,7 +30,6 @@ io.on('connection', function(socket){
     socket.on('userData', (login, room) =>{
 
         gamesList = games.getNameList()
-        //console.log('gameees', games)
         socket.join(room)
         const gameExist = gamesList.find(element =>element.name === room)
         if(gameExist){
@@ -104,5 +103,5 @@ io.on('connection', function(socket){
 });
 
 http.listen(8000, function(){
-    console.log('listening on *:3000');
+    console.log('listening on *:8000');
 });

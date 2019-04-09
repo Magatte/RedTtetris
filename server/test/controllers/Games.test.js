@@ -8,21 +8,21 @@ const oneGameInstance1 = new Game('Graziella', false)
 const oneGameInstance2 = new Game('Magatte', false)
 
 describe('***Games controller***', ()=>{
-    describe('addGame', ()=>{
+    it('addGame', ()=>{
         gamesListInstance.addGame(oneGameInstance1)
         gamesListInstance.addGame(oneGameInstance2)
         const list = gamesListInstance.getAllDataList()
         expect(list).to.be.an('array').to.have.lengthOf(2);
     });
-    describe('getAllDataList', ()=>{
+    it('getAllDataList', ()=>{
         const list = gamesListInstance.getAllDataList()
         expect(list).to.be.an('array').to.have.lengthOf(2);
     });
-    describe('getGameData', ()=>{
+    it('getGameData', ()=>{
         const list = gamesListInstance.getGameData('Graziella')
         expect(list).to.deep.equal(oneGameInstance1);
     });
-    describe('getNameList', ()=>{
+    it('getNameList', ()=>{
         const list = gamesListInstance.getNameList('Graziella')
         expect(list).to.deep.equal([
             {
@@ -35,12 +35,12 @@ describe('***Games controller***', ()=>{
             }
         ]);
     });
-    describe('removeGame', ()=>{
+    it('removeGame', ()=>{
         gamesListInstance.removeGame('Magatte')
         const list = gamesListInstance.getAllDataList()
         expect(list).to.be.an('array').to.have.lengthOf(1);
     });
-    describe('removeGame', ()=>{
+    it('removeGame', ()=>{
         gamesListInstance.removeGame('grazi')
         const list = gamesListInstance.getAllDataList()
         expect(list).to.be.an('array').to.have.lengthOf(1);
