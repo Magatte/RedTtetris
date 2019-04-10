@@ -4,6 +4,7 @@ import 'react-awesome-button/dist/themes/theme-bojack.css';
 import gameConstants from '../redux/constants/gameConstants'
 import storesConstants from '../redux/constants/storesConstans';
 import Square from './square.js';
+import Timer from './timer.js'
 const { shapeTypes, colors } = gameConstants;
 const { miniTetriminos } = storesConstants;
 
@@ -114,12 +115,16 @@ const Menu = (props) => {
                 props.gameStatus !== 'IDLE'
                 && <PreviewNextTetriminos piecesStock={props.user.piecesStock} />
             }
-
             {
                 props.gameStatus !== 'IDLE'
                 && <UserScore score={props.user.score} />
             }
-            
+            {
+                <Timer
+                    time={props.time}
+                />
+            }
+
         </div>
     );
 }

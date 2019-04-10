@@ -253,6 +253,12 @@ const socket = (state = {status:""}, action) => {
     }
 }
 
+const time = (state = 0, action) => {
+    if (action.type == actions.TICK)
+        return state + 1;
+    return state;
+}
+
 const gameReducers = combineReducers({
     gameStatus,
     activeTetriminos,
@@ -261,7 +267,8 @@ const gameReducers = combineReducers({
     lastMove,
     user,
     games,
-    socket
+    socket,
+    time
 }); // CombineReducers put all these reducers into a single namespace
 
 export default gameReducers;

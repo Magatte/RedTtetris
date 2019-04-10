@@ -10,7 +10,8 @@ import {
     hardDrop,
     sendStartGame,
     sendFreezeLine,
-    scorePoints
+    scorePoints,
+    tick
 } from '../redux/actions/index';
 import gameConstants from '../redux/constants/gameConstants';
 import { managePiecesStock } from "../redux/actions";
@@ -29,7 +30,7 @@ export const launchGame = (room) => {
 
 export const loadGame = (room) => {
     return (dispatch, getState) => {
-        const { games, user } = getState()
+        const { gameStatus, games, user } = getState()
         const currentRoom = games.rooms.find(room => room.name === user.room)
         const curRandNb = currentRoom.piecesStock[0]
         const nextRandNb = currentRoom.piecesStock[1]
@@ -59,6 +60,10 @@ export const loadGame = (room) => {
         setInterval(() => {
             dropTetriminos(dispatch, getState);
         }, 500);
+        setInterval(() => {
+            // if (gameStatus === 'PLAYING')
+                dispatch(tick());
+        }, 1000);
         window.addEventListener('keydown', handleMove);
     }
 };

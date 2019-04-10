@@ -142,6 +142,7 @@ const Game = (props) => {
                         gameStatus={props.gameStatus}
                         gameData={props.gameData}
                         launchGame={props.launchGame}
+                        time={props.time}
                     />
                 </div>
             </div>
@@ -160,6 +161,7 @@ const mapStateToProps = state => {
         user              : state.user,
         status            : state.socket.status,
         rooms             : state.games.rooms,
+        time              : state.time,
         gameData
     }
 };
