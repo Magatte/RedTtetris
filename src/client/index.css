@@ -108,6 +108,17 @@ ol, ul {
     justify-content: center;
 }
 
+#timer {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 35px;
+}
+
+#timer h3 {
+    margin: 5px;
+}
+
 #score {
     display: flex;
     flex-direction: column;

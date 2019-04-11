@@ -61,8 +61,7 @@ export const loadGame = (room) => {
             dropTetriminos(dispatch, getState);
         }, 500);
         setInterval(() => {
-            // if (gameStatus === 'PLAYING')
-                dispatch(tick());
+            runTimer(dispatch, getState);
         }, 1000);
         window.addEventListener('keydown', handleMove);
     }
@@ -73,6 +72,12 @@ export const dropTetriminos = (dispatch, getState) => {
 
     if (gameStatus !== 'PAUSED' && gameStatus !== 'GAME_OVER' && gameStatus !== 'IDLE')
         dispatch(moveTetriminos('down'));
+}
+
+export const runTimer = (dispatch, getState) => {
+    const { gameStatus } = getState();
+    if (gameStatus === "PLAYING")
+        dispatch(tick());
 }
 
 export const restart = () => {

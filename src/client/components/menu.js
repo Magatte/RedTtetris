@@ -120,9 +120,8 @@ const Menu = (props) => {
                 && <UserScore score={props.user.score} />
             }
             {
-                <Timer
-                    time={props.time}
-                />
+                props.gameStatus !== 'IDLE'
+                && <Timer time={props.time} />
             }
 
         </div>
