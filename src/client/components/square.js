@@ -6,7 +6,7 @@ const Square = (props) => {
         backgroundColor: props.value === 8 ? 'white' : props.color,
         borderStyle: props.value > 0 ? 'solid' : '',
         borderSize: props.value > 0 ? '2px' : '',
-        borderColor: 'black',
+        // borderColor: 'black',
         borderCollapse: 'collapsed'
     };
 
