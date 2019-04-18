@@ -1,17 +1,18 @@
-import React from 'react';
-import Sound from 'react-sound';
-import soundfile from '../sounds/delete.mp3';
-
-const Music = (props) => {
-    return (
-        <Sound
-            url={props.track}
-            playStatus={Sound.status.PLAYING}
-            onLoading={this.handleSongLoading}
-            onPlaying={this.handleSongPlaying}
-            onFinishedPlaying={this.handleSongFinishedPlaying}
-        />
-    );
+const playMusic = music => soundfile => {
+    if (music) { // If music is true return a function
+        try {
+            const audio = new Audio(soundfile);
+            audio.addEventListener('ended', () => {
+                audio.currentTime = 0;
+                audio.play().catch((error) => {console.log(error.message)});
+            }, false);
+            console.log(audio.currentTime);
+            audio.play().catch((error) => {console.log(error.message)});
+            
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
-export default Music;
+export default playMusic;

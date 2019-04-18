@@ -259,6 +259,12 @@ const time = (state = 0, action) => {
     return state;
 }
 
+const music = (state = false, action) => {
+    if (action.type == actions.MUSIC) {
+        return !state;
+    }
+}
+
 const gameReducers = combineReducers({
     gameStatus,
     activeTetriminos,

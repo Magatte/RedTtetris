@@ -11,7 +11,8 @@ import {
     sendStartGame,
     sendFreezeLine,
     scorePoints,
-    tick
+    tick,
+    music
 } from '../redux/actions/index';
 import gameConstants from '../redux/constants/gameConstants';
 import { managePiecesStock } from "../redux/actions";
@@ -56,6 +57,7 @@ export const loadGame = (room) => {
                     ;
             }
         };
+        dispatch(music());
         setInterval(() => {
             dropTetriminos(dispatch, getState);
         }, 500);

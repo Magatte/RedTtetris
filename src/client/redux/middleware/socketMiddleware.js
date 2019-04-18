@@ -16,18 +16,21 @@ import {
     FREEZE_LINE,
     START_GAME
 } from "../actions";
+import playMusic from '../../components/music.js';
+import soundfile from '../../sounds/gameSound.mp3';
 
 
 export default function socketMiddleware(socket) {
     return ({ dispatch, getState }) => {
-
+        
+        
         socket.on('freezeLine', data => {
             const action = {
                 type: FREEZE_LINE
             }
             dispatch(action);
         });
-
+        
         socket.on('receiveSpectres', (room, allSpectres) => {
             const action = {
                 type: RECEIVE_NEW_SPECTRE,
@@ -46,18 +49,19 @@ export default function socketMiddleware(socket) {
             console.log('New Pieces From Socket', newPieces);
             return dispatch(action);
         });
-
+        
         return next => (action) => {
-
+            const play = playMusic(getState().music);
+            
             if (!socket) {
                 socket.emit('connection', 'hello je suis connecte');
                 return;
             }
-
+            
             socket.on('start', (data) => {
                 console.log('dans start', data)
             });
-
+            
             socket.on('status', (data) => {
                 const action = {
                     type: DATA_FROM_SOCKET,
@@ -65,14 +69,15 @@ export default function socketMiddleware(socket) {
                 }
                 return next(action);
             });
-
-
+            
+            
             const {
                 type,
                 room,
                 user
             } = action;
-
+            
+            play(soundfile);
             switch (type) {
                 case SEND_START_GAME: {
                     const data = {
@@ -114,7 +119,7 @@ export default function socketMiddleware(socket) {
                     socket.on('playerStatus', (data) => {
                         action = { ...action, data };
                         return next(action);
-
+                        
                     });
                     break;
                 }
@@ -139,7 +144,7 @@ export default function socketMiddleware(socket) {
                     const data = {};
                     socket.emit('sendSpectre', action.spectre, action.room, action.login);
                     socket.on('receiveSpectres', (room, allSpectres) => {
-                    
+                        
                         const action = {
                             type: RECEIVE_NEW_SPECTRE,
                             room,

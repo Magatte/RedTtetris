@@ -26,6 +26,7 @@ export const RECEIVE_NEW_SPECTRE = 'RECEIVE_NEW_SPECTRE';
 export const DATA_FROM_SOCKET = 'DATA_FROM_SOCKET';
 export const SCORE_POINTS = 'SCORE_POINTS';
 export const TICK = 'TICK';
+export const MUSIC = 'MUSIC';
 
 
 export const startGame = (room, curRandNb, nextRandNb) => {
@@ -192,5 +193,11 @@ export const scorePoints = () => {
 export const tick = () => {
     return {
         type: TICK
+    }
+}
+
+export const music = (gameStatus) => {
+    return {
+        type: MUSIC,
     }
 }

@@ -49,18 +49,15 @@ const methods = {
         if (!prevProps.activeTetriminos.isPlace && prevProps.gameStatus === 'PLAYING') {
             prevProps.gameOver(prevProps.user.room);
         }
-        
+
         if (prevProps.status === 'START_GAME' && prevProps.status !== prevState.status)
-        prevProps.loadGame(prevProps.user.room, gamePieces.piecesStock)
-        
+            prevProps.loadGame(prevProps.user.room, gamePieces.piecesStock)
+
         if (prevProps.status === 'STOP_GAME')
-        history.push('/')
+            history.push('/')
     }
 };
 
-// BUGS
-// left snake bug
-// latency for ghost
 
 const gameOverlay = (user, restart, stopGame) => {
     return (
@@ -72,7 +69,7 @@ const gameOverlay = (user, restart, stopGame) => {
                     type='primary'
                     size='medium'
                     action={() => restart()}
-                    >
+                >
                     RESTART
                 </AwesomeButton>
                 <AwesomeButton
@@ -80,7 +77,7 @@ const gameOverlay = (user, restart, stopGame) => {
                     type='primary'
                     size='medium'
                     action={() => stopGame(user)}
-                    >
+                >
                     QUIT
                 </AwesomeButton>
             </p>
@@ -89,14 +86,14 @@ const gameOverlay = (user, restart, stopGame) => {
 }
 
 const Game = (props) => {
-    
-    if( !props.user.login )
-    history.push('/')
-    
+
+    if (!props.user.login)
+        history.push('/')
+
     let square = null;
-    
+
     if (props.gameStatus === 'IDLE')
-    square = initialGrid;
+        square = initialGrid;
     else {
         square = props.activeTetriminos.newGrid;
         let oldPos = props.currentTetriminos.oldPos;
@@ -106,10 +103,10 @@ const Game = (props) => {
         }
         props.currentTetriminos.ghost = getGhost(pos, square);
     }
-    
+
     return (
         <div id='game'>
-            { props.gameStatus === 'GAME_OVER' && gameOverlay(props.user, props.restart, props.stopGame) }
+            {props.gameStatus === 'GAME_OVER' && gameOverlay(props.user, props.restart, props.stopGame)}
             <div className='game-info'>
                 <div id='spectres'>
                     <Spectres
@@ -133,9 +130,9 @@ const Game = (props) => {
             <div className='game-info'>
                 <div id='menu'>
                     <Menu
-                        goToHome={()=>{history.push('/')} }
+                        goToHome={() => { history.push('/') }}
                         pauseTitle={props.gameStatus === 'PAUSED' ? 'UNPAUSE' : 'PAUSE'}
-                        sendStart={props.gameStatus === 'IDLE' && props.sendStart }
+                        sendStart={props.gameStatus === 'IDLE' && props.sendStart}
                         pauseGame={props.gameStatus === 'PAUSED' ? props.unpauseGame : props.pauseGame}
                         stopGame={props.stopGame}
                         user={props.user}
@@ -153,29 +150,29 @@ const Game = (props) => {
 const mapStateToProps = state => {
     const gameData = state.games.rooms.find(room => room.name === state.user.room)
     return {
-        gameStatus        : state.gameStatus,
-        activeTetriminos  : state.activeTetriminos,
-        currentTetriminos : state.currentTetriminos,
-        currentColor      : state.currentTetriminos.color,
-        nextTetriminos    : state.nextTetriminos,
-        user              : state.user,
-        status            : state.socket.status,
-        rooms             : state.games.rooms,
-        time              : state.time,
+        gameStatus: state.gameStatus,
+        activeTetriminos: state.activeTetriminos,
+        currentTetriminos: state.currentTetriminos,
+        currentColor: state.currentTetriminos.color,
+        nextTetriminos: state.nextTetriminos,
+        user: state.user,
+        status: state.socket.status,
+        rooms: state.games.rooms,
+        time: state.time,
         gameData
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        launchGame      : bindActionCreators(launchGame, dispatch),
-        loadGame        : bindActionCreators(loadGame, dispatch),
-        pauseGame       : bindActionCreators(pauseGame, dispatch),
-        unpauseGame     : bindActionCreators(unpauseGame, dispatch),
-        gameOver        : bindActionCreators(gameOver, dispatch),
-        stopGame        : bindActionCreators(stopGame, dispatch),
-        restart         : bindActionCreators(restart, dispatch),
-        getPlayerStatus : bindActionCreators(getPlayerStatus, dispatch)
+        launchGame: bindActionCreators(launchGame, dispatch),
+        loadGame: bindActionCreators(loadGame, dispatch),
+        pauseGame: bindActionCreators(pauseGame, dispatch),
+        unpauseGame: bindActionCreators(unpauseGame, dispatch),
+        gameOver: bindActionCreators(gameOver, dispatch),
+        stopGame: bindActionCreators(stopGame, dispatch),
+        restart: bindActionCreators(restart, dispatch),
+        getPlayerStatus: bindActionCreators(getPlayerStatus, dispatch)
     }
 };
 
