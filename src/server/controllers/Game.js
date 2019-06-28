@@ -15,6 +15,15 @@ export default class Game {
         this.status = 0
     }
 
+    addPlayer(login, master = false){
+        if(master){
+            this.createNewPieces(7)
+            this.setStatus('ready')
+        }
+        this.players.push(login)
+        this.addSpectre(login, [0,0,0,0,0,0,0,0,0,0])
+    }
+
     setStatus( status ){
 
         switch ( status ) {
@@ -57,12 +66,12 @@ export default class Game {
         return this.spectres
     }
 
-    addPlayer(player, id){
+  /*  addPlayer(player){
 
-        this.players.push({name:player, id})
+        this.players.push(player)
 
         return this.players
-    }
+    }*/
 
     setTetriminos(){
 
@@ -95,8 +104,8 @@ export default class Game {
         }
     }
 
-    deleteUser( id ){
-        const index = this.players.findIndex( p => p.id === id)
+    deleteUser( login ){
+        const index = this.players.findIndex( p => p === login)
 
         if( index !== -1 ){
             this.players.splice(index, 1)
@@ -107,7 +116,8 @@ export default class Game {
     createNewPieces( nb ){
         this.pieces = this.pieces.splice(0, 0)
 
-        for( let i = 0 ; i < nb ; i++) {
+        for( let i = 0 ; i < nb ; i++){
+
             this.pieces.push(Math.floor(Math.random() * (7 - 0)) + 0)
         }
     }
@@ -127,24 +137,32 @@ export default class Game {
         this.pieces.slice(index, nb)
     }
 
-    freezedPlayers(login){
-        
-        return this.players.reduce((freezedPlayer, curPlayer) => {
-
-            if(curPlayer.name !== login)
-                freezedPlayer.push(curPlayer)
-            return freezedPlayer
-        }, [])
-    }
-
     getGameInfo(){
 
         return{
-            name    : this.name,
-            master  : this.master,
-            players : this.players,
-            pieces  : this.pieces,
-            status  : this.status
+            name:this.name,
+            master:this.master,
+            players:this.players,
+            pieces:this.pieces,
+            spectres:this.spectres,
+            status:this.status
+        }
+    }
+    getPlayersNb(){
+        return this.players.length
+    }
+    getDefaultGame(status){
+        const login = this.players.length === 1 ? this.players[0] : ''
+
+        return {
+            name: this.name,
+            status: status,
+            login: login,
+            newPieces: this.getPiece(),
+            spectres: [{
+                name: login,
+                spectre: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            }]
         }
     }
 

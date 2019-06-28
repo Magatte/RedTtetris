@@ -1,0 +1,74 @@
+const miniCssExtractPlugin = require('mini-css-extract-plugin')
+var path = require('path');
+
+module.exports = {
+  entry: './src/client/index.js',
+
+  output: {
+    path: path.join(__dirname, 'build'),
+    filename: 'bundle.js'
+  },
+  module: {
+    rules: [
+      {
+				test: /\.js$/,
+				use: {
+					loader: 'babel-loader',
+					options: {
+						presets: ['@babel/preset-env'],
+						plugins: [
+							'@babel/plugin-transform-runtime',
+						]
+					}
+				}
+			},
+      {
+        test: /\.(png|gif|jpg|svg)$/,
+        use: [{
+            loader: 'url-loader',
+            options: { limit: 50 } // Convert img < 1k to base64 strings
+        }]
+    },
+    {
+        test: /\.scss$/,
+        use: [
+            'css-hot-loader',
+            miniCssExtractPlugin.loader,
+            'css-loader',
+            'resolve-url-loader',
+            'sass-loader?sourceMap'
+        ]
+    },
+    {
+        test: /\.css$/,
+        use : [
+            'css-hot-loader',
+            miniCssExtractPlugin.loader,
+            'css-loader',
+            'resolve-url-loader'
+        ]
+    },
+    {
+        type: 'javascript/auto',
+        test: /\.json$/,
+        use: 'json-loader'
+    },
+    {
+        test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'url-loader?limit=20480&mimetype=application/font-woff'
+    },
+    {
+        test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'url-loader?limit=20480&mimetype=application/octet-stream'
+    },
+    {
+        test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'file-loader'
+    },
+    {
+        test: /\.(mp4|webm)/,
+        loader: 'file-loader'
+    }
+    ]
+  }
+};

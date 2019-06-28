@@ -1,11 +1,11 @@
-import React from 'react';
+import React from 'react'
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import store from './redux/store/index';
-import Game from './components/game.js';
-import Home from './components/home';
+import store from './store/index';
+import Game from './components/game';
+import Home from './components/home'
 import { Router, Route, Switch } from "react-router-dom";
-import history from './history';
+import history from './history'
 import './index.css';
 // import io from 'socket.io-client';
 
@@ -23,5 +23,5 @@ ReactDOM.render(
             </Switch>
         </Router>
     </Provider>,
-    document.getElementById('root')
+    document.getElementById('tetris')
 );

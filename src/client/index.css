@@ -1,10 +1,10 @@
-@font-face {
+/* @font-face {
     font-family: 'Joystix';
     src: url(./fonts/joystix-monospace.ttf);
 }
-  
+   */
 body {
-    font: 14px "Joystix", Futura, sans-serif;
+    font: 14px "Century Gothic", Futura, sans-serif;
     margin: 20px;
 }
   
@@ -17,11 +17,6 @@ ol, ul {
     flex-wrap: wrap;
     flex-direction: row;
     position: relative;
-}
-
-#game h2 {
-    max-width: 300px;
-    font-family: Joystix;
 }
 
 .game-overlay {
@@ -48,16 +43,16 @@ ol, ul {
     height: 100px;
 }
 
-.game-info {
+#game-info {
+    /* margin-left: 20px; */
     margin-top: 30px;
     margin-left: 30px;
-    margin-right: 30px;
     border: 5px solid #999;
     padding: 10px;
     font-family: Joystix;
 }
 
-#menu #spectres {
+#menu {
     margin-top: 15px;
 }
 
@@ -66,7 +61,7 @@ ol, ul {
     font-family: Joystix;
 }
 
-.game-board {
+.board {
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
@@ -76,17 +71,11 @@ ol, ul {
     padding: 0;
     max-width: 100%;
     max-height: 100%;
-    min-width: 100%;
-    justify-content: flex-start;
-    align-items: flex-start;
+    justify-content: center;
+    align-items: center;
 }
 
-.board-row {
-    display: flex;
-    flex-direction: row;
-}
-
-.game-board .square {
+.square {
     display: flex;
     background: #fff;
     float: left;
@@ -99,50 +88,6 @@ ol, ul {
     padding: 0;
     text-align: center;
     width: 32px;
-    box-sizing: border-box;
-}
-
-.menu-board {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-}
-
-#timer {
-    display:flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 35px;
-}
-
-#timer h3 {
-    margin: 5px;
-}
-
-#score {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 35px;
-}
-
-#score h3 {
-    margin: 5px;
-}
-
-.menu-board .square {
-    display: flex;
-    background: #fff;
-    float: left;
-    font-size: 18px;
-    font-weight: bold;
-    line-height: 24px;
-    height: 24px;
-    margin-right: -1px;
-    margin-top: -1px;
-    padding: 0;
-    text-align: center;
-    width: 24px;
     box-sizing: border-box;
 }
 

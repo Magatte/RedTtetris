@@ -1,53 +1,54 @@
+
 import Player from "./controllers/Player";
 import Games from"./controllers/Games" ;
 import Game from "./controllers/Game";
 
 var app = require('express')();
-var server = require('http').Server(app);
-var io = require('socket.io')(server);
-var monitorio = require('monitor.io');
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 
 
-io.use(monitorio({ port: 9000 }));
-// monitor.io started on port 8001
 app.get('/', function(req, res){
     res.sendFile(__dirname + '../client/public/index.html');
 });
 let games = new Games()
 let gameTest = new Game('test','me')
 let gameTest2 = new Game('test2','you')
-games.addGame(gameTest)
-games.addGame(gameTest2)
 let gamesList = games.getNameList()
 
-io.on('connection', (socket) => {
+games.addGame(gameTest)
+games.addGame(gameTest2)
+
+io.on('connection', function(socket){
     console.log('a user connected', socket.id);
-    socket.monitor('timeConnected', new Date(Date.now()).toLocaleString());
     socket.emit('start', 'Un utilisateur est connecté')
 
-    socket.emit('GamesList', games.getNameList())
+    socket.on('getGamesList',()=>{
+        gamesList = games.getNameList()
+        socket.emit('GamesList', gamesList)
+    });
 
-    socket.emit('newPlayer', (data) => {
+    socket.emit('newPlayer', (data)=>{
         console.log('newPlayer', data)
-    })
+    });
 
-    socket.on('userData', (login, room) => {
+    socket.on('userData', (login, room) =>{
 
-        socket.monitor('userData', JSON.stringify({login: login, room: room}));
         gamesList = games.getNameList()
 
         socket.join(room)
-        const gameExist = gamesList.find(element => element.name === room)
-        if (gameExist) {
-            
+        const gameExist = gamesList.find(element =>element.name === room)
+        if(gameExist){
+
             const gameData = games.getGameData(room)
             const newPieces = gameData.getPiece()
-            gameData.addPlayer(login, socket.id)
-            gameData.addSpectre(login,[0,0,0,0,0,0,0,0,0,0])
+        
+            gameData.addPlayer(login)
             const allSpectres = gameData.getAllSpectres()
+            console.log('createGame players', gameData.getPlayersNb())
             io.to(room).emit('receiveSpectres', room, allSpectres )
+
             socket.emit('playerStatus', {
-                id:socket.id,
                 name:room,
                 status:'follower',
                 login,
@@ -55,10 +56,12 @@ io.on('connection', (socket) => {
                 spectres:allSpectres
             })
 
-        } else {
+        }else{
 
             let createGame = new Game(room, login)
-            createGame.addPlayer(login, socket.id)
+            createGame.addPlayer(login, true)
+            console.log('createGame players', createGame.getPlayersNb())
+
             createGame.createNewPieces(7)
             createGame.setStatus('ready')
             createGame.addSpectre(login,[0,0,0,0,0,0,0,0,0,0])
@@ -72,7 +75,6 @@ io.on('connection', (socket) => {
             gamesList = games.getNameList()
 
             socket.emit('playerStatus', {
-                id:socket.id,
                 name:room,
                 status:'master',
                 login,
@@ -82,67 +84,57 @@ io.on('connection', (socket) => {
                     spectre:[0,0,0,0,0,0,0,0,0,0]
                 }]
             })
+
         }
+        socket.emit('GamesList', games.getNameList())
+
     });
 
-    socket.on('gameStatus', (data) => {
-        socket.monitor('gameStatus', JSON.stringify(data));
-        games.udpdateData(data.room, 'status', data.status, data.login, data.id);
-        io.to(data.room).emit('status','START_GAME');
+    socket.on('gameStatus', (data) =>{
+
+        console.log('**********************$cdata dans gameStatus', data)
+
+        games.udpdateData(data.room, 'status', data.status, data.login)
+
+
+        io.to(data.room).emit('status',data.status)
+
         if(data.status === 'STOP_GAME'){
+
             socket.emit('GamesList', games.getNameList())
         }
-    })
-
-    socket.on('resquestShape', (room) => {
-
-        socket.monitor('requestingRoom', room);
-        const roomData = games.getGameData(room);
-        roomData.createNewPieces(3);
-        const newCreatedPieces = roomData.getPiece();
-        console.log("NEW PIECES", newCreatedPieces);
-        io.to(room).emit('getNewPieces', newCreatedPieces, room)
 
     })
 
-    socket.on('sendSpectre', (spectre, room, login) => {
-        const gameExist = gamesList.find(element => element.name === room)
+    socket.on('resquestShape', (room) =>{
 
-        if (gameExist) {
+        const roomData = games.getGameData(room)
+        roomData.createNewPieces(7)
+        const newCreatedPieces = roomData.getPiece()
+        io.to(room).emit('getNewPieces', newCreatedPieces, room )
+
+    });
+
+    socket.on('sendSpectre', (spectre,room, login) =>{
+
+        const gameExist = gamesList.find(element =>element.name === room)
+
+        if(gameExist){
+
             const gameData = games.getGameData(room)
-
+            console.log('room', room)
+            console.log('GameData', gameData)
+            console.log('login', login)
+            console.log('spectre', spectre)
             gameData.addSpectre(login, spectre)
 
             const allSpectre = gameData.getAllSpectres()
 
-            io.to(room).emit('receiveSpectres', room, allSpectre)
+            io.to(room).emit('receiveSpectres', room,allSpectre )
         }
     })
-
-    socket.on('sendFreezeLine', (room, login) => {
-        socket.monitor('sendFreezeLine', JSON.stringify({room, login}));
-        const gameExist = gamesList.find(element => element.name === room);
-        if (gameExist) {
-            const gameData = games.getGameData(room)
-
-            const players = gameData.freezedPlayers(login);
-            players.forEach((player) =>{
-                io.to(player.id).emit('freezeLine', room)
-            })
-            //io.to(room).emit('freezeLine', room, 'FREEZE');
-        }
-    })
-
-    // socket.on('stopGame', (room, login) => {
-    //     const gameExist = gamesList.find(element => element.name === room);
-    //     if (gameExist) {
-    //         const gameData = games.getGameData(room);
-    //         games.removeGame(room);
-    //         console.log('GAME DATA', gameData);
-    //     }
-    // })
 });
 
-server.listen(8000, function() {
-    console.log('listening on *:8000');
+http.listen(8000, function(){
+    console.log('listening on *:3000');
 });

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import lifecycle from "react-pure-lifecycle";
 import {bindActionCreators} from "redux";
 import history from "../history";
-import {getGamesList, sendLoginRoom, STOP_GAME} from "../redux/actions";
+import {getGamesList, sendLoginRoom, STOP_GAME} from "../actions";
 
 const methods = {
     componentDidMount(props){
@@ -11,21 +11,23 @@ const methods = {
     }
 };
 
-const Form = (props) => {
+const Form = (props) =>{
 
-    const onSubmit = (event) => {
+    const onSubmit = (event) =>{
         event.preventDefault();
-        if (event.target[0].value && event.target[1].value) {
-            const url = '/' + event.target[1].value + '[' + event.target[0].value + ']';
-            props.sendLoginRoom(event.target[0].value, event.target[1].value);
-            history.push(url);
-        }
-    }
+        if(event.target[0].value && event.target[1].value){
+            const url = '/'+event.target[1].value + '[' + event.target[0].value + ']'
+            props.sendLoginRoom(event.target[0].value, event.target[1].value)
 
-    return (
+            history.push(url)
+        }
+    };
+
+    return(
         <div>
-            Put a login and a room name to start a new tetris game
+            Pour entrer dans la matrice de tetris entré un login est un nom de Room
             <fieldset>
+
                 <form onSubmit={onSubmit}>
                     <legend>Information joueur</legend>
                     <label>Login
@@ -47,9 +49,10 @@ const Form = (props) => {
                     />
                 </form>
             </fieldset>
+
         </div>
-    );
-}
+    )
+};
 
 const Games = (props) =>{
 
@@ -60,12 +63,12 @@ const Games = (props) =>{
 
     return(
         <div>
-            <h1>Available rooms list</h1>
-            Choose the room you want to join
+            <h1>Liste des rooms disponibles</h1>
+            Pour rejoindre une partie en cours cliqué sur le nom de la room
             <li>{list}</li>
         </div>
-    );
-}
+    )
+};
 
 const Home =(props)=> {
     return(
@@ -75,7 +78,7 @@ const Home =(props)=> {
             <Games gamesList={props.gamesList}/>
         </div>
     )
-}
+};
 
 const mapStateToProps = state => {
 

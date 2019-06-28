@@ -1,4 +1,6 @@
+*~
+*.swp
+*.swo
+log
+tmp
 node_modules
-.idea/
-.nyc_output/
-

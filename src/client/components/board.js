@@ -1,7 +1,6 @@
 import React from 'react';
 import Square from './square.js';
-import gameConstants from '../redux/constants/gameConstants.js';
-import { getGhost } from '../utils/gamePlay';
+import gameConstants from '../constants/gameConstants.js';
 const { shapeTypes, colors } = gameConstants;
 
 const Board = (props) => {
@@ -16,9 +15,10 @@ const Board = (props) => {
 
         if (!pos || !oldPos)
             return ;
-        for (let i = 0; i < 4; i++)
+        for (let i = 0; i < 4; i++) {
             arr[oldGhost[i].x][oldGhost[i].y] = 0;
-        ghost = getGhost(pos, arr);
+            arr[oldPos[i].x][oldPos[i].y] = 0;
+        }
         for (let i = 0; i < 4; i++) {
             arr[ghost[i].x][ghost[i].y] = 8;
             arr[pos[i].x][pos[i].y] = shapeTypes.indexOf(props.name) + 1;
@@ -56,16 +56,15 @@ const Board = (props) => {
     };
 
     return (
-        <div>
-            <h2>
-                Hello {user.login} 
-                {user.status && <p>You're the {user.status} of this game</p>}
-            </h2>
+        <div className="game-board">
             <div className='status'>{props.status}</div>
-            <div className="game-board">
-                <div>
-                    {createBoard()}
-                </div>
+            <div className='status'>
+                <h1>Salut {user.login} {user.status
+                    ? <p>tu es le  {user.status} de cette partie</p>:null}
+                </h1>
+            </div>
+            <div>
+                {createBoard()}
             </div>
         </div>
     );
